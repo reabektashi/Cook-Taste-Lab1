@@ -6,24 +6,25 @@ function Home() {
   const slides = [
     {
       img: "/Images/italian-pasta-shells-with-mushrooms-zucchini-tomato-sauce.jpg",
-      captionPos: { left: "10%", bottom: "10%" },
+      captionPos: { left: "10%", bottom: "20%" },
       align: "text-start",
-      title: <>Craving something <br /> different?</>,
+      title: <>Craving something different?</>,
       text: <>Our recipes are <br />here to inspire your palate!</>,
     },
     {
       img: "/Images/sliced-tasty-chocolate-brownie-with-cream-cutting-board-high-quality-photo.jpg",
-      captionPos: { right: "6.2%", bottom: "6%" },
+      captionPos: { right: "6.2%", bottom: "20%" },
       align: "text-end",
       title: <>Elevate Your Dessert Game.</>,
       text: <>Explore our cake recipes and impress <br /> your family and friends!</>,
     },
     {
       img: "/Images/plate-with-paleo-diet-food-boiled-eggs-avocado-cucumber-nuts-cherry-strawberries-paleo-breakfast-top-view.jpg",
-      captionPos: { left: "8%", bottom: "10%" },
+      captionPos: { left: "10%", bottom: "20%" },
       align: "text-start",
       title: <>Want your salads <br />to be healthy &amp; delicious?</>,
-      text: <>Well, we're here to help you!</>,
+      text: <>Well, we're here to help you!, </> ,
+      customClass: "salad-caption"
     },
   ];
 
@@ -71,24 +72,30 @@ function Home() {
           ))}
         </div>
 
-        <div className="carousel-inner">
-          {slides.map((s, i) => (
-            <div
-              key={i}
-              className={`carousel-item ${i === index ? "active" : ""}`}
-              aria-hidden={i === index ? "false" : "true"}
-            >
-              <img src={s.img} alt={`Food ${i + 1}`} />
-              <div className={`carousel-caption ${s.align}`} style={s.captionPos}>
-                <h3 style={{ fontWeight: "bold", fontSize: 36 }}>{s.title}</h3>
-                <p style={{ fontSize: 28 }}>{s.text}</p>
-                <button className="btn read-more-btn" style={{ fontSize: 18 }}>
-                  Read more
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+   <div className="carousel-inner">
+  {slides.map((s, i) => (
+    <div
+      key={i}
+      className={`carousel-item ${i === index ? "active" : ""}`}
+      aria-hidden={i === index ? "false" : "true"}
+    >
+      <img src={s.img} alt={`Food ${i + 1}`} />
+      <div
+        className={`carousel-caption ${s.align} ${s.customClass || ""}`}
+        style={{
+          ...s.captionPos,
+          ...(s.customClass === "salad-caption" ? { left: "10%" } : {})
+        }}
+      >
+        <h3 className="caption-title">{s.title}</h3>
+        <p className="caption-text">{s.text}</p>
+        <button className="btn read-more-btn">Read More <span className="btn-icon">»</span></button>
+      </div>
+    </div>
+  ))}
+</div>
+
+
 
         <button className="carousel-control-prev" aria-label="Previous" onClick={prev}>
           &lt;

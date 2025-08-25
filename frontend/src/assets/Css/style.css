@@ -188,6 +188,23 @@ body {
   object-fit: cover;
 }
 
+/* Vetëm për sliden salad */
+.salad-caption {
+  left: 10% !important;
+}
+
+/* Siguro që titulli + teksti janë në të njëjtën vijë */
+.salad-caption .caption-title,
+.salad-caption .caption-text {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  text-align: left !important;
+}
+.salad-caption .btn.read-more-btn {
+  margin-left: 40px;
+}
+
+
 .carousel-indicators {
   position: absolute;
   bottom: 20px;               /* push them up from bottom of image */
@@ -233,52 +250,77 @@ body {
 }
 
 .btn.read-more-btn {
+  display: inline-block;   /* jo më block */
+  width: 200px;             /* gjerësia sipas tekstit */
+  margin-left: 130px ;
   padding: 10px 15px;
   background: transparent;
   border: 2px solid white;
+  border-radius: 20px;
   color: white;
   cursor: pointer;
   margin-top: 15px;
+  font-weight: 600;          /* teksti më i trashë */
+  text-align: center;
+  transition: all 0.3s ease; /* animacion smooth */
 }
 
 .btn.read-more-btn:hover {
-  background: white;
-  color: black;
+  background: linear-gradient(135deg, #efdecc 0%, #b5bdcc 100%);
+  border-color: rgb(7, 7, 7); /* heq borderin e bardhë që mos ta prishë gradientin */
+  color: rgb(10, 10, 10);               /* teksti të mbetet i bardhë */
+  transform: scale(1.05);     /* pak zoom kur hover */
 }
 
-/* Controls */
+/* Reset default button style */
 .carousel-control-prev,
 .carousel-control-next {
+  all: unset; /* removes default button border, bg, outline */
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
   color: white;
-  border: none;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+ font-size: 40px;       /* pak më i madh, më clean */
+  font-weight: 50px;      /* super i hollë */
   cursor: pointer;
-  font-size: 24px;
   z-index: 10;
-  border-radius: 50%;
+  padding: 0 5px;
+  transition: transform 0.3s ease, color 0.3s ease, opacity 0.3s ease;
 }
 
 .carousel-control-prev {
-  left: 10px;
+  left: 15px;
 }
 
 .carousel-control-next {
-  right: 10px;
+  right: 15px;
 }
 
+/* Hover effect */
 .carousel-control-prev:hover,
 .carousel-control-next:hover {
-  background: rgba(255, 255, 255, 0.8);
-  color: black;
+  color: #b5b5b3; /* highlight color */
+  transform: translateY(-50%) scale(1.2);
+  opacity: 1;
 }
+
+/* Subtle fade */
+.carousel-control-prev,
+.carousel-control-next {
+  opacity: 0.6;
+}
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+  opacity: 1;
+}
+
+/* Remove ugly blue outline on click */
+.carousel-control-prev:focus,
+.carousel-control-next:focus {
+  outline: none;
+}
+
+
 /*trending now */
 .trending-container {
   max-width: 1200px;

@@ -37,7 +37,8 @@ function Layout({ children }) {
               <li><Link className="dropdown-item" to="/recipes/appetizers">Appetizers</Link></li>
           </ul>
         </li>
-        <li><Link className="nav-link" to="/aboutus">About</Link></li>
+          <li><Link className="nav-link" to="/drinks">Drinks</Link></li>
+          <li><Link className="nav-link" to="/aboutus">About</Link></li>
 
         {localStorage.getItem("role") === "admin" && (
           <li><Link className="nav-link" to="/dashboard">Dashboard</Link></li>
