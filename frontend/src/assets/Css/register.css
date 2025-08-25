@@ -1,0 +1,262 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    text-align: left; 
+    margin: 0;
+    padding: 0;
+  }
+  /*home page */
+  /* Navbar Styling */
+  .navbar {
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem 2rem;
+    width: 100%;
+    position: relative; 
+    z-index: 10; 
+  }
+  .navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    width: 100%;
+  }
+  
+  .navbar-brand {
+    margin-right: 20px; 
+  }
+  
+  .navbar-brand img {
+    height: 60px;
+    width: auto;
+  }
+  
+  /* Navbar Links (aligned to the left) */
+  .navbar-links {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  .navbar-nav {
+    display: flex;
+    list-style: none;
+    margin-left: 20px; 
+  }
+  
+  .navbar-nav .nav-link {
+    font-weight: bold;
+    margin-right: 20px; 
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease;
+   
+  }
+  
+  .navbar-nav .nav-link:hover {
+    color: #d4d2d2;
+  }
+  
+  .navbar-nav .dropdown {
+    position: relative;
+    border-radius: 0;
+   
+  }
+  
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #f8f9fa;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    min-width: 160px;
+    list-style-type: none;
+  }
+  
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+  
+  .dropdown-item {
+    padding: 10px 20px;
+    color: #333;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #e9ecef;
+  }
+  
+  /* Search Bar and Icons on the Right */
+  .search-container {
+    position: relative;
+    margin-left: auto; 
+  }
+  
+  #searchInput {
+    width: 200px;
+    padding: 8px 12px;
+    border: 1px solid #d4d2d2;;
+    border-radius: 20px;
+    outline: none;
+    background-color: #f9f9f9;
+    transition: width 0.4s ease;
+  }
+  
+  #searchInput:focus {
+    width: 250px;
+    border-color: #000000;
+  }
+  
+  #searchIcon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #000000;
+  }
+  
+  #searchIcon:hover {
+    opacity: 0.8;
+  }
+  
+  /* Icons Section */
+  .icons {
+    margin-left: 15px;
+  }
+  
+  .icons a {
+    margin-left: 15px;
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .icons a:hover {
+    opacity: 0.8;
+  }
+  /* Form Container */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.form-box {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+/* Form Styling */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    background-color: #f9f9f9;
+}
+
+input:focus {
+    outline: none;
+    border-color: #f8a41e;
+}
+
+/* Error Message */
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Checkbox Styling */
+.form-group input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Submit Button */
+.btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #f8a41e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #e07800;
+}
+
+/* Register Link */
+p {
+    text-align: center;
+    font-size: 14px;
+}
+
+p a {
+    color: #f8a41e;
+    text-decoration: none;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+
+/* Add responsiveness for smaller screens */
+@media (max-width: 768px) {
+  .navbar-container {
+      flex-direction: column; 
+      align-items: flex-start; 
+  }
+
+  .form-box {
+      max-width: 100%; 
+      padding: 20px;
+  }
+
+  #searchInput {
+      width: 150px; 
+  }
+
+  .navbar-nav {
+      flex-direction: column; 
+  }
+}
+
+
