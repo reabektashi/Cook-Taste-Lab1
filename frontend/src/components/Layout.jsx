@@ -85,17 +85,48 @@ function Layout({ children }) {
       <div className="main-wrapper">
         {children}
       </div>
+{/* FOOTER */}
+<footer className="footer">
+  <div className="footer-inner">
+    <div className="footer-top">
+      {/* Col 1: policies */}
+      <div className="footer-col footer-left">
+        <Link to="/privacy">Privacy</Link>
+        <Link to="/terms">Terms</Link>
+      </div>
 
-      {/* FOOTER */}
-      <footer>
-        <div className="social-icon">
-          <a href="https://www.facebook.com/" target="_blank" rel="noreferrer"><i className="fab fa-facebook-f"></i></a>
-          <a href="https://www.instagram.com/" target="_blank" rel="noreferrer"><i className="fab fa-instagram"></i></a>
-          <a href="https://x.com/" target="_blank" rel="noreferrer"><i className="fab fa-x"></i></a>
-          <a href="https://al.linkedin.com/" target="_blank" rel="noreferrer"><i className="fab fa-linkedin-in"></i></a>
+      {/* Col 2: email + social */}
+      <div className="footer-col footer-center">
+        <a href="mailto:info@cooktaste.com">info@cooktaste.com</a>
+        <div className="footer-social" aria-label="Social links">
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <i className="fab fa-facebook-f" />
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <i className="fab fa-instagram" />
+          </a>
+          <a href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+            <i className="fab fa-x" />
+          </a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <i className="fab fa-linkedin-in" />
+          </a>
         </div>
-        <p>© 2024 Cook&Taste. All rights reserved.</p>
-      </footer>
+      </div>
+
+      {/* Col 3: phone + location */}
+      <div className="footer-col footer-right">
+        <p><a href="tel:+38349460555">+383 49 460 555</a></p>
+        <p>Prishtina, Kosovo</p>
+      </div>
+    </div>
+
+    <div className="footer-bottom">
+      © 2025 Cook&amp;Taste. All rights reserved.
+    </div>
+  </div>
+</footer>
+
     </>
   );
 }

@@ -519,36 +519,120 @@ box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 
 
 
-footer {
-background-color: #333; 
-color: #fff; 
-text-align: center;
-padding: 20px 0;
-font-family: Arial, sans-serif;
+/* container */
+.footer {
+  background:#333;
+  color:#ccc;
+  font-family:Arial, sans-serif;
+}
+.footer a { color:#ccc; text-decoration:none; }
+.footer a:hover { color:#fff; }
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 16px 14px;
+  box-sizing: border-box;
 }
 
-footer .social-icon {
-margin-bottom: 10px; 
+.footer-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  max-width: 900px;   /* 👈 reduce width of the row */
+  margin: 0 auto;     /* center it */
+  align-items: start;
 }
 
-footer .social-icon a {
-color: #fff;
-text-decoration: none; 
-margin: 0 10px; 
-font-size: 24px; 
-display: inline-block;
-transition: color 0.3s ease;
+
+
+/* Left column (Privacy/Terms) */
+.footer-left {
+  justify-self: start;
+  text-align: left;
 }
 
-footer .social-icon a:hover {
-color: #343b3d; 
+/* Center column (Email + Social) */
+.footer-center {
+  justify-self: center;
+  text-align: center;
 }
 
-footer p {
-margin: 10px 0 0;
-font-size: 14px; 
-color: #ccc; 
+/* Right column (Phone + Location) */
+.footer-right {
+  justify-self: end;
+  text-align: right;
 }
+
+/* Links + spacing */
+.footer-col a,
+.footer-col p {
+  display: block;
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+/* Social icons */
+.footer-social {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+  justify-content: center;
+}
+.footer-social a {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+ 
+  color: #fff;
+  font-size: 16px;
+  transition: background .25s, transform .2s, color .2s;
+}
+.footer-social a:hover {
+  background: #343b3d;;
+  color:#fff;
+  transform: scale(1.08);
+}
+
+/* Separator + copyright */
+.footer-sep {
+  border: 0;
+  border-top: 1px solid rgba(255,255,255,.15);
+  margin: 18px 0 12px;
+}
+.footer-bottom {
+  text-align: center;
+  color:#bdbdbd;
+  font-size: 13px;
+}
+
+
+/* responsive */
+@media (max-width: 900px){
+  .footer-top{ grid-template-columns: 1fr 1fr; }
+  .footer-col--right{ text-align: left; justify-self: start; }
+}
+@media (max-width: 560px){
+  .footer-top{ grid-template-columns: 1fr; }
+  .footer-social{ justify-content: flex-start; }
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  footer .footer-top {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  footer .footer-column {
+    min-width: auto;
+  }
+
+  footer .social-icon {
+    justify-content: center;
+  }
+}
+
 
 /* AboutUs page*/
 

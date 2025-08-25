@@ -18,6 +18,10 @@ import Desserts from "./pages/Recipes/dessert";
 import SideDishes from "./pages/Recipes/sidedishes";
 import AboutUs from './pages/aboutus';
 import Logout from './pages/logout';
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Terms from "./pages/Terms";
+
+
 
 
 
@@ -36,6 +40,8 @@ function App() {
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<Terms />} />
         <Route path="/usertable" element={<UserTable />} />
         <Route path="/recipetable" element={<RecipeTable />} />
         <Route path="/insert-user" element={<InsertUser />} />
