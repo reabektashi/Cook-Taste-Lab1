@@ -190,6 +190,52 @@ function Home() {
           ))}
         </div>
       </div>
+{/* ===== COOKING / TASTE TESTS ===== */}
+<section className="cook">
+  {/* Headline + dek */}
+  <div className="cook-head">
+    <h2 className="cook-title">Cooking</h2>
+    <p className="cook-dek">
+      We're here to help make mealtime more delicious, memorable, and achievable— with
+      expert advice from our Test Kitchen, grocery store taste tests, editor-curated
+      recipe collections, and more.
+    </p>
+  </div>
+
+  {/* Feature grid: mosaic left + spotlight right */}
+  <div className="cook-feature">
+    <div className="cook-mosaic">
+      <img src="/Images/Tomato.webp" alt="Heirloom tomato" />
+      <img src="/Images/nectarine.webp" alt="nectarine" />
+      <img src="/Images/Homemade Sabich.webp" alt="Homemade Sabich" />
+    </div>
+
+    <article className="cook-spotlight">
+      <img
+        src="/Images/GrilledChicken.webp"
+        className="cook-spotlight-img"
+        alt="Grilled Chicken"
+      />
+     <span className="cook-kicker">COOKING</span>
+      <h3 className="cook-h3">An Unexpected Rub for Exceptional Grilled Chicken</h3>
+      <div className="cook-underline" />
+      <p className="cook-subdek">
+        Buttermilk powder swoops in when you don't have time for an all-day marinade.
+      </p>
+    </article>
+  </div>
+
+  {/* TASTE TESTS row */}
+  <TasteTestsRow />
+
+  {/* Categories bubbles row */}
+  <CategoriesRow />
+</section>
+
+
+
+
+
 
       {/* HERO */}
       <div className="hero-container">
@@ -223,3 +269,95 @@ function Home() {
 }
 
 export default Home;
+
+function TasteTestsRow() {
+  const items = [
+    {
+      img: "/Images/Graham Cracker Taste Test.webp",
+      kicker: "COOKING",
+      title: "The Best Graham Crackers for Pie Crusts, S'mores, and More",
+      dek: "We tasted 11 grahams—classics to gluten-free—to find the best crackers for everyone.",
+    },
+    {
+      img: "/Images/taste-test-mint-chip-ice-cream.webp",
+      kicker: "COOKING",
+      title: "The 3 Best Mint Chocolate Chip Ice Creams: A Blind Taste Test",
+      dek: "We sampled pints from Jeni's, Trader Joe's, Häagen-Dazs, and more.",
+    },
+    {
+      img: "/Images/taste-test-tonic-water.webp",
+      kicker: "DRINKS",
+      title: "The Best Tonic Water for Cocktails, According to Editors",
+      dek: "Seven widely available picks—Fever-Tree, Q, Betty Buzz, and more.",
+    },
+    {
+      img: "/Images/Sparkling Water Taste Test.webp",
+      kicker: "TRENDS",
+      title: "We Tasted These Sparkling Waters So You Don't Have To",
+      dek: "Blind-tasted the national favorites to see which actually sparkles.",
+    },
+  ];
+
+  const scrollerRef = useRef(null);
+  const scrollBy = (dir) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const delta = Math.round(el.clientWidth * 0.9) * dir;
+    el.scrollBy({ left: delta, behavior: "smooth" });
+  };
+
+  return (
+    <section className="cook-tt">
+      <div className="cook-tt-head">
+        <h3 className="cook-tt-title">TASTE TESTS</h3>
+        <div className="cook-arrows">
+          <button aria-label="Previous" onClick={() => scrollBy(-1)}>‹</button>
+          <button aria-label="Next" onClick={() => scrollBy(1)}>›</button>
+        </div>
+      </div>
+
+      <div className="cook-scroll" ref={scrollerRef}>
+        {items.map((it, i) => (
+          <article key={i} className="cook-card">
+            <img src={it.img} alt={it.title} className="cook-card-img" />
+            <span className="cook-kicker">{it.kicker}</span>
+            <h4 className="cook-card-title">{it.title}</h4>
+            <div className="cook-underline small" />
+            <p className="cook-card-dek">{it.dek}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function CategoriesRow() {
+  const cats = [
+    { key: "quick",      label: "QUICK AND EASY", img: "/Images/QuickAndEasy.webp" },
+    { key: "dinner",     label: "DINNER",         img: "/Images/Dinner.jpg" },
+    { key: "vegetarian", label: "VEGETARIAN",     img: "/Images/Vegetarian.webp" },
+    { key: "healthy",    label: "HEALTHY",        img: "/Images/Healthyjpg.jpg" },
+    { key: "instantpot", label: "INSTANT POT",    img: "/Images/InstantPot.jpg" },
+    { key: "vegan",      label: "VEGAN",          img: "/Images/Vegan.jpg" },
+    { key: "mealprep",   label: "MEAL PREP",      img: "/Images/MealPrep.jpg" },
+    
+  ];
+
+  return (
+    <section className="cats">
+      <div className="cats-track">
+        {cats.map((c) => (
+          <a
+            key={c.key}
+            className="cat"
+            href={`/recipes?cat=${encodeURIComponent(c.key)}`}
+          >
+            <img className="cat-img" src={c.img} alt={c.label} />
+            <span className="cat-label">{c.label}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
