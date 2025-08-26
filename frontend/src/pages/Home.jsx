@@ -103,10 +103,55 @@ function Home() {
         <button className="carousel-control-next" aria-label="Next" onClick={next}>
           &gt;
         </button>
-      </div>
+</div>
+<div className="choco-drip" aria-hidden="true">
+  <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+    <defs>
+      {/* Gradient for chocolate effect */}
+      <linearGradient id="chocoGradient" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#050505ff" />   {/* dark cocoa top */}
+        <stop offset="50%" stopColor="#121212ff" />  {/* middle */}
+        <stop offset="100%" stopColor="#2e1a12" /> {/* bottom */}
+      </linearGradient>
+
+      {/* Gloss highlight */}
+      <linearGradient id="chocoShine" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="rgba(255,255,255,0.3)" />
+        <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+      </linearGradient>
+    </defs>
+
+    {/* Chocolate base */}
+    <path
+      d="M0,0 L1200,0 L1200,60
+         C1140,100 1100,40 1050,70
+         C1000,95 980,115 940,115
+         C880,115 880,45 820,45
+         C760,50 740,115 700,115
+         C640,110 640,50 580,50
+         C520,50 520,115 460,115
+         C400,115 390,55 340,50
+         C280,45 280,115 220,115
+         C160,115 160,55 100,65
+         C60,72 30,65 0,65 Z"
+      fill="url(#chocoGradient)"
+    />
+
+    {/* Gloss layer */}
+    <path
+      d="M0,0 L1200,0 L1200,30
+         C1000,40 800,20 600,40
+         C400,60 200,20 0,40 Z"
+      fill="url(#chocoShine)"
+    />
+  </svg>
+</div>
+
+      
 
       {/* TRENDING */}
       <div className="trending-container">
+     
         <h2 className="heading">Trending Now</h2>
         <div className="row">
           {[
