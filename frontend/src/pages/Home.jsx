@@ -225,14 +225,24 @@ function Home() {
     </article>
   </div>
 
+  
+
+{/* ====== EDITOR'S PICKS ====== */}
+<section className="editors section-gap">
+  <EditorsPicks />
+</section>
+   {/* ====== NEWSLETTER ====== */}
+   <NewsletterBand />
+   
   {/* TASTE TESTS row */}
   <TasteTestsRow />
+
 
   {/* Categories bubbles row */}
   <CategoriesRow />
 </section>
 
-
+   
 
 
 
@@ -361,3 +371,90 @@ function CategoriesRow() {
   );
 }
 
+function NewsletterBand() {
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const email = new FormData(e.currentTarget).get("email");
+    if (!email) return;
+    alert(`Thanks! We'll keep you posted at ${email}`);
+    e.currentTarget.reset();
+  };
+
+  return (
+    <section className="newsletter">
+      <div className="newsletter-inner">
+        <div className="newsletter-copy">
+          <h3 className="newsletter-title">Get the best recipes, weekly.</h3>
+          <p className="newsletter-dek">
+            Fresh ideas, seasonal menus, and editor tips—straight to your inbox.
+          </p>
+        </div>
+        <form className="newsletter-form" onSubmit={onSubmit}>
+          <input
+            className="newsletter-input"
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+          />
+          <button className="newsletter-btn" type="submit">Subscribe</button>
+        </form>
+      </div>
+    </section>
+  );
+}
+
+
+
+function EditorsPicks() {
+  const picks = [
+    {
+      img: "/Images/BananaChocolateMuffins.jpg",
+      badge: "BREAKFAST",
+      title: "Banana Chocolate Chip Muffins",
+      href: "/recipes/breakfast-banana-choco-muffins",
+    },
+    {
+      img: "/Images/AntipastoSalad.jpg",
+      badge: "LUNCH",
+      title: "Antipasto Salad Lunch Bowl",
+      href: "/recipes/lunch-antipasto-salad",
+    },
+    {
+      img: "/Images/Chicken-Alfredo-Pizza-HomePage.jpg",
+      badge: "DINNER",
+      title: "Weeknight Chicken Alfredo Pizza",
+      href: "/recipes/dinner-chicken-alfredo-pizza",
+    },
+    {
+      img: "/Images/TiramisuCake.jpg",
+      badge: "DESSERT",
+      title: "No-Fuss Tiramisu Cake",
+      href: "/recipes/dessert-tiramisu-cake",
+    },
+    {
+      img: "/Images/BuffaloChickenTacos.jpg",
+      badge: "APPETIZERS",
+      title: "Buffalo Chicken Taco Bites",
+      href: "/recipes/appetizers-buffalo-taco-bites",
+    },
+    {
+      img: "/Images/taste-test-tonic-water.webp",
+      badge: "DRINKS",
+      title: "Sparkling Citrus Tonic Spritz",
+      href: "/recipes/drinks-citrus-tonic-spritz",
+    },
+  ];
+
+  return (
+    <div className="ed-grid">
+      {picks.map((p, i) => (
+        <a key={i} className="ed-card" href={p.href}>
+          <img className="ed-card-img" src={p.img} alt={p.title} />
+          <span className="ed-card-badge">{p.badge}</span>
+          <h4 className="ed-card-title">{p.title}</h4>
+        </a>
+      ))}
+    </div>
+  );
+}
