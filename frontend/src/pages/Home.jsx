@@ -104,49 +104,90 @@ function Home() {
           &gt;
         </button>
 </div>
-<div className="choco-drip" aria-hidden="true">
-  <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
-    <defs>
-      {/* Gradient for chocolate effect */}
-      <linearGradient id="chocoGradient" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="#050505ff" />   {/* dark cocoa top */}
-        <stop offset="50%" stopColor="#121212ff" />  {/* middle */}
-        <stop offset="100%" stopColor="#2e1a12" /> {/* bottom */}
-      </linearGradient>
 
-      {/* Gloss highlight */}
-      <linearGradient id="chocoShine" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="rgba(255,255,255,0.3)" />
-        <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-      </linearGradient>
-    </defs>
+{/* CHOCO DRIP (disabled – whole block won’t render, inner comments kept) */}
+{false && (
+  <div className="choco-drip" aria-hidden="true">
+    <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+      <defs>
+        {/* Gradient for chocolate effect */}
+        <linearGradient id="chocoGradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#050505ff" />   {/* dark cocoa top */}
+          <stop offset="50%" stopColor="#121212ff" />  {/* middle */}
+          <stop offset="100%" stopColor="#2e1a12" />   {/* bottom */}
+        </linearGradient>
 
-    {/* Chocolate base */}
-    <path
-      d="M0,0 L1200,0 L1200,60
-         C1140,100 1100,40 1050,70
-         C1000,95 980,115 940,115
-         C880,115 880,45 820,45
-         C760,50 740,115 700,115
-         C640,110 640,50 580,50
-         C520,50 520,115 460,115
-         C400,115 390,55 340,50
-         C280,45 280,115 220,115
-         C160,115 160,55 100,65
-         C60,72 30,65 0,65 Z"
-      fill="url(#chocoGradient)"
-    />
+        {/* Gloss highlight */}
+        <linearGradient id="chocoShine" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="rgba(255,255,255,0.3)" />
+          <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+        </linearGradient>
+      </defs>
 
-    {/* Gloss layer */}
-    <path
-      d="M0,0 L1200,0 L1200,30
-         C1000,40 800,20 600,40
-         C400,60 200,20 0,40 Z"
-      fill="url(#chocoShine)"
-    />
-  </svg>
-</div>
+      {/* Chocolate base */}
+      <path
+        d="M0,0 L1200,0 L1200,60
+           C1140,100 1100,40 1050,70
+           C1000,95 980,115 940,115
+           C880,115 880,45 820,45
+           C760,50 740,115 700,115
+           C640,110 640,50 580,50
+           C520,50 520,115 460,115
+           C400,115 390,55 340,50
+           C280,45 280,115 220,115
+           C160,115 160,55 100,65
+           C60,72 30,65 0,65 Z"
+        fill="url(#chocoGradient)"
+      />
 
+      {/* Gloss layer */}
+      <path
+        d="M0,0 L1200,0 L1200,30
+           C1000,40 800,20 600,40
+           C400,60 200,20 0,40 Z"
+        fill="url(#chocoShine)"
+      />
+    </svg>
+  </div>
+)}
+
+{/* ===== COOKING / TASTE TESTS ===== */}
+<section className="cook">
+  {/* Headline + dek */}
+  <div className="cook-head">
+    <h2 className="cook-title">Cooking</h2>
+    <p className="cook-dek">
+      We're here to help make mealtime more delicious, memorable, and achievable— with
+      expert advice from our Test Kitchen, grocery store taste tests, editor-curated
+      recipe collections, and more.
+    </p>
+  </div>
+
+  {/* Feature grid: mosaic left + spotlight right */}
+  <div className="cook-feature">
+    <div className="cook-mosaic">
+      <img src="/Images/Tomato.webp" alt="Heirloom tomato" />
+      <img src="/Images/nectarine.webp" alt="nectarine" />
+      <img src="/Images/Homemade Sabich.webp" alt="Homemade Sabich" />
+    </div>
+
+    <article className="cook-spotlight">
+      <img
+        src="/Images/GrilledChicken.webp"
+        className="cook-spotlight-img"
+        alt="Grilled Chicken"
+      />
+     <span className="cook-kicker">COOKING</span>
+      <h3 className="cook-h3">An Unexpected Rub for Exceptional Grilled Chicken</h3>
+      <div className="cook-underline" />
+      <p className="cook-subdek">
+        Buttermilk powder swoops in when you don't have time for an all-day marinade.
+      </p>
+    </article>
+  </div>
+
+{/* Categories bubbles row */}
+  <CategoriesRow />
       
 
       {/* TRENDING */}
@@ -190,64 +231,8 @@ function Home() {
           ))}
         </div>
       </div>
-{/* ===== COOKING / TASTE TESTS ===== */}
-<section className="cook">
-  {/* Headline + dek */}
-  <div className="cook-head">
-    <h2 className="cook-title">Cooking</h2>
-    <p className="cook-dek">
-      We're here to help make mealtime more delicious, memorable, and achievable— with
-      expert advice from our Test Kitchen, grocery store taste tests, editor-curated
-      recipe collections, and more.
-    </p>
-  </div>
 
-  {/* Feature grid: mosaic left + spotlight right */}
-  <div className="cook-feature">
-    <div className="cook-mosaic">
-      <img src="/Images/Tomato.webp" alt="Heirloom tomato" />
-      <img src="/Images/nectarine.webp" alt="nectarine" />
-      <img src="/Images/Homemade Sabich.webp" alt="Homemade Sabich" />
-    </div>
-
-    <article className="cook-spotlight">
-      <img
-        src="/Images/GrilledChicken.webp"
-        className="cook-spotlight-img"
-        alt="Grilled Chicken"
-      />
-     <span className="cook-kicker">COOKING</span>
-      <h3 className="cook-h3">An Unexpected Rub for Exceptional Grilled Chicken</h3>
-      <div className="cook-underline" />
-      <p className="cook-subdek">
-        Buttermilk powder swoops in when you don't have time for an all-day marinade.
-      </p>
-    </article>
-  </div>
-
-  
-
-{/* ====== EDITOR'S PICKS ====== */}
-<section className="editors section-gap">
-  <EditorsPicks />
-</section>
-   {/* ====== NEWSLETTER ====== */}
-   <NewsletterBand />
-   
-  {/* TASTE TESTS row */}
-  <TasteTestsRow />
-
-
-  {/* Categories bubbles row */}
-  <CategoriesRow />
-</section>
-
-   
-
-
-
-
-      {/* HERO */}
+ {/* HERO */}
       <div className="hero-container">
         <div className="hero-content">
           <div className="hero-text">
@@ -274,6 +259,28 @@ function Home() {
           </div>
         </div>
       </div>
+  
+{/* TASTE TESTS row */}
+  <TasteTestsRow />
+
+{/* ====== EDITOR'S PICKS ====== */}
+<section className="editors section-gap">
+  <EditorsPicks />
+</section>
+   {/* ====== NEWSLETTER ====== */}
+   <NewsletterBand />
+   
+  
+
+  
+</section>
+
+   
+
+
+
+
+     
     </>
   );
 }
