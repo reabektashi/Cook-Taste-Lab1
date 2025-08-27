@@ -13,9 +13,10 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/register";
 import SearchResults from './pages/SearchResults';
-import Food from "./pages/Recipes/food";
+import Drinks from "./pages/Drinks";
+
 import Desserts from "./pages/Recipes/dessert";
-import SideDishes from "./pages/Recipes/sidedishes";
+
 import AboutUs from './pages/aboutus';
 import Logout from './pages/logout';
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -34,9 +35,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/search" element={<SearchResults />} />
-          <Route path="/recipes/food" element={<Food />} />
+          <Route path="/drinks" element={<Drinks />} />
           <Route path="/recipes/desserts" element={<Desserts />} />
-          <Route path="/recipes/sidedishes" element={<SideDishes />} />
+        
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/dashboard" element={<Dashboard />} />
