@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { FaUtensils } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaPinterestP, FaYoutube, FaShareAlt } from "react-icons/fa";
+
 import "../assets/Css/style.css"; // keep your styles
 
 function Home() {
@@ -267,6 +269,14 @@ function Home() {
 <section className="editors section-gap">
   <EditorsPicks />
 </section>
+
+
+
+{/* ===== STORY + SIDEBAR ===== */}
+<section className="story section-gap">
+  <StoryWithSidebar />
+</section>
+
    {/* ====== NEWSLETTER ====== */}
    <NewsletterBand />
    
@@ -289,6 +299,30 @@ export default Home;
 
 function TasteTestsRow() {
   const items = [
+    {
+      img: "/Images/Graham Cracker Taste Test.webp",
+      kicker: "COOKING",
+      title: "The Best Graham Crackers for Pie Crusts, S'mores, and More",
+      dek: "We tasted 11 grahams—classics to gluten-free—to find the best crackers for everyone.",
+    },
+    {
+      img: "/Images/taste-test-mint-chip-ice-cream.webp",
+      kicker: "COOKING",
+      title: "The 3 Best Mint Chocolate Chip Ice Creams: A Blind Taste Test",
+      dek: "We sampled pints from Jeni's, Trader Joe's, Häagen-Dazs, and more.",
+    },
+    {
+      img: "/Images/taste-test-tonic-water.webp",
+      kicker: "DRINKS",
+      title: "The Best Tonic Water for Cocktails, According to Editors",
+      dek: "Seven widely available picks—Fever-Tree, Q, Betty Buzz, and more.",
+    },
+    {
+      img: "/Images/Sparkling Water Taste Test.webp",
+      kicker: "TRENDS",
+      title: "We Tasted These Sparkling Waters So You Don't Have To",
+      dek: "Blind-tasted the national favorites to see which actually sparkles.",
+    },
     {
       img: "/Images/Graham Cracker Taste Test.webp",
       kicker: "COOKING",
@@ -462,6 +496,59 @@ function EditorsPicks() {
           <h4 className="ed-card-title">{p.title}</h4>
         </a>
       ))}
+    </div>
+  );
+}
+
+
+
+function StoryWithSidebar() {
+  return (
+    <div className="story-grid">
+      {/* Media e madhe majtas */}
+      <a className="story-media" href="/Images/toast.jpg">
+        <img src="/Images/toast.jpg" alt="Instant Pot  Toast" />
+      </a>
+
+      {/* Artikulli – në mes */}
+      <article className="story-body">
+        <h2 className="story-title">
+          The Best Instant Pot Toast recipe (vegan & gluten free!)
+        </h2>
+        <p className="story-excerpt">
+         Three easy breakfast toasts, one board. Savory cherry-tomato + toasted seeds with a glug of olive oil
+          and flaky salt; classic herby avocado brightened with lemon and a pinch of chili; and a sweet banana-blueberry
+           combo finished with maple (or tahini) and a sprinkle of sesame. All vegan and gluten-free, ready in 10 minutes.
+            Serve as a mix-and-match brunch, pack for on-the-go fuel, or pair with plant-based yogurt for a fuller plate.
+        </p>
+
+        <div className="story-actions">
+          <a className="story-readmore" href="/recipes/instant-pot-french-toast">Read more</a>
+          <button className="story-share" type="button">
+            <FaShareAlt /> <span>Share</span>
+          </button>
+        </div>
+      </article>
+
+      {/* Sidebar – djathtas */}
+      <aside className="story-aside">
+        <div className="about-card">
+          <img className="about-photo" src="/Images/about-image-new.png" alt="About me" />
+          <h4 className="about-title">Hey, I'm Sarah Baker!</h4>
+          <p className="about-text">
+            I'm so happy you're here! Many of my favorite memories in life happen around the table
+            and they're even better when nourished by something seriously delicious.
+          </p>
+          <a className="about-btn" href="/about">More about us</a>
+
+          <div className="about-socials">
+            <a aria-label="Facebook" href="#"><FaFacebookF /></a>
+            <a aria-label="Instagram" href="#"><FaInstagram /></a>
+            <a aria-label="Pinterest" href="#"><FaPinterestP /></a>
+            <a aria-label="YouTube" href="#"><FaYoutube /></a>
+          </div>
+        </div>
+      </aside>
     </div>
   );
 }
