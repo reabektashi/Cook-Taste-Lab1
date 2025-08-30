@@ -324,29 +324,29 @@ function TasteTestsRow() {
       dek: "Blind-tasted the national favorites to see which actually sparkles.",
     },
     {
-      img: "/Images/Graham Cracker Taste Test.webp",
-      kicker: "COOKING",
-      title: "The Best Graham Crackers for Pie Crusts, S'mores, and More",
-      dek: "We tasted 11 grahams—classics to gluten-free—to find the best crackers for everyone.",
-    },
-    {
-      img: "/Images/taste-test-mint-chip-ice-cream.webp",
-      kicker: "COOKING",
-      title: "The 3 Best Mint Chocolate Chip Ice Creams: A Blind Taste Test",
-      dek: "We sampled pints from Jeni's, Trader Joe's, Häagen-Dazs, and more.",
-    },
-    {
-      img: "/Images/taste-test-tonic-water.webp",
-      kicker: "DRINKS",
-      title: "The Best Tonic Water for Cocktails, According to Editors",
-      dek: "Seven widely available picks—Fever-Tree, Q, Betty Buzz, and more.",
-    },
-    {
-      img: "/Images/Sparkling Water Taste Test.webp",
-      kicker: "TRENDS",
-      title: "We Tasted These Sparkling Waters So You Don't Have To",
-      dek: "Blind-tasted the national favorites to see which actually sparkles.",
-    },
+    img: "/Images/DarkChocolateTasteTest.webp",
+    kicker: "COOKING",
+    title: "The Best Dark Chocolate for Baking, Melting, and Snacking",
+    dek: "We sampled bittersweet bars from Godiva, Ghirardelli, and Guittard to find the best chocolate to keep in your pantry.",
+  },
+  {
+    img: "/Images/PieCrust.webp",
+    kicker: "COOKING",
+    title: "The Best Store-Bought Pie Crust Isn't the One You Think",
+    dek: "In a blind taste test, there was one clear winner.",
+  },
+  {
+    img: "/Images/taste-test-chapagne.webp",
+    kicker: "DRINKS",
+    title: "Which Champagne is Best? A Taste Test of Veuve Clicquot, Bollinger, Moët, and More",
+    dek: "We sipped 7 brands to help you figure out your next great party pour.",
+  },
+  {
+    img: "/Images/taste-test-caesar.webp",
+    kicker: "COOKING",
+    title: "The Best Caesar Dressing You Can Buy at the Store",
+    dek: "We tried 19 Caesar dressings—Ken's, Cardini, Marzetti, and more—to find our favorite.",
+  },
   ];
 
   const scrollerRef = useRef(null);
@@ -450,40 +450,40 @@ function NewsletterBand() {
 function EditorsPicks() {
   const picks = [
     {
-      img: "/Images/BananaChocolateMuffins.jpg",
+      img: "/Images/Breakfast.webp",
       badge: "BREAKFAST",
-      title: "Banana Chocolate Chip Muffins",
-      href: "/recipes/breakfast-banana-choco-muffins",
+      title: "The 3-Ingredient Breakfast My Son Requests Every Morning",
+      href: "/recipes/breakfast",
     },
     {
-      img: "/Images/AntipastoSalad.jpg",
+      img: "/Images/Lunch.webp",
       badge: "LUNCH",
-      title: "Antipasto Salad Lunch Bowl",
-      href: "/recipes/lunch-antipasto-salad",
+      title: "This Easy Sandwich Tastes Like Chinese Take-Out",
+      href: "/recipes/lunch",
     },
     {
-      img: "/Images/Chicken-Alfredo-Pizza-HomePage.jpg",
+      img: "/Images/Dinner.webp",
       badge: "DINNER",
-      title: "Weeknight Chicken Alfredo Pizza",
-      href: "/recipes/dinner-chicken-alfredo-pizza",
+      title: "This Greek-Inspired Sheet Pan Dinner Is So Comforting",
+      href: "/recipes/dinner",
     },
     {
-      img: "/Images/TiramisuCake.jpg",
+      img: "/Images/carrot-cakewebp.webp",
       badge: "DESSERT",
-      title: "No-Fuss Tiramisu Cake",
-      href: "/recipes/dessert-tiramisu-cake",
+      title: "The World’s Best Carrot Cake Is Also the Easiest",
+      href: "/recipes/desserts",
     },
     {
-      img: "/Images/BuffaloChickenTacos.jpg",
+      img: "/Images/Guacamole.webp",
       badge: "APPETIZERS",
-      title: "Buffalo Chicken Taco Bites",
-      href: "/recipes/appetizers-buffalo-taco-bites",
+      title: "How to Make the Best Guacamole",
+      href: "/recipes/appetizers",
     },
     {
-      img: "/Images/taste-test-tonic-water.webp",
+      img: "/Images/Smoothie.webp",
       badge: "DRINKS",
-      title: "Sparkling Citrus Tonic Spritz",
-      href: "/recipes/drinks-citrus-tonic-spritz",
+      title: "Berry Chocolate Protein Smoothie",
+      href: "../drinks",
     },
   ];
 
