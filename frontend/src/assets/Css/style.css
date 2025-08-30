@@ -1825,6 +1825,28 @@ font-size: clamp(22px, 4vw, 44px);
   line-height: 1.05;
   text-wrap: balance;
 }
+/* Bigger headline */
+.drinks-hero .hero-title,
+.drinks-hero h1{
+  font-size: clamp(10px, 5vw, 35px) !important; /* was ~56px max */
+  line-height: 1.04 !important;
+  margin: 0 0 12px !important;
+}
+
+/* Bigger subtitle */
+.drinks-hero .hero-sub,
+.drinks-hero p{
+  font-size: clamp(18px, 2.2vw, 26px) !important;  /* was ~20px max */
+  max-width: 60ch;
+}
+
+/* Bigger button text + a touch more padding */
+.hero-btn{
+  font-size: clamp(14px, 1.4vw, 18px) !important;
+  padding: 50px 50px !important;
+  
+}
+
 
 .drinks-hero p{
   margin: 0 0 18px;
@@ -1864,7 +1886,7 @@ font-size: clamp(22px, 4vw, 44px);
 
 /* === Drinks Categories === */
 .drinks-page .cats {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 .drinks-page .section-title {
   text-align: center;
@@ -2104,4 +2126,213 @@ font-size: clamp(22px, 4vw, 44px);
 /* If this is the tall right tile in your left-feature layout */
 .ed-grid.left-feature .ed-c > video{
   aspect-ratio: 4 / 5;
+}
+
+/* -- FORCE the promo to have height and show the video -- */
+.promo.has-video{               /* make section a stacking context */
+  position: relative;
+  overflow: hidden;
+  margin: 28px 0;               /* spacing from the section above */
+  border-radius: 16px;
+}
+
+.promo-media{
+  position: relative;
+  height: 320px !important;     /* short, fixed for now so we can SEE it */
+  outline: 2px dashed #4ade80;  /* TEMP: debug border - you should see this */
+}
+
+/* If an older rule used the aspect-ratio pseudo element, kill it */
+.promo-media::before{
+  content: none !important;
+  padding-top: 0 !important;
+}
+
+/* Make the video fill the box */
+.promo-media > video{
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+/* Keep text above the video/overlay */
+.promo-text{
+  position: absolute;
+  left: 28px;
+  bottom: 26px;
+  max-width: min(520px, 70vw);
+  color: #fff;
+  z-index: 2;                   /* above overlay */
+}
+
+/* Subtle left gradient, makes white text readable */
+.promo.has-video::after{
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,0) 45%);
+  pointer-events: none;
+  z-index: 1;                   /* between video (0) and text (2) */
+}
+/* PROMO (video banner) — single source of truth */
+.promo.has-video{
+  position: relative;
+  overflow: hidden;
+  margin: 28px 0;           /* spacing between sections */
+  border-radius: 16px;      /* optional */
+}
+
+/* Give the banner a clear, short, responsive height */
+.promo-media{
+  position: relative;
+  height: clamp(220px, 30vw, 360px);
+}
+
+/* Make the video fill the box */
+.promo-media > video{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Readability overlay */
+.promo.has-video{ position: relative; overflow: hidden; }
+.promo-media{ position: relative; height: clamp(220px, 30vw, 360px); }
+.promo-media > video{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+.promo-text{ position: absolute; left: 28px; bottom: 26px; z-index: 2; }
+
+
+/* Text on top */
+.promo-text{
+  position: absolute;
+  left: 28px;
+  bottom: 26px;
+  max-width: min(520px, 70vw);
+  color: #fff;
+  z-index: 2;
+}
+.promo-text h3{
+  margin: 0 0 6px;
+  font-weight: 800;
+  line-height: 1.1;
+  font-size: clamp(20px, 3.4vw, 40px);
+  text-shadow: 0 1px 8px rgba(0,0,0,.32);
+}
+.promo-text p{
+  margin: 0 0 14px;
+  font-size: clamp(14px, 1.5vw, 18px);
+  opacity: .95;
+  text-shadow: 0 1px 8px rgba(0,0,0,.32);
+}
+.promo-text .btn{
+  display: inline-block;
+  padding: 10px 18px;
+  font-weight: 600;
+  font-size: clamp(10px, 1.4vw, 16px);
+  color: #fff;
+  background: rgba(0,0,0,.12);
+  border: 2px solid #fff;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: background .2s ease, color .2s ease;
+}
+.promo-text .btn:hover{
+  background: #fff;
+  color: #111;
+}
+/* ===== Feature Tiles (6) ===== */
+.ft { max-width: 1200px; margin: 0 auto; }
+.ft .section-title{
+  margin-bottom: 18px;
+  font-weight: 800;
+  font-size: clamp(22px, 4vw, 36px);
+  text-align: left;
+}
+
+.ft-grid{
+  display: grid;
+  gap: 22px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 1000px){
+  .ft-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px){
+  .ft-grid{ grid-template-columns: 1fr; }
+}
+
+.ft-card{
+  position: relative;
+  display: block;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 14px 36px rgba(0,0,0,.12);
+  background: #111; /* while image loads */
+  isolation: isolate; /* for proper overlay stacking */
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.ft-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 18px 44px rgba(0,0,0,.18);
+}
+
+.ft-img{
+  width: 100%;
+  height: 100%;
+  display: block;
+  aspect-ratio: 16 / 11;       /* wide tile */
+  object-fit: cover;
+  transform: scale(1.02);
+  transition: transform .35s ease;
+}
+
+.ft-card:hover .ft-img{ transform: scale(1.06); }
+
+/* Bottom gradient for text readability */
+.ft-card::after{
+  content:"";
+  position: absolute; inset: 0;
+  background: linear-gradient(to top,
+    rgba(0,0,0,.55) 0%,
+    rgba(0,0,0,.35) 38%,
+    rgba(0,0,0,0) 66%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Badge in the top-left */
+.ft-badge{
+  position: absolute; top: 12px; left: 12px;
+  background: #fff;
+  color: #111;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-size: .78rem;
+  padding: 6px 12px;
+  border-radius: 999px;
+  box-shadow: 0 10px 22px rgba(0,0,0,.15);
+  z-index: 2;
+}
+
+/* Title in the bottom-left over the image */
+.ft-title{
+  position: absolute;
+  left: 16px; right: 16px; bottom: 14px;
+  margin: 0;
+  color: #fff;
+  font-weight: 900;
+  line-height: 1.1;
+  font-size: clamp(18px, 2.4vw, 28px);
+  text-shadow: 0 2px 16px rgba(0,0,0,.55);
+  z-index: 2;
 }
