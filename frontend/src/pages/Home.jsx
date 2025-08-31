@@ -46,7 +46,7 @@ function Home() {
 
   const startAuto = () => {
     stopAuto();
-    timer.current = setInterval(next, 4000); // 5s
+    timer.current = setInterval(next, 5000); // 5s
   };
   const stopAuto = () => {
     if (timer.current) clearInterval(timer.current);
@@ -159,7 +159,7 @@ function Home() {
   <div className="cook-head">
     <h2 className="cook-title">Cooking</h2>
     <p className="cook-dek">
-      We're here to help make mealtime more delicious, memorable, and achievable— with
+       Make the mealtime more delicious, memorable, and achievable with
       expert advice from our Test Kitchen, grocery store taste tests, editor-curated
       recipe collections, and more.
     </p>

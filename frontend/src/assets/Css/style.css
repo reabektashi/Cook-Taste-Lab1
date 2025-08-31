@@ -347,8 +347,8 @@ body {
 }
 
 .heading {
-  font-size: clamp(22px, 30px , 44px);
-  line-height:1.05; font-weight:800; letter-spacing:-0.5px;
+font-size:clamp(22px,2.5vw,32px); font-weight:900; letter-spacing:.6px;
+  line-height:1.05;
 text-align: center;
 
 margin-bottom: 40px;
@@ -411,14 +411,15 @@ height: 180px;
 object-fit: cover;
 border-radius: 0 0 15px 15px;
 }
-.hero-container {
-background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-border-radius: 15px;
-padding: 40px;
-max-width: 1200px;
-margin: 20px auto;
-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+.hero-container{
+  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  border-radius: 15px;
+  padding: 40px;
+  width: 1170px;          /* ose max-width:1420px nëse do responsive */
+  margin: 20px -3px;         /* ISHTE: 20px auto  -> tani MAJTAS */
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
+
 
 .hero-content {
 display: flex;
@@ -1263,28 +1264,48 @@ font-size: clamp(22px, 4vw, 44px);
   max-width:980px; margin:10px auto 0; color:#333;
   font-size:clamp(16px,1.5vw,20px); line-height:1.6;
 }
+/* ——— Full-bleed wrapper: bën background-in sa gjithë viewport-i ——— */
+.band{
+  margin-inline: calc(50% - 50vw);   /* “shtrihet” deri në skaje */
+  background: #fff;                  /* ose ngjyra që dëshiron */
+  padding-block: clamp(20px, 4vw, 48px);
+}
+
 
 /* Feature grid */
 .cook-feature{
-  display:grid; grid-template-columns: 2fr 1.2fr; gap:20px; align-items:start;
+  display:grid;
+  grid-template-columns: 2fr 1.2fr;
+  gap:20px;
+  align-items:start;
   margin-bottom:36px;
 }
 @media (max-width: 920px){ .cook-feature{ grid-template-columns:1fr; } }
 
+/* Kutia e brendshme: zgjeron përmbajtjen por e mban të qendruar */
+.cook-inner{
+  max-width: 1380px;                 /* rrite sa të duash: 1280–1440+ */
+  margin-inline: auto;
+  padding-inline: clamp(16px, 3vw, 40px);
+}
 .cook-mosaic{
-  display:grid; grid-template-columns:1fr 1fr; grid-template-rows: 220px 220px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows: clamp(220px, 20vw, 320px) clamp(220px, 20vw, 320px);
   gap:16px;
 }
-.cook-mosaic img{
-  width:100%; height:100%; object-fit:cover; border-radius:8px;
-}
-.cook-mosaic img:nth-child(1){ grid-column:1 / span 1; grid-row:1 / span 2; }
+.cook-mosaic img{ width:100%; height:100%; object-fit:cover; border-radius:8px; }
+.cook-mosaic img:nth-child(1){ grid-column:1; grid-row:1 / span 2; }
 .cook-mosaic img:nth-child(2){ grid-column:2; grid-row:1; }
 .cook-mosaic img:nth-child(3){ grid-column:2; grid-row:2; }
 
 .cook-spotlight{ position:relative; }
 .cook-spotlight-img{
-  width:100%; height:320px; object-fit:cover; border-radius:10px; display:block;
+  width:100%;
+  height: clamp(320px, 28vw, 420px); /* responsive height */
+  object-fit:cover;
+  border-radius:10px;
+  display:block;
   box-shadow:0 12px 24px rgba(0,0,0,.15);
 }
 .cook-kicker{
@@ -1298,7 +1319,7 @@ font-size: clamp(22px, 4vw, 44px);
 .cook-subdek{ color:#444; line-height:1.5; }
 
 /* TASTE TESTS */
-.cook-tt{ margin-top:8px; }
+.cook-tt{ margin-top:30px; }
 .cook-tt-head{
   display:flex; align-items:center; justify-content:space-between; gap:16px; margin:8px 0 14px;
 }
@@ -1597,6 +1618,7 @@ font-size: clamp(22px, 4vw, 44px);
   grid-template-columns: 1.1fr 1.1fr .9fr;
   gap: clamp(20px,2.8vw,36px);
   align-items:start;
+   margin-top: -70px;
 }
 .story-media img{
   width:100%; height:100%; object-fit:cover;
