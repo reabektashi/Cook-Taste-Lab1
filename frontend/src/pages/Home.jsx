@@ -46,7 +46,7 @@ function Home() {
 
   const startAuto = () => {
     stopAuto();
-    timer.current = setInterval(next, 5000); // 5s
+    timer.current = setInterval(next, 4000); // 5s
   };
   const stopAuto = () => {
     if (timer.current) clearInterval(timer.current);

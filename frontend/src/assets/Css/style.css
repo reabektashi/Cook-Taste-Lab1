@@ -254,10 +254,14 @@ body {
   width: 200px;             /* gjerësia sipas tekstit */
   margin-left: 130px ;
   padding: 10px 15px;
-  background: transparent;
-  border: 2px solid white;
+  /*background:transparent;---qysh u kon--*/
+  background: linear-gradient(135deg, #efdecc 0%, #b5bdcc 100%);
+  border-color: rgb(7, 7, 7); 
+  color: rgb(10, 10, 10);              
+/*-----qato 3 nalt jon shtu--------*/
+  border: 2px solid rgb(16, 15, 15);/*i bardh u kon*/
   border-radius: 20px;
-  color: white;
+  /*color: white;---qysh u kon*/
   cursor: pointer;
   margin-top: 15px;
   font-weight: 600;          /* teksti më i trashë */
@@ -1992,6 +1996,7 @@ font-size: clamp(22px, 4vw, 44px);
   gap: clamp(14px, 2.2vw, 24px);
   grid-template-columns: 1.1fr 1.1fr 1fr;
   grid-template-rows: auto auto;
+  
 }
 
 /* LEFT feature layout (feature spans left column; images on right) */
