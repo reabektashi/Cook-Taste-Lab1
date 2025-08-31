@@ -1842,8 +1842,19 @@ font-size: clamp(22px, 4vw, 44px);
 
 /* Bigger button text + a touch more padding */
 .hero-btn{
-  font-size: clamp(14px, 1.4vw, 18px) !important;
-  padding: 50px 50px !important;
+ display: inline-block;   /* jo më block */
+  width: 200px;             /* gjerësia sipas tekstit */
+  margin-left: 130px ;
+  padding: 10px 15px;
+  background: transparent;
+  border: 2px solid white;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  margin-top: 15px;
+  font-weight: 600;          /* teksti më i trashë */
+  text-align: center;
+  transition: all 0.3s ease; /* animacion smooth */
   
 }
 
@@ -1854,24 +1865,13 @@ font-size: clamp(22px, 4vw, 44px);
   max-width: 56ch;
 }
 
-/* button — keep under the text and aligned left */
-.hero-btn,
-.hero-btn:link,
-.hero-btn:visited{
-   display: inline-block !important;
-  align-self: flex-start !important;          /* keep left */
-  margin-top: 6px !important;
-  margin-inline-start: clamp(10px, 2ch, 28px) !important; /* <-- tiny push right */
-  padding: 12px 24px !important;
-  border: 2px solid #fff !important;
-  border-radius: 25px !important;
-  background: transparent !important;
-  color: #fff !important;
-  font-weight: 600 !important;
-  text-decoration: none !important;
-  transition: all .25s ease !important;
+
+.hero-btn:hover{
+  background: linear-gradient(135deg, #efdecc 0%, #b5bdcc 100%);
+  border-color: rgb(7, 7, 7); 
+  color: rgb(10, 10, 10);               /* teksti të mbetet i bardhë */
+  transform: scale(1.05);     /* pak zoom kur hover */
 }
-.hero-btn:hover{ background:#fff !important; color:#111 !important; border-color:#fff !important; }
 
 .hero-btn:focus-visible{
   outline: 3px solid #fff;
@@ -1980,11 +1980,15 @@ font-size: clamp(22px, 4vw, 44px);
 .drinks-page .card-text{ margin:0; color:#555; line-height:1.45; text-align:center; }
 
 /* === Editorial block === */
+
 .editorial{
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: clamp(32px, 6vw, 64px) clamp(16px, 4vw, 24px);
+  max-width: none;        /* or: max-width: 100%;  or increase to 1400px */
+  width: 100%;
+  margin: 0;
+  padding: clamp(12px, 2vw, 20px) ;
 }
+
+
 
 /* Base grid */
 .ed-grid{
@@ -2006,6 +2010,50 @@ font-size: clamp(22px, 4vw, 44px);
 .ed-b{ grid-area: b; }
 .ed-c{ grid-area: c; }
 .ed-d{ grid-area: d; }
+/* Outer wrapper so we can paint a wide black background */
+.ed-dark {
+  position: relative;
+}
+
+/* Your existing editorial container */
+.editorial{
+  max-width: 1200px;            /* keep your grid width */
+  margin: 0 auto;
+  padding: clamp(32px, 6vw, 64px) clamp(16px, 4vw, 24px);
+  position: relative;
+  z-index: 0;
+}
+
+/* Wider black background behind the editorial content */
+.ed-dark .editorial::before{
+  /* tweak this to change how wide the black band is */
+  --bg-width: min(100vw, 1700px); /* try 92–98vw if you want */
+
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: var(--bg-width);
+  transform: translateX(-50%);
+  background: #0b0b0b;          /* black */
+  border-radius: 24px;           /* nice rounded corners */
+  z-index: -1;                   /* sit behind content */
+}
+
+/* Keep the tall-video behavior you already use */
+.ed-img > video,
+.ed-img > img{
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 16 / 11;
+}
+
+.ed-grid.left-feature .ed-c > video{
+  aspect-ratio: 4 / 5;          /* tall right tile */
+}
 
 /* Image tiles */
 .ed-img{
@@ -2102,6 +2150,17 @@ font-size: clamp(22px, 4vw, 44px);
   flex-direction: column;
   justify-content: center;
 }
+.editorial{
+  background:#0b0b0b;                /* black just behind the grid */
+  border-radius: 20px;                /* optional */
+  padding: clamp(24px, 4vw, 40px); 
+     /* keep some inner space */
+}
+.editorial .ed-link{
+  color:#fff;
+  border-bottom-color: rgba(255,255,255,.4);
+}
+.editorial .ed-link:hover{ border-bottom-color:#fff; }
 
 /* On wider screens, image left + text right inside the card */
 @media (min-width: 900px){
@@ -2128,96 +2187,87 @@ font-size: clamp(22px, 4vw, 44px);
   aspect-ratio: 4 / 5;
 }
 
-/* -- FORCE the promo to have height and show the video -- */
-.promo.has-video{               /* make section a stacking context */
-  position: relative;
-  overflow: hidden;
-  margin: 28px 0;               /* spacing from the section above */
-  border-radius: 16px;
-}
-
-.promo-media{
-  position: relative;
-  height: 320px !important;     /* short, fixed for now so we can SEE it */
-  outline: 2px dashed #4ade80;  /* TEMP: debug border - you should see this */
-}
-
-/* If an older rule used the aspect-ratio pseudo element, kill it */
-.promo-media::before{
-  content: none !important;
-  padding-top: 0 !important;
-}
-
-/* Make the video fill the box */
-.promo-media > video{
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  display: block !important;
-}
-
-/* Keep text above the video/overlay */
-.promo-text{
-  position: absolute;
-  left: 28px;
-  bottom: 26px;
-  max-width: min(520px, 70vw);
-  color: #fff;
-  z-index: 2;                   /* above overlay */
-}
-
-/* Subtle left gradient, makes white text readable */
-.promo.has-video::after{
-  content: "";
-  position: absolute; inset: 0;
-  background: linear-gradient(90deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,0) 45%);
-  pointer-events: none;
-  z-index: 1;                   /* between video (0) and text (2) */
-}
-/* PROMO (video banner) — single source of truth */
+/* === Promo (video banner) — single source of truth === */
 .promo.has-video{
   position: relative;
   overflow: hidden;
-  margin: 28px 0;           /* spacing between sections */
-  border-radius: 16px;      /* optional */
+  margin: 28px 0;              /* spacing between sections */
+  border-radius: 16px;         /* optional rounded corners */
 }
 
-/* Give the banner a clear, short, responsive height */
+/* Banner height (make it bigger/smaller here) */
 .promo-media{
   position: relative;
-  height: clamp(220px, 30vw, 360px);
+  height: clamp(250px, 20vw, 500px);
 }
 
-/* Make the video fill the box */
+/* If you had a pseudo element for aspect-ratio, kill it */
+.promo-media::before{
+  content: none;
+  padding-top: 0;
+}
+
+/* Make the video fill the banner */
 .promo-media > video{
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   display: block;
 }
 
-/* Readability overlay */
-.promo.has-video{ position: relative; overflow: hidden; }
-.promo-media{ position: relative; height: clamp(220px, 30vw, 360px); }
-.promo-media > video{
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover; display: block;
-}
-.promo-text{ position: absolute; left: 28px; bottom: 26px; z-index: 2; }
-
-
-/* Text on top */
+/* Text on top of the video */
 .promo-text{
   position: absolute;
   left: 28px;
   bottom: 26px;
   max-width: min(520px, 70vw);
   color: #fff;
-  z-index: 2;
+  z-index: 2;                  /* above overlay */
 }
+
+/* Subtle left-to-right gradient for readability */
+.promo.has-video::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,0) 45%);
+  pointer-events: none;
+  z-index: 1;                  /* between video (0) and text (2) */
+}
+
+/* Optional: slightly smaller on phones */
+@media (max-width: 768px){
+  .promo-media{
+    height: clamp(200px, 30vw, 200px);
+  }
+}
+
+.promo-text{
+  right: calc(clamp(10px, 4vw, 60px) + 24px);
+  position: absolute;
+  left: auto;                        /* stop anchoring to the left */
+     
+  bottom: clamp(16px, 3vw, 32px);
+  top: auto;
+  max-width: min(520px, 70vw);
+  color: #fff;
+  z-index: 2;
+
+  /* right align the text + button */
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* Optional: flip the overlay so it fades from the RIGHT */
+.promo.has-video::after{
+  background: linear-gradient(270deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,0) 45%);
+}
+
+/* Keep your heading & paragraph as-is... */
 .promo-text h3{
   margin: 0 0 6px;
   font-weight: 800;
@@ -2231,21 +2281,41 @@ font-size: clamp(22px, 4vw, 44px);
   opacity: .95;
   text-shadow: 0 1px 8px rgba(0,0,0,.32);
 }
+
+/* Button: align to the right without magic margins */
 .promo-text .btn{
   display: inline-block;
-  padding: 10px 18px;
+  width: auto;                 /* let text decide the width */
+  margin: 0;                   /* remove left offset */
+  align-self: flex-end;        /* hug the right edge */
+  padding: 10px 15px;
+  background: transparent;
+  border: 2px solid white;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  margin-top: 15px;
   font-weight: 600;
-  font-size: clamp(10px, 1.4vw, 16px);
-  color: #fff;
-  background: rgba(0,0,0,.12);
-  border: 2px solid #fff;
-  border-radius: 999px;
-  text-decoration: none;
-  transition: background .2s ease, color .2s ease;
+  text-align: center;
+  transition: all 0.3s ease;
 }
+
 .promo-text .btn:hover{
-  background: #fff;
-  color: #111;
+  background: linear-gradient(135deg, #efdecc 0%, #b5bdcc 100%);
+  border-color: #0a0a0a;
+  color: #0a0a0a;
+  transform: scale(1.05);
+}
+@media (max-width: 700px){
+  .promo-text{
+    right: auto;
+    left: 16px;
+    text-align: left;
+    align-items: flex-start;
+  }
+  .promo.has-video::after{
+    background: linear-gradient(90deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,0) 45%);
+  }
 }
 /* ===== Feature Tiles (6) ===== */
 .ft { max-width: 1200px; margin: 0 auto; }
