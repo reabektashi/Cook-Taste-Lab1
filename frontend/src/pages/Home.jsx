@@ -413,12 +413,42 @@ function CategoriesRow() {
 }
 
 function NewsletterBand() {
-  const onSubmit = (e) => {
+  const [message, setMessage] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const onSubmit = async (e) => {
     e.preventDefault();
+    setMessage("");
+
     const email = new FormData(e.currentTarget).get("email");
-    if (!email) return;
-    alert(`Thanks! We'll keep you posted at ${email}`);
-    e.currentTarget.reset();
+    // quick client validation
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setMessage("Please enter a valid email.");
+      return;
+    }
+
+    setBusy(true);
+    try {
+      // Use VITE_API_URL if set, otherwise default to local dev
+      const api = import.meta.env.VITE_API_URL || "http://localhost:4000";
+      const res = await fetch(`${api}/api/subscribe`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setMessage("You’re in! Check your inbox.");
+        e.currentTarget.reset();
+      } else {
+        setMessage(data.error || "Subscription failed. Please try again.");
+      }
+    } catch {
+      setMessage("Network error — please try again.");
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
@@ -430,20 +460,28 @@ function NewsletterBand() {
             Fresh ideas, seasonal menus, and editor tips—straight to your inbox.
           </p>
         </div>
-        <form className="newsletter-form" onSubmit={onSubmit}>
+
+        <form className="newsletter-form" onSubmit={onSubmit} noValidate>
           <input
             className="newsletter-input"
             type="email"
             name="email"
             placeholder="Enter your email"
+            autoComplete="email"
             required
           />
-          <button className="newsletter-btn" type="submit">Subscribe</button>
+          <button className="newsletter-btn" type="submit" disabled={busy}>
+            {busy ? "Subscribing…" : "Subscribe"}
+          </button>
+          <p className="newsletter-msg" role="status" aria-live="polite">
+            {message}
+          </p>
         </form>
       </div>
     </section>
   );
 }
+
 
 
 

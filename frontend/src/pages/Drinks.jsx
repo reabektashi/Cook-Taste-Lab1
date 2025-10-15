@@ -184,7 +184,7 @@ function Drinks() {
         href: "/drinks/juices",
       },
 
-      /* NEW Smoothies */
+      
       {
         title: "Mango Pineapple Smoothie",
         img: "/Images/Mango Pineapple Smoothie.png",
