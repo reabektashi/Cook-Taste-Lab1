@@ -416,40 +416,44 @@ function NewsletterBand() {
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    setMessage("");
+const onSubmit = async (e) => {
+  e.preventDefault();
+  setMessage("");
 
-    const email = new FormData(e.currentTarget).get("email");
-    // quick client validation
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setMessage("Please enter a valid email.");
-      return;
+  const form = e.currentTarget;                 // <-- capture now
+  const email = new FormData(form).get("email");
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    setMessage("Please enter a valid email.");
+    return;
+  }
+
+  setBusy(true);
+  try {
+    const url = "/api/subscribe";               // if using Vite proxy; else use your full URL
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+
+    const data = await res.json().catch(() => ({}));
+
+    if (res.ok) {
+      setMessage("You’re in! Check your inbox.");
+      form.reset();                             // <-- use captured form
+    } else {
+      setMessage(data?.error || "Subscription failed.");
     }
+  } catch (err) {
+    setMessage(`Network error — ${String(err?.message || err)}.`);
+  } finally {
+    setBusy(false);
+  }
+};
 
-    setBusy(true);
-    try {
-      // Use VITE_API_URL if set, otherwise default to local dev
-      const api = import.meta.env.VITE_API_URL || "http://localhost:4000";
-      const res = await fetch(`${api}/api/subscribe`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
 
-      const data = await res.json().catch(() => ({}));
-      if (res.ok) {
-        setMessage("You’re in! Check your inbox.");
-        e.currentTarget.reset();
-      } else {
-        setMessage(data.error || "Subscription failed. Please try again.");
-      }
-    } catch {
-      setMessage("Network error — please try again.");
-    } finally {
-      setBusy(false);
-    }
-  };
+
 
   return (
     <section className="newsletter">
