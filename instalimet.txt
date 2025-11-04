@@ -1,0 +1,18 @@
+krejt mrena folderi te backend
+
+
+npm i prisma @prisma/client mysql2
+npx prisma init
+Prisma generates the SQL and creates table Subscriber with a unique email.
+npx prisma migrate dev --name init
+masnej e teston npm run dev
+per me push skemen se di a duhet me bo kta edhe ju:?!
+npx prisma db push
+ME GJENERU KLIENTIN:
+npx prisma generate
+npx prisma db push
+# (or use migrations later: npx prisma migrate dev --name init)
+ME INSTALU KLIENTIN: npm install @prisma/client
+instalon nodemailer me lidh me gmail: 
+npm install nodemailer
+npm install express
