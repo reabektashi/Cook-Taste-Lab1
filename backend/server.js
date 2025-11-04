@@ -1,45 +1,63 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
+import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import { PrismaClient } from "@prisma/client";
 
 dotenv.config();
 
-const prisma = new PrismaClient();
 const app = express();
+const prisma = new PrismaClient();
 const PORT = process.env.PORT || 4000;
 
 app.use(cors({ origin: true, credentials: true }));
-app.use(express.json());
 app.use(morgan("dev"));
+app.use(express.json()); // <-- important!
 
-// Subscribe endpoint
+const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// ✅ Create reusable transporter for Gmail
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: process.env.SMTP_PORT,
+  secure: process.env.SMTP_SECURE === "true", // false for 587
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+});
+
+// 📨 Subscription endpoint
 app.post("/api/subscribe", async (req, res) => {
-  const { email } = req.body;
-  console.log("Incoming email:", email);
-
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return res.status(400).json({ ok: false, error: "Invalid email" });
-  }
-
   try {
-    // Check if already exists
-    const existing = await prisma.subscriber.findUnique({ where: { email } });
-    if (existing) {
-      return res.status(200).json({ ok: true, message: "Already subscribed" });
+    const email = String(req.body?.email || "").trim().toLowerCase();
+    console.log("Incoming email:", email);
+
+    // Validation
+    if (!emailRe.test(email)) {
+      return res.status(400).json({ ok: false, error: "Invalid email" });
     }
 
-    // Save new subscriber
-    await prisma.subscriber.create({
-      data: { email },
+    // ✅ Save to DB (if not already exists)
+    const existing = await prisma.subscriber.findUnique({ where: { email } });
+    if (!existing) {
+      await prisma.subscriber.create({ data: { email } });
+    }
+
+    // ✅ Send email notification
+    await transporter.sendMail({
+      from: process.env.FROM_EMAIL,
+      to: process.env.OWNER_EMAIL,
+      subject: "New Newsletter Subscriber 🎉",
+      text: `New subscriber: ${email}`,
     });
 
-    console.log("✅ Saved to database:", email);
-    res.json({ ok: true });
+    console.log("✅ Email sent successfully.");
+    res.json({ ok: true, message: "Subscription successful" });
   } catch (err) {
-    console.error("❌ Error saving subscriber:", err);
-    res.status(500).json({ ok: false, error: "Database error" });
+    console.error("❌ Error during subscription:", err);
+    res.status(500).json({ ok: false, error: "Server error" });
   }
 });
 
