@@ -1,18 +1,34 @@
-krejt mrena folderi te backend
+# krejt mrena folderi te backend
 
-
+# Install Prisma, Prisma client, and MySQL connector
 npm i prisma @prisma/client mysql2
+
+# Initialize Prisma setup
 npx prisma init
-Prisma generates the SQL and creates table Subscriber with a unique email.
+
+# Prisma generates the SQL and creates table Subscriber with a unique email
 npx prisma migrate dev --name init
-masnej e teston npm run dev
-per me push skemen se di a duhet me bo kta edhe ju:?!
+
+# Test the server
+npm run dev
+
+# Per me push skemen (nëse s’e ke bo migrate)
 npx prisma db push
-ME GJENERU KLIENTIN:
+
+# Me gjeneru klientin:
 npx prisma generate
 npx prisma db push
-# (or use migrations later: npx prisma migrate dev --name init)
-ME INSTALU KLIENTIN: npm install @prisma/client
-instalon nodemailer me lidh me gmail: 
+# (ose më vonë përdor migrations: npx prisma migrate dev --name init)
+
+# Me instalu klientin
+npm install @prisma/client
+
+# Instaloni nodemailer për lidhje me Gmail
 npm install nodemailer
+
+# Instaloni Express server
 npm install express
+
+# Në MySQL me këta komanda i sheh subscribers:
+USE cook_taste;
+SELECT * FROM Subscriber ORDER BY createdAt DESC;
