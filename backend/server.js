@@ -6,6 +6,7 @@ import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import { PrismaClient } from "@prisma/client";
 
+
 dotenv.config();
 
 const app = express();
@@ -120,4 +121,62 @@ server.on("error", (err) => {
   } else {
     console.error(err);
   }
+
+
+  // search
+app.get('/search', async (req, res) => {
+  const q = (req.query.q || '').trim();
+
+  // TODO: replace with real DB query using Prisma
+  // example (adjust model/fields):
+  // const results = await prisma.recipe.findMany({
+  //   where: {
+  //     OR: [
+  //       { title: { contains: q, mode: 'insensitive' } },
+  //       { ingredients: { contains: q, mode: 'insensitive' } },
+  //     ]
+  //   }
+  // });
+
+  res.json([]); // temporary; replace with `results`
+});
+// GET favorites for current user
+app.get("/favorites", verifyToken, async (req, res) => {
+  try {
+    const favorites = await prisma.favorite.findMany({
+      where: { userId: req.user.id },
+      include: { recipe: true },
+    });
+    res.json(favorites.map((f) => f.recipe));
+  } catch (err) {
+    res.status(500).json({ error: "Failed to load favorites" });
+  }
+});
+
+// ADD to favorites
+app.post("/favorites", verifyToken, async (req, res) => {
+  const { recipeId } = req.body;
+  try {
+    const fav = await prisma.favorite.create({
+      data: { userId: req.user.id, recipeId: Number(recipeId) },
+    });
+    res.json(fav);
+  } catch (err) {
+    res.status(400).json({ error: "Already in favorites or invalid ID" });
+  }
+});
+
+// REMOVE from favorites
+app.delete("/favorites/:recipeId", verifyToken, async (req, res) => {
+  try {
+    await prisma.favorite.deleteMany({
+      where: { userId: req.user.id, recipeId: Number(req.params.recipeId) },
+    });
+    res.json({ message: "Removed" });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to remove" });
+  }
+});
+
+
 });

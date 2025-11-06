@@ -2,29 +2,30 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import "../assets/Css/style.css";
 
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+
 const SearchResults = () => {
   const location = useLocation();
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const query = new URLSearchParams(location.search).get('q');
+  const query = new URLSearchParams(location.search).get('q') || '';
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/search?q=${query}`);
-        if (!response.ok) throw new Error("Request failed");
-        const data = await response.json();
-        setResults(data); // ← backend kthen array direkt
+        const resp = await fetch(`${API_BASE}/search?q=${encodeURIComponent(query)}`);
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+        setResults(data || []);
       } catch (err) {
         setError('Failed to fetch results');
       } finally {
         setLoading(false);
       }
     };
-
-    if (query) fetchData();
+    fetchData();
   }, [query]);
   
 
