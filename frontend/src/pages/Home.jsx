@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { FaUtensils } from "react-icons/fa";
 import { FaFacebookF, FaInstagram, FaPinterestP, FaYoutube, FaShareAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 import "../assets/Css/style.css"; // keep your styles
 
@@ -91,7 +92,10 @@ function Home() {
       >
         <h3 className="caption-title">{s.title}</h3>
         <p className="caption-text">{s.text}</p>
-        <button className="btn read-more-btn">Read More <span className="btn-icon">»</span></button>
+        <Link to="/recipes?cat=healthy" className="btn read-more-btn">
+       Read More <span className="btn-icon">»</span>
+       </Link>
+      
       </div>
     </div>
   ))}
@@ -276,6 +280,8 @@ function Home() {
 <section className="story section-gap">
   <StoryWithSidebar />
 </section>
+
+
 
    {/* ====== NEWSLETTER ====== */}
    <NewsletterBand />
@@ -594,3 +600,4 @@ function StoryWithSidebar() {
     </div>
   );
 }
+
