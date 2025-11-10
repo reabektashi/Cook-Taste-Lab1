@@ -2,10 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { FaUtensils } from "react-icons/fa";
 import { FaFacebookF, FaInstagram, FaPinterestP, FaYoutube, FaShareAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import "../assets/Css/style.css"; // keep your styles
 
 function Home() {
+  const navigate = useNavigate();
+
   const slides = [
     {
       img: "/Images/italian-pasta-shells-with-mushrooms-zucchini-tomato-sauce.jpg",
@@ -92,17 +95,28 @@ function Home() {
       >
         <h3 className="caption-title">{s.title}</h3>
         <p className="caption-text">{s.text}</p>
-        <Link to="/recipes?cat=healthy" className="btn read-more-btn">
-       Read More <span className="btn-icon">»</span>
-       </Link>
-      
+       {s.customClass === "salad-caption" ? (
+  <button
+    className="btn read-more-btn"
+    onClick={() => {
+      navigate("/recipes?cat=healthy");
+      window.scrollTo({
+        top: 600, // scrolls down 600px, adjust as you like
+        behavior: "smooth",
+      });
+    }}
+  >
+    Read More <span className="btn-icon">»</span>
+  </button>
+) : (
+  <button className="btn read-more-btn">
+    Read More <span className="btn-icon">»</span>
+  </button>
+)}
       </div>
     </div>
   ))}
 </div>
-
-
-
         <button className="carousel-control-prev" aria-label="Previous" onClick={prev}>
           &lt;
         </button>
