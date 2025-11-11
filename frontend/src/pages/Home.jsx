@@ -3,6 +3,8 @@ import { FaUtensils } from "react-icons/fa";
 import { FaFacebookF, FaInstagram, FaPinterestP, FaYoutube, FaShareAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { FaHeart, FaRegHeart, FaStar, FaRegClock } from "react-icons/fa";
+
 
 import "../assets/Css/style.css"; // keep your styles
 
@@ -33,6 +35,98 @@ function Home() {
       customClass: "salad-caption"
     },
   ];
+
+
+  // DATA: 6 karta (ndrysho imazhet/titujt sipas qejfit)
+const weeknights = [
+  {
+    id: "wk1",
+    tag: "FAMILY DINNERS",
+    title: "Sheet Pan Salmon and Broccoli with Miso Butter",
+    time: "45 mins",
+    img: "/Images/Sheet Pan Salmon and Broccoli .webp",
+    href: "/recipes/sheet-pan-salmon",
+    rating: 4.5
+  },
+  {
+    id: "wk2",
+    tag: "Quick Dinners",
+    title: " Quick Beef Stir Fry with Bell Peppers",
+    time: "40 mins",
+    img: "/Images/Quick Beef Stir Fry with Bell Peppers.webp",
+    href: "/recipes/sausage-potato-soup",
+    rating: 4.7
+  },
+  {
+    id: "wk3",
+    tag: "Easy Pies",
+    title: "My Granny's 5-Ingredient Party Pie Is My Favorite Retro Dessert",
+    time: "20 mins",
+    img: "/Images/Party Pie.webp",
+    href: "/recipes/Party Pie",
+    rating: 4.6
+  },
+  {
+    id: "wk4",
+    tag: "Easy Slow Cooker",
+    title: "4-Ingredient Chicken Dinner",
+    time: "30 mins",
+    img: "/Images/4-Ingredient Chicken Dinner.webp",
+    href: "/recipes/4-Ingredient Chicken Dinner",
+    rating: 4.8
+  },
+  {
+    id: "wk5",
+    tag: "VEGETARIAN",
+    title: "Vegetarian Spinach and Mushroom Lasagna",
+    time: "30 mins",
+    img: "/Images/Vegetarian Spinach and Mushroom Lasagna.webp",
+    href: "/recipes/Vegetarian Spinach and Mushroom Lasagna",
+    rating: 4.4
+  },
+  {
+    id: "wk6",
+    tag: "Dessert",
+    title: "Peanut Butter Chocolate Chip Banana Bread",
+    time: "22 mins",
+    img: "/Images/Peanut Butter Chocolate Chip Banana Bread.webp",
+    href: "/recipes/Peanut Butter Chocolate Chip Banana Bread",
+    rating: 4.6
+  },
+
+   {
+    id: "wk7",
+    tag: "Drinks",
+    title: "Boozy Hot Chocolate",
+    time: "15 mins",
+    img: "/Images/Boozy Hot Chocolate.webp",
+    href: "/recipes/Boozy Hot Chocolate",
+    rating: 4.8
+  },
+  {
+    id: "wk8",
+    tag: "Drinks",
+    title: "Strawberry Lemonade",
+    time: "5 mins",
+    img: "/Images/Strawberry Lemonade.webp",
+    href: "/recipes/Strawberry Lemonade",
+    rating: 4.4
+  },
+  {
+    id: "wk9",
+    tag: "Healthy Smoothies",
+    title: "Blueberry Smoothie",
+    time: "5 mins",
+    img: "/Images/Blueberry Smoothie.webp",
+    href: "/recipes/Blueberry Smoothie",
+    rating: 4.6
+  },
+];
+
+// state për “heart”
+const [liked, setLiked] = useState({});
+const toggleLike = (id) => setLiked((p) => ({ ...p, [id]: !p[id] }));
+
 
   // --- Carousel logic ---
   const [index, setIndex] = useState(0);
@@ -295,6 +389,50 @@ function Home() {
   <StoryWithSidebar />
 </section>
 
+{/* ===== Simply (Weeknight) Recipes ===== */}
+<section className="weeknights section-gap">
+  <div className="wk-head">
+    <h2 className="wk-title">Simply Recipes</h2>
+    <a className="wk-more" href="/recipes?tag=weeknight">→</a>
+  </div>
+
+  <div className="wk-grid">
+    {weeknights.map((r) => (
+      <article key={r.id} className="wk-card">
+        <a className="wk-thumb" href={r.href}>
+          <img src={r.img} alt={r.title} />
+          <button
+            type="button"
+            className={`wk-like ${liked[r.id] ? "is-liked" : ""}`}
+            aria-label={liked[r.id] ? "Remove from favorites" : "Add to favorites"}
+            onClick={(e) => {
+              e.preventDefault(); // mos ndjekë linkun kur klikon zemrën
+              toggleLike(r.id);
+            }}
+          >
+            {liked[r.id] ? <FaHeart /> : <FaRegHeart />}
+          </button>
+        </a>
+
+        <div className="wk-body">
+          <span className="wk-tag">{r.tag}</span>
+          <a className="wk-title-link" href={r.href}>
+            <h3 className="wk-h3">{r.title}</h3>
+          </a>
+
+          <div className="wk-meta">
+            <span className="wk-time"><FaRegClock /> {r.time}</span>
+            <span className="wk-stars" aria-label={`Rating ${r.rating} out of 5`}>
+              {Array.from({ length: 5 }).map((_, i) => (
+                <FaStar key={i} className={i < Math.round(r.rating) ? "on" : ""} />
+              ))}
+            </span>
+          </div>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
 
 
    {/* ====== NEWSLETTER ====== */}
@@ -471,7 +609,6 @@ const onSubmit = async (e) => {
     setBusy(false);
   }
 };
-
 
 
 
