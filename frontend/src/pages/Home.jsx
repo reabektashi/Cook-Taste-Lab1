@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { FaHeart, FaRegHeart, FaStar, FaRegClock } from "react-icons/fa";
 
 
-import "../assets/Css/style.css"; // keep your styles
+import "../assets/Css/style.css"; 
 
 function Home() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ function Home() {
       captionPos: { left: "10%", bottom: "20%" },
       align: "text-start",
       title: <>Craving something different?</>,
-      text: <>Our recipes are <br />here to inspire your palate!</>,
+      text: <>Our recipes are <br />here to inspire your plate!</>,
     },
     {
       img: "/Images/sliced-tasty-chocolate-brownie-with-cream-cutting-board-high-quality-photo.jpg",
@@ -37,7 +37,7 @@ function Home() {
   ];
 
 
-  // DATA: 6 karta (ndrysho imazhet/titujt sipas qejfit)
+  //cards with the favorite icon
 const weeknights = [
   {
     id: "wk1",
@@ -401,17 +401,18 @@ const toggleLike = (id) => setLiked((p) => ({ ...p, [id]: !p[id] }));
       <article key={r.id} className="wk-card">
         <a className="wk-thumb" href={r.href}>
           <img src={r.img} alt={r.title} />
-          <button
-            type="button"
-            className={`wk-like ${liked[r.id] ? "is-liked" : ""}`}
-            aria-label={liked[r.id] ? "Remove from favorites" : "Add to favorites"}
-            onClick={(e) => {
-              e.preventDefault(); // mos ndjekë linkun kur klikon zemrën
-              toggleLike(r.id);
-            }}
-          >
-            {liked[r.id] ? <FaHeart /> : <FaRegHeart />}
-          </button>
+    <button
+  type="button"
+  className={`wk-like wk-like--bare ${liked[r.id] ? "is-liked" : ""}`}
+  aria-label={liked[r.id] ? "Remove from favorites" : "Add to favorites"}
+  onClick={(e) => {
+    e.preventDefault();
+    toggleLike(r.id);
+  }}
+>
+  {liked[r.id] ? <FaHeart /> : <FaRegHeart />}
+</button>
+
         </a>
 
         <div className="wk-body">

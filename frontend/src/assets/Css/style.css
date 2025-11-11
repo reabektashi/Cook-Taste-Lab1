@@ -1480,8 +1480,8 @@ font-size: clamp(22px, 4vw, 44px);
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 18px;
-  
-}/* override për layout më fleksibil të 6 kartave */
+}
+/* override për layout më fleksibil të 6 kartave */
 .editors .ed-grid{
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1517,6 +1517,7 @@ font-size: clamp(22px, 4vw, 44px);
   color: #111; font-size: 12px; font-weight: 800; letter-spacing: .08em;
   padding: 4px 10px; border-radius: 999px; border: 1px solid #eee;
 }
+
 .ed-card-title {
   position: absolute; left: 14px; right: 14px; bottom: 12px; z-index: 2;
   margin: 0;
@@ -1525,6 +1526,24 @@ font-size: clamp(22px, 4vw, 44px);
   text-shadow: 0 2px 18px rgba(0,0,0,.45);
 }
 
+/* Highlight i personalizuar VETËM për Editors Picks */
+.editors ::selection,
+.ed-card ::selection,
+.ed-card-title::selection {
+  background: #000;       /* i zi */
+  color: #fff;            /* tekst i bardhë */
+  text-shadow: 0 1px 2px rgba(0,0,0,.3);
+  border-radius: 2px;
+}
+/* Firefox */
+.editors ::-moz-selection,
+.ed-card ::-moz-selection,
+.ed-card-title::-moz-selection {
+  background: #000;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,.3);
+  border-radius: 2px;
+}
 
 .section-gap { padding: 48px 0; }
 .section--carousel { padding-bottom: 0; }
@@ -1538,9 +1557,9 @@ font-size: clamp(22px, 4vw, 44px);
   background: transparent; /* lëre si të doje; mund të japësh background-e të ndryshme këtu */
 }
 
-
 /* ---- spacing helper ---- */
 .section-gap { padding: clamp(40px, 6vw, 72px) 0; }
+
 
 /* ===================== MAGAZINE GRID ===================== */
 .magz-grid{
@@ -2475,6 +2494,7 @@ font-size: clamp(22px, 4vw, 44px);
 }
 
 /* thumb + heart */
+
 .wk-thumb{
   position: relative;
   display:block;
@@ -2484,25 +2504,53 @@ font-size: clamp(22px, 4vw, 44px);
   width:100%; height: clamp(200px, 22vw, 260px);
   object-fit: cover; display:block;
 }
-.wk-like{
-  position:absolute; top:10px; right:10px;
-  width: 38px; height: 38px; border-radius: 50%;
+/* Heart button – zero default UI, zero highlight */
+.wk-like,
+.wk-like--bare{
+  position:absolute;
+  top:10px; right:12px;
+  padding:0;
+  border:none;
+  background:transparent !important;
+  appearance:none;                 /* Firefox/Chrome */
+  -webkit-appearance:none;         /* Safari */
+  outline:none;
+  box-shadow:none;
+  -webkit-tap-highlight-color: transparent; /* iOS gray square */
+  cursor:pointer;
   display:grid; place-items:center;
-  border: none; outline: none; cursor: pointer;
-  background:#fff; color:#0f0f0f;
-  box-shadow: 0 6px 18px rgba(0,0,0,.15);
-  transition: transform .15s ease, box-shadow .2s ease, color .2s ease, background .2s ease;
+  font-size:26px;
+  color: rgba(255,255,255,.95);
+  text-shadow: 0 2px 8px rgba(0,0,0,.45);
+  transition: transform .15s ease, opacity .15s ease, color .15s ease;
 }
-.wk-like:hover{ transform: translateY(-1px); box-shadow: 0 10px 24px rgba(0,0,0,.18); }
-.wk-like svg{ font-size: 18px; }
-.wk-like.is-liked{ background:#111; color:#ff4d6d; }
+
+/* ensure ALL states stay transparent */
+.wk-like:focus,
+.wk-like:focus-visible,
+.wk-like:active{
+  outline:none;
+  box-shadow:none;
+  background:transparent !important;
+}
+
+/* Remove inner focus border on Firefox */
+.wk-like::-moz-focus-inner{ border:0; }
+
+/* Liked state = red icon only, still no bg */
+.wk-like.is-liked{ color:#ff3b5c; }
+
+/* Optional: slightly bigger on phones */
+@media (max-width: 560px){
+  .wk-like{ font-size:24px; top:8px; right:10px; }
+}
 
 /* body */
 .wk-body{ padding: 14px 14px 16px; }
 .wk-tag{
   display:inline-block;
   font-size:.7rem; font-weight:800; letter-spacing:.08em;
-  color:#0f766e; /* teal-ish */
+  color:#656666; /* teal-ish */
   text-transform:uppercase;
   margin-bottom: 8px;
 }
@@ -2523,4 +2571,19 @@ font-size: clamp(22px, 4vw, 44px);
 .wk-time svg{ opacity:.75; }
 .wk-stars{ display:inline-flex; gap:4px; }
 .wk-stars svg{ font-size: 16px; color:#d1d5db; }          /* off */
-.wk-stars svg.on{ color:#0ea5e9; }                        /* on (blu/teal) */
+.wk-stars svg.on{ color:#ffe431; }                        /* on (blu/teal) */
+
+/* Vetëm për linkat brenda seksionit .weeknights */
+.weeknights a,
+.weeknights a:link,
+.weeknights a:visited,
+.weeknights a:hover,
+.weeknights a:active,
+.weeknights a:focus {
+  color: #000; /* ngjyrë e zezë */
+  text-decoration: none;
+}
+
+.weeknights a:hover {
+  color: #222; /* pak më e errët kur kalon miu */
+}
