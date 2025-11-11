@@ -20,6 +20,7 @@ import AboutUs from './pages/aboutus';
 import Logout from './pages/logout';
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Terms from "./pages/Terms";
+import Dinner from "./pages/Recipes/dinner"; 
 
 export default function App() {
   return (
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="search" element={<SearchResults />} />
           <Route path="drinks" element={<Drinks />} />
           <Route path="recipes/desserts" element={<Desserts />} />
+          <Route path="recipes/dinner" element={<Dinner />} /> 
           <Route path="favorites" element={<Favorites />} />
           <Route path="aboutus" element={<AboutUs />} />
           <Route path="logout" element={<Logout />} />
