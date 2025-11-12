@@ -229,38 +229,47 @@ function Home() {
         </button>
       </div>
 
-      {/* ===== COOKING / TASTE TESTS ===== */}
-      <section className="cook">
-        <div className="cook-head">
-          <h2 className="cook-title">Cooking</h2>
-          <p className="cook-dek">
-            Make the mealtime more delicious, memorable, and achievable with
-            expert advice from our Test Kitchen, grocery store taste tests, editor-curated
-            recipe collections, and more.
-          </p>
+       <section className="cook">
+      <div className="cook-head">
+        <h2 className="cook-title">Cooking</h2>
+        <p className="cook-dek">
+          Make the mealtime more delicious, memorable, and achievable with
+          expert advice from our Test Kitchen, grocery store taste tests,
+          editor-curated recipe collections, and more.
+        </p>
+      </div>
+
+      <div className="cook-feature">
+        {/* Majtas: mozaik me 3 imazhe */}
+        <div className="cook-mosaic">
+          <img src="/Images/Tomato.webp" alt="Heirloom tomato" />
+          <img src="/Images/nectarine.webp" alt="Nectarine" />
+          <img src="/Images/Homemade Sabich.webp" alt="Homemade Sabich" />
         </div>
 
-        <div className="cook-feature">
-          <div className="cook-mosaic">
-            <img src="/Images/Tomato.webp" alt="Heirloom tomato" />
-            <img src="/Images/nectarine.webp" alt="nectarine" />
-            <img src="/Images/Homemade Sabich.webp" alt="Homemade Sabich" />
-          </div>
+        {/* Djathtas: spotlight me tekst brenda fotos */}
+        <article className="cook-spotlight">
+          <img
+            src="/Images/GrilledChicken.webp"
+            className="cook-spotlight-img"
+            alt="Grilled Chicken"
+          />
 
-          <article className="cook-spotlight">
-            <img
-              src="/Images/GrilledChicken.webp"
-              className="cook-spotlight-img"
-              alt="Grilled Chicken"
-            />
+          {/* Teksti mbi imazh */}
+          <div className="cook-cap">
             <span className="cook-kicker">COOKING</span>
-            <h3 className="cook-h3">An Unexpected Rub for Exceptional Grilled Chicken</h3>
+            <h3 className="cook-h3">
+              An Unexpected Rub for Exceptional Grilled Chicken
+            </h3>
             <div className="cook-underline" />
             <p className="cook-subdek">
-              Buttermilk powder swoops in when you don't have time for an all-day marinade.
+              Buttermilk powder swoops in when you don't have time for an
+              all-day marinade.
             </p>
-          </article>
-        </div>
+          </div>
+        </article>
+      </div>
+    
 
         {/* Categories bubbles row */}
         <CategoriesRow />
@@ -395,6 +404,94 @@ function Home() {
             ))}
           </div>
         </section>
+
+
+{/* ===== FUN COOKING FACTS ===== */}
+<section className="fun-facts">
+  <h2 className="fun-title">Did You Know?</h2>
+  <p className="fun-dek">Surprising (and tasty) science from the kitchen!</p>
+
+  <div className="fun-grid">
+    {[
+      {
+        fact: "Adding a pinch of salt to chocolate desserts makes them taste sweeter, salt boosts the brain's sweet receptors!",
+        icon: "🍫",
+      },
+      {
+        fact: "Garlic becomes milder the more you cook it. Raw = sharp, roasted = sweet and nutty.",
+        icon: "🧄",
+      },
+      {
+        fact: "Searing meat doesn't lock in juices, it creates the Maillard reaction, which adds that irresistible flavor crust.",
+        icon: "🥩",
+      },
+      {
+        fact: "Honey never spoils. Archaeologists found pots of it still edible after 3,000 years in Egyptian tombs.",
+        icon: "🍯",
+      },
+      {
+        fact: "Chilling cookie dough overnight lets the flour fully hydrate for thicker, richer cookies.",
+        icon: "🍪",
+      },
+       {
+        fact: "Carrots were originally purple! The orange variety was bred in the 17th century as a tribute to the Dutch royal family.",
+        icon: "🥕",
+      },
+      {
+        fact: "Olive oil can 'freeze' in the fridge, that's a sign it's pure and unrefined, not a defect!",
+        icon: "🫒",
+      },
+      {
+        fact: "You taste food less when you're cold, that's why soups and stews are seasoned stronger in winter.",
+        icon: "🍲",
+      },
+    ].map((item, i) => (
+      <div key={i} className="fun-card">
+        <div className="fun-emoji">{item.icon}</div>
+        <p className="fun-text">{item.fact}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+{/* ===== THE ART OF COOKING ===== */}
+<section className="art-cooking">
+  <div className="art-inner">
+    <div className="art-img">
+      <video
+        className="art-video"
+        src="/Images/Alice Waters Teaches The Art of Home Cooking _ Official Trailer _ MasterClass.mp4"
+        controls
+        preload="metadata"
+        poster="/Images/ArtOfCooking.jpg"
+        playsInline
+      />
+    </div>
+
+    <div className="art-text">
+      <h2 className="art-title">The Art of Cooking</h2>
+      <p>
+        Cooking is more than following a recipe, it's a quiet dialogue between
+        nature, time, and the senses. Every slice of a knife, every scent that
+        fills the air, every taste that lingers on the tongue tells a deeper
+        story, one of care, patience, and gratitude.
+      </p>
+      <p>
+        Real cooking begins long before the heat. It starts with curiosity, in
+        the soil that grows our food, in the hands that harvest it, and in the
+        heart that decides to create something nourishing. It teaches us to slow
+        down, to pay attention, and to appreciate the beauty in simple moments,
+        the crackle of butter, the rhythm of stirring, the comfort of sharing a
+        meal.
+      </p>
+      <p>
+        To cook is to connect, to the earth, to others, and to ourselves. It is
+        a practice of mindfulness and love, where flavor becomes memory, and
+        every dish becomes a reflection of who we are.
+      </p>
+    </div>
+  </div>
+</section>
 
         {/* NEWSLETTER */}
         <NewsletterBand />

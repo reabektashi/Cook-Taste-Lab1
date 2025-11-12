@@ -1252,71 +1252,133 @@ box-sizing: border-box;
 
 
 /* ===== Cooking (Bon Appétit-style) ===== */
-.cook{ max-width:1200px; margin:40px auto 16px; padding:0 16px; }
+.cook {
+  max-width: 1200px;
+  margin: 40px auto 16px;
+  padding: 0 16px;
+}
 
 /* Head */
-.cook-head{ text-align:center; margin-bottom:28px; }
-.cook-title{
-font-size: clamp(22px, 4vw, 44px);
-  line-height:1.05; font-weight:800; letter-spacing:-0.5px;
+.cook-head {
+  text-align: center;
+  margin-bottom: 28px;
 }
-.cook-dek{
-  max-width:980px; margin:10px auto 0; color:#333;
-  font-size:clamp(16px,1.5vw,20px); line-height:1.6;
+.cook-title {
+  font-size: clamp(22px, 4vw, 44px);
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: -0.5px;
 }
-/* ——— Full-bleed wrapper: bën background-in sa gjithë viewport-i ——— */
-.band{
-  margin-inline: calc(50% - 50vw);   /* “shtrihet” deri në skaje */
-  background: #fff;                  /* ose ngjyra që dëshiron */
-  padding-block: clamp(20px, 4vw, 48px);
+.cook-dek {
+  max-width: 980px;
+  margin: 10px auto 0;
+  color: #333;
+  font-size: clamp(16px, 1.5vw, 20px);
+  line-height: 1.6;
 }
 
-
-/* Feature grid */
-.cook-feature{
-  display:grid;
+/* Layout i dy kolonave */
+.cook-feature {
+  display: grid;
   grid-template-columns: 2fr 1.2fr;
-  gap:20px;
-  align-items:start;
-  margin-bottom:36px;
+  gap: 20px;
+  align-items: end; /* rreshton fundet */
+  margin-bottom: 36px;
 }
-@media (max-width: 920px){ .cook-feature{ grid-template-columns:1fr; } }
 
-/* Kutia e brendshme: zgjeron përmbajtjen por e mban të qendruar */
-.cook-inner{
-  max-width: 1380px;                 /* rrite sa të duash: 1280–1440+ */
-  margin-inline: auto;
-  padding-inline: clamp(16px, 3vw, 40px);
+@media (max-width: 920px) {
+  .cook-feature {
+    grid-template-columns: 1fr;
+  }
 }
-.cook-mosaic{
-  display:grid;
-  grid-template-columns:1fr 1fr;
+
+/* Mozaiku majtas */
+.cook-mosaic {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   grid-template-rows: clamp(220px, 20vw, 320px) clamp(220px, 20vw, 320px);
-  gap:16px;
+  gap: 16px;
 }
-.cook-mosaic img{ width:100%; height:100%; object-fit:cover; border-radius:8px; }
-.cook-mosaic img:nth-child(1){ grid-column:1; grid-row:1 / span 2; }
-.cook-mosaic img:nth-child(2){ grid-column:2; grid-row:1; }
-.cook-mosaic img:nth-child(3){ grid-column:2; grid-row:2; }
 
-.cook-spotlight{ position:relative; }
-.cook-spotlight-img{
-  width:100%;
-  height: clamp(320px, 28vw, 420px); /* responsive height */
-  object-fit:cover;
-  border-radius:10px;
-  display:block;
-  box-shadow:0 12px 24px rgba(0,0,0,.15);
+.cook-mosaic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
 }
-.cook-kicker{
-  display:inline-block; margin-top:14px; font-size:12px; font-weight:800;
-  letter-spacing:.6px; color:#fff; background:#111; border-radius:999px;
-  padding:6px 10px;
+
+.cook-mosaic img:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1 / span 2;
 }
-.cook-h3{ font-size:clamp(20px,2.6vw,32px); font-weight:800; margin:10px 0 6px; }
-.cook-underline{ width:64px; height:3px; background:#111; border-radius:3px; margin:8px 0 10px; }
-.cook-underline.small{ width:56px; height:2px; opacity:.9; }
-.cook-subdek{ color:#444; line-height:1.5; }
+
+.cook-mosaic img:nth-child(2) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.cook-mosaic img:nth-child(3) {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+/* Spotlight djathtas */
+.cook-spotlight {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  align-self: end; /* barazon me mozaikun */
+}
+
+/* ↓↓↓ KJO është pjesa që e rregullon gjatësinë e fotos ↓↓↓ */
+.cook-spotlight-img {
+  width: 100%;
+  height: 368px;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+/* ↑↑↑ ↑↑↑ */
+
+/* Teksti poshtë fotos */
+.cook-kicker {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  color: #fff;
+  background: #111;
+  border-radius: 999px;
+  padding: 6px 10px;
+}
+
+.cook-h3 {
+  font-size: clamp(20px, 2.6vw, 32px);
+  font-weight: 800;
+  margin: 10px 0 6px;
+}
+
+.cook-underline {
+  width: 64px;
+  height: 3px;
+  background: #111;
+  border-radius: 3px;
+  margin: 8px 0 10px;
+}
+
+.cook-subdek {
+  color: #444;
+  line-height: 1.5;
+}
+
+/* Hover opsional */
+.cook-spotlight:hover .cook-spotlight-img {
+  transform: scale(1.02);
+  transition: transform 0.3s ease;
+}
+
 
 /* TASTE TESTS */
 .cook-tt{ margin-top:30px; }
@@ -1423,26 +1485,49 @@ font-size: clamp(22px, 4vw, 44px);
   margin: 64px 0 24px;
   padding: 0 16px;
 }
+
 .newsletter-inner {
-  max-width: 1200px; margin: 0 auto;
+  max-width: 1200px;
+  margin: 0 auto;
   background: linear-gradient(135deg, #fff7ef 0%, #ffe7d7 50%, #ffd9e1 100%);
-  border: 1px solid rgba(0,0,0,.06);
-  box-shadow: 0 14px 30px rgba(0,0,0,.08);
+  border: 1px solid rgba(0, 0, 0, .06);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, .08);
   border-radius: 18px;
   padding: 24px;
   display: grid;
   grid-template-columns: 1.2fr .8fr;
   gap: 18px;
 }
-@media (max-width: 860px){ .newsletter-inner{ grid-template-columns: 1fr; } }
 
-.newsletter-title { margin: 0 0 6px; font-weight: 900; font-size: clamp(18px, 3vw, 28px); }
-.newsletter-dek { margin: 0; color: #444; }
+@media (max-width: 860px) {
+  .newsletter-inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+.newsletter-title {
+  margin: 0 0 6px;
+  font-weight: 900;
+  font-size: clamp(18px, 3vw, 28px);
+}
+
+.newsletter-dek {
+  margin: 0;
+  color: #444;
+}
 
 .newsletter-form {
-  display: flex; gap: 10px; align-items: center; justify-content: flex-end;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
 }
-@media (max-width: 860px){ .newsletter-form{ justify-content: flex-start; } }
+
+@media (max-width: 860px) {
+  .newsletter-form {
+    justify-content: flex-start;
+  }
+}
 
 .newsletter-input {
   flex: 1 1 280px;
@@ -1450,115 +1535,181 @@ font-size: clamp(22px, 4vw, 44px);
   height: 44px;
   padding: 0 14px;
   border-radius: 999px;
-  border: 1px solid rgba(0,0,0,.15);
+  border: 1px solid rgba(0, 0, 0, .15);
   background: #fff;
   outline: none;
 }
-.newsletter-input:focus { border-color: #111; }
 
+.newsletter-input:focus {
+  border-color: #111;
+}
+
+/* ===== Butoni Subscribe ===== */
 .newsletter-btn {
   height: 44px;
   padding: 0 18px;
   border-radius: 999px;
   border: 1px solid #111;
   background: #111;
-  color: #fff; font-weight: 800;
+  color: #fff;
+  font-weight: 800;
   cursor: pointer;
-  transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+  -webkit-tap-highlight-color: transparent; /* heq highlight blu në mobile */
+  user-select: none; /* mos lejo përzgjedhje teksti */
+  
 }
+
+/* heq përzgjedhje në çdo shfletues */
+.newsletter-btn,
+.newsletter-btn * {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  caret-color: transparent;
+}
+
+.newsletter-btn::selection,
+.newsletter-btn::-moz-selection {
+  background: transparent;
+  color: inherit;
+}
+
+/* efekti hover */
 .newsletter-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 18px rgba(0,0,0,.12);
   background: #000;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
 }
+
+/* heq outline/box-shadow kur fokusohet */
+.newsletter-btn:focus,
+.newsletter-btn:focus-visible,
+.newsletter-btn:active {
+  outline: none;
+  box-shadow: none;
+  border-color: #111;
+}
+
+/* efekt i lehtë klikimi */
+.newsletter-btn:active {
+  transform: scale(0.96);
+  background: #000;
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+
 
 /* ===== Editor's Picks ===== */
+.editors{
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 16px;
+}
 
-.editors { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+.ed-grid{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap:18px;
+  align-items:stretch;
+}
+@media (max-width:1000px){ .ed-grid{ grid-template-columns: repeat(2,1fr); } }
+@media (max-width:560px){  .ed-grid{ grid-template-columns: 1fr; } }
 
-.ed-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
+/* kartat */
+.ed-card{
+  position:relative;
+  display:block;
+  overflow:hidden;
+  border-radius:14px;
+  text-decoration:none;
+  color:#fff;
+  box-shadow:0 10px 22px rgba(0,0,0,.12);
+  -webkit-tap-highlight-color:transparent;
+  transition:transform .3s ease;
+  aspect-ratio:4/3;
 }
-/* override për layout më fleksibil të 6 kartave */
-.editors .ed-grid{
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+@supports not (aspect-ratio:4/3){
+  .ed-card{ height:clamp(220px,28vw,300px); }
 }
-@media (max-width: 1000px){ .ed-grid{ grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px){ .ed-grid{ grid-template-columns: 1fr; } }
 
-.ed-card {
-  position: relative;
-  display: block;
-  overflow: hidden;
-  border-radius: 14px;
-  aspect-ratio: 4 / 3;            /* mban raport të qëndrueshëm */
-  text-decoration: none;
-  color: #fff;
-  box-shadow: 0 10px 22px rgba(0,0,0,.12);
+/* imazhi */
+.ed-card-img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .35s ease;
 }
-.ed-card-img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-  transition: transform .35s ease;
-}
-.ed-card::after{                    /* gradient overlay */
+.ed-card:hover .ed-card-img{ transform:scale(1.05); }
+
+/* gradient që mbulon krejt fundin */
+.ed-card::after{
   content:"";
-  position:absolute; inset:0;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,.55) 100%);
-}
-.ed-card:hover .ed-card-img { transform: scale(1.05); }
-
-.ed-card-badge {
-  position: absolute; left: 12px; top: 12px; z-index: 2;
-  background: rgba(255,255,255,.9);
-  color: #111; font-size: 12px; font-weight: 800; letter-spacing: .08em;
-  padding: 4px 10px; border-radius: 999px; border: 1px solid #eee;
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:100%;                                 /* ← mbulon krejt poshtë */
+  background: linear-gradient(to top, rgba(0,0,0,.55) 0%, rgba(0,0,0,0) 65%);
+  opacity:.6;
+  transition: opacity .3s ease, transform .3s ease;
 }
 
-.ed-card-title {
-  position: absolute; left: 14px; right: 14px; bottom: 12px; z-index: 2;
-  margin: 0;
-  font-weight: 800; line-height: 1.15;
-  font-size: clamp(16px, 1.6vw, 20px);
-  text-shadow: 0 2px 18px rgba(0,0,0,.45);
+/* kur kalon miu ose klikon – më e thellë dhe plot deri në fund */
+.ed-card:hover::after,
+.ed-card:active::after,
+.ed-card:focus-visible::after{
+  opacity:1;
+  background: linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,0) 70%);
+  transform:translateY(0);
 }
 
-/* Highlight i personalizuar VETËM për Editors Picks */
+/* badge */
+.ed-card-badge{
+  position:absolute; left:12px; top:12px; z-index:2;
+  background:rgba(255,255,255,.9);
+  color:#111; font-size:12px; font-weight:800; letter-spacing:.08em;
+  padding:4px 10px; border-radius:999px; border:1px solid #eee;
+}
+
+/* titulli */
+.ed-card-title{
+  position:absolute; left:14px; right:14px; bottom:12px; z-index:2;
+  margin:0; font-weight:800; line-height:1.15;
+  font-size:clamp(16px,1.6vw,20px);
+  text-shadow:0 2px 14px rgba(0,0,0,.6);
+  transition:text-shadow .25s ease, color .25s ease;
+}
+.ed-card:hover .ed-card-title,
+.ed-card:active .ed-card-title,
+.ed-card:focus-visible .ed-card-title{
+  text-shadow:0 3px 22px rgba(0,0,0,.85);
+  color:#fff;
+}
+
+/* mos lejo highlight blu */
+.ed-card, .ed-card:visited{ color:#fff; text-decoration:none; }
+.ed-card:focus, .ed-card:active{ outline:none; text-decoration:none; color:#fff; }
+
+/* custom selection */
 .editors ::selection,
 .ed-card ::selection,
-.ed-card-title::selection {
-  background: #000;       /* i zi */
-  color: #fff;            /* tekst i bardhë */
-  text-shadow: 0 1px 2px rgba(0,0,0,.3);
-  border-radius: 2px;
+.ed-card-title::selection{
+  background:#000; color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.3);
 }
-/* Firefox */
 .editors ::-moz-selection,
 .ed-card ::-moz-selection,
-.ed-card-title::-moz-selection {
-  background: #000;
-  color: #fff;
-  text-shadow: 0 1px 2px rgba(0,0,0,.3);
-  border-radius: 2px;
+.ed-card-title::-moz-selection{
+  background:#000; color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.3);
 }
 
-.section-gap { padding: 48px 0; }
-.section--carousel { padding-bottom: 0; }
-.section--trending,
-.section--cooking,
-.section--categories,
-.section--taste-tests,
-.section--hero-cta,
-.section--editors,
-.section--newsletter {
-  background: transparent; /* lëre si të doje; mund të japësh background-e të ndryshme këtu */
-}
+/* spacing helper */
+.section-gap{ padding:clamp(40px,6vw,72px) 0; }
 
-/* ---- spacing helper ---- */
-.section-gap { padding: clamp(40px, 6vw, 72px) 0; }
 
 
 /* ===================== MAGAZINE GRID ===================== */
@@ -1667,14 +1818,29 @@ font-size: clamp(22px, 4vw, 44px);
 .story-actions{
   display:flex; gap:14px; align-items:center;
 }
-.story-readmore{
-  text-decoration:none;
-  font-weight:800;
-  font-size:.95rem;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  border-bottom:2px solid currentColor;
+.story-readmore {
+  text-decoration: none;
+  font-weight: 800;
+  font-size: .95rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  border-bottom: 2px solid;
+  color: #000;
+  transition: color 0.2s ease;
 }
+
+/* Kur preket ose klikohet (active/focus) */
+.story-readmore:active,
+.story-readmore:focus {
+   color: #929090;           
+  outline: none;
+}
+
+/* Kur kalon miu sipër */
+.story-readmore:hover {
+  color: #929090;               
+}
+
 .story-share{
   display:inline-flex; gap:8px; align-items:center;
   border:none; background:#111; color:#fff;
@@ -1682,9 +1848,14 @@ font-size: clamp(22px, 4vw, 44px);
   cursor:pointer;
 }
 
+/* Kur kalon miu sipër */
+.story-share:hover {
+  background-color: #403f3f;               
+}
+
 .story-aside{ position:relative; }
 @media (min-width: 1100px){
-  .story-aside{ position: sticky; top: 96px; }
+  .story-aside{ position: static ; top: 96px; }
 }
 
 /* about card */
@@ -1721,6 +1892,16 @@ font-size: clamp(22px, 4vw, 44px);
   background:#fff; color:#111; font-weight:800;
   padding:10px 14px; border-radius:10px; text-decoration:none;
   text-align:center;
+}
+/* Kur preket ose klikohet (active/focus) */
+.about-btn:active,
+.about-btn:focus {
+   color: #929090;           
+  outline: none;
+}
+/* Kur kalon miu sipër */
+.about-btn:hover {
+  color: #747373;               
 }
 
 .about-socials{
@@ -2586,4 +2767,172 @@ font-size: clamp(22px, 4vw, 44px);
 
 .weeknights a:hover {
   color: #222; /* pak më e errët kur kalon miu */
+}
+
+/* ===== FUN COOKING FACTS ===== */
+.fun-facts {
+  background: linear-gradient(180deg, #fffaf5 0%, #fff 100%);
+  padding: 70px 20px;
+  text-align: center;
+}
+.fun-title {
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+  color: #222;
+}
+.fun-dek {
+  color: #666;
+  font-size: 17px;
+  margin-bottom: 40px;
+}
+.fun-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.fun-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+  padding: 28px 20px;
+  position: relative;
+  overflow: hidden;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.fun-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.12);
+}
+.fun-emoji {
+  font-size: 38px;
+  margin-bottom: 10px;
+}
+.fun-text {
+  font-size: 15.5px;
+  color: #333;
+  line-height: 1.55;
+  font-weight: 500;
+}
+
+/* Subtle hover glow */
+.fun-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(255,180,120,0.2), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.fun-card:hover::after { opacity: 1; }
+
+
+/* ===== THE ART OF COOKING ===== */
+.art-cooking {
+  background: radial-gradient(120% 160% at 50% 0%, #111 0%, #050505 100%);
+ padding: clamp(28px, 4vw, 50px) 20px;
+  margin-top: -25px;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  transition: all 0.4s ease;
+}
+
+.art-inner {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(28px, 4vw, 50px);
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: center;
+  padding: clamp(20px, 3vw, 40px);
+  border-radius: 24px;
+  background: rgba(20, 20, 20, 0.7);
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0 0 40px rgba(255, 255, 255, 0.03);
+}
+
+/* ===== Video Styling ===== */
+.art-video {
+  width: 100%;
+  height: 480px;
+  max-width: 560px;
+  border-radius: 20px;
+  object-fit: cover;
+  display: block;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform 0.5s ease, box-shadow 0.4s ease;
+}
+.art-video:hover {
+  transform: scale(1.04);
+  box-shadow: 0 22px 50px rgba(255, 255, 255, 0.08);
+}
+
+/* ===== Text Styling ===== */
+.art-text h2 {
+  font-size: clamp(30px, 3.4vw, 46px);
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 20px;
+  position: relative;
+  letter-spacing: -0.02em;
+}
+
+.art-text h2::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  margin-top: 10px;
+  background: linear-gradient(90deg, #f9c74f, #f9844a);
+  border-radius: 999px;
+  box-shadow: 0 0 10px rgba(249, 199, 79, 0.6);
+}
+
+.art-text p {
+  font-size: 17px;
+  line-height: 1.7;
+  color: #eaeaea;
+  margin-bottom: 16px;
+  text-align: justify;
+  text-justify: inter-word;
+  transition: color 0.3s ease;
+}
+.art-text p:hover {
+  color: #fff;
+}
+
+/* ===== Animation when appearing ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.art-cooking {
+  animation: fadeInUp 0.8s ease both;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 950px) {
+  .art-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 24px;
+  }
+  .art-video {
+    height: auto;
+    max-width: 100%;
+  }
+  .art-text h2::after {
+    margin: 12px auto;
+  }
 }
