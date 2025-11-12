@@ -5,9 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaHeart, FaRegHeart, FaStar, FaRegClock } from "react-icons/fa";
 import "../assets/Css/style.css";
 import { loadFavorites, toggleFavorite } from "../utils/favorites";
+import IngredientPicker from "../components/IngredientPicker";
 
 function Home() {
   const navigate = useNavigate();
+  const [pickerOpen, setPickerOpen] = useState(false);
+
 
   const slides = [
     {
@@ -325,19 +328,21 @@ function Home() {
               <p className="hero-description">
                 Simply choose your favorite ingredients, and we'll suggest the perfect recipes to delight your taste buds.
               </p>
-              <button
-                className="hero-button"
-                onMouseOver={(e) => {
-                  e.currentTarget.style.backgroundColor = "#ff6347";
-                  e.currentTarget.style.transform = "scale(1.1)";
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.backgroundColor = "#ff7f50";
-                  e.currentTarget.style.transform = "scale(1)";
-                }}
-              >
-                <FaUtensils style={{ marginRight: 8 }} /> Get Started
-              </button>
+   <button
+  className="hero-button"
+  onClick={() => setPickerOpen(true)}
+  onMouseOver={(e) => {
+    e.currentTarget.style.backgroundColor = "#ff6347";
+    e.currentTarget.style.transform = "scale(1.1)";
+  }}
+  onMouseOut={(e) => {
+    e.currentTarget.style.backgroundColor = "#ff7f50";
+    e.currentTarget.style.transform = "scale(1)";
+  }}
+>
+  <FaUtensils style={{ marginRight: 8 }} /> Get Started
+</button>
+
             </div>
             <div className="hero-image">
               <img src="/Images/Chicken-Alfredo-Pizza-HomePage.jpg" alt="Delicious Food" />
@@ -505,6 +510,17 @@ function Home() {
         {/* NEWSLETTER */}
         <NewsletterBand />
       </section>
+
+
+  <IngredientPicker
+  open={pickerOpen}
+  onClose={() => setPickerOpen(false)}
+  onConfirm={(ingredients) => {
+    setPickerOpen(false);
+    const q = ingredients.join(",");
+    navigate(`/search?ingredients=${encodeURIComponent(q)}`);
+  }}
+/>
     </>
   );
 }
