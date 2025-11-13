@@ -180,16 +180,26 @@ app.delete("/api/favorites/:id", auth, async (req, res) => {
   }
 });
 
-
-// ---------- Search ----------
 app.get("/api/recipes/search", async (req, res) => {
-  const q = (req.query.q || "").toLowerCase();
-  const [rows] = await pool.query("SELECT * FROM recipes");
-  const filtered = rows.filter((r) =>
-    `${r.title} ${r.description || ""}`.toLowerCase().includes(q)
-  );
-  res.json({ recipes: filtered });
+  const q = (req.query.q || "").trim().toLowerCase();
+  if (!q) return res.json({ recipes: [] });
+
+  try {
+    const [rows] = await pool.query(
+      `SELECT * FROM recipes
+       WHERE LOWER(title) LIKE CONCAT('%', ?, '%')
+          OR LOWER(tag) LIKE CONCAT('%', ?, '%')
+          OR LOWER(description) LIKE CONCAT('%', ?, '%')`,
+      [q, q, q]
+    );
+    res.json({ recipes: rows });
+  } catch (err) {
+    console.error("GET /api/recipes/search error:", err);
+    res.status(500).json({ error: "server_error" });
+  }
 });
+
+
 
 // ---------- Subscribe (DB insert + optional email) ----------
 app.post("/api/subscribe", async (req, res) => {

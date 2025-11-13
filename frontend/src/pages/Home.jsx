@@ -607,14 +607,21 @@ function Home() {
 
       {/* INGREDIENT PICKER MODAL */}
       <IngredientPicker
-        open={pickerOpen}
-        onClose={() => setPickerOpen(false)}
-        onConfirm={(ingredients) => {
-          setPickerOpen(false);
-          const q = ingredients.join(",");
-          navigate(`/search?ingredients=${encodeURIComponent(q)}`);
-        }}
-      />
+  open={pickerOpen}
+  onClose={() => setPickerOpen(false)}
+  onConfirm={(selected) => {
+    // selected is array of ingredients, e.g. ["chicken","garlic"]
+    if (!selected.length) {
+      setPickerOpen(false);
+      return;
+    }
+
+    const ingredientsParam = selected.join(",");
+    setPickerOpen(false);
+    navigate(`/search?ingredients=${encodeURIComponent(ingredientsParam)}`);
+  }}
+/>
+
     </>
   );
 }
