@@ -112,66 +112,74 @@ app.post("/api/login", async (req, res) => {
   res.json({ token, user: { id: u.id, email: u.email, user_role: u.user_role } });
 });
 
-// ---------- Favorites (DB-backed) ----------
+// ===================== FAVORITES API ===================== //
+
+// Get current user's favorite recipes
 app.get("/api/favorites", auth, async (req, res) => {
-  const [rows] = await pool.query(
-    `SELECT r.*
+  try {
+    const [rows] = await pool.query(
+      `SELECT r.*
        FROM favorites f
        JOIN recipes r ON r.id = f.recipe_id
-      WHERE f.user_id = ?
-      ORDER BY f.created_at DESC`,
-    [req.user.id]
-  );
-  res.json({ favorites: rows });
+       WHERE f.user_id = ?
+       ORDER BY f.created_at DESC`,
+      [req.user.id]
+    );
+    res.json({ favorites: rows });
+  } catch (err) {
+    console.error("GET /api/favorites error:", err);
+    res.status(500).json({ error: "server_error" });
+  }
 });
 
+// Add a favorite for current user
 app.post("/api/favorites", auth, async (req, res) => {
   const { recipeId, recipe } = req.body || {};
   if (!recipeId) return res.status(400).json({ error: "recipeId_required" });
 
-  // Optional: upsert the recipe details so favorites page can render cards
-  if (recipe) {
-    const { id, title, tag, time, img, href, rating, description, ingredients } = recipe;
+  try {
+    // Optional: upsert recipe in recipes table
+    if (recipe) {
+      const { title, tag, time, img, href, rating } = recipe;
+      await pool.query(
+        `INSERT INTO recipes (id, title, tag, time_label, img, href, rating)
+         VALUES (?, ?, ?, ?, ?, ?, ?)
+         ON DUPLICATE KEY UPDATE
+           title=VALUES(title),
+           tag=VALUES(tag),
+           time_label=VALUES(time_label),
+           img=VALUES(img),
+           href=VALUES(href),
+           rating=VALUES(rating)`,
+        [recipeId, title, tag, time, img, href, rating]
+      );
+    }
+
     await pool.query(
-      `INSERT INTO recipes (id, title, tag, time_label, img, href, rating, description, ingredients)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, CAST(? AS JSON))
-       ON DUPLICATE KEY UPDATE
-         title=VALUES(title),
-         tag=VALUES(tag),
-         time_label=VALUES(time_label),
-         img=VALUES(img),
-         href=VALUES(href),
-         rating=VALUES(rating),
-         description=VALUES(description),
-         ingredients=VALUES(ingredients)`,
-      [
-        id || recipeId,
-        title || "",
-        tag || null,
-        time || null,
-        img || null,
-        href || null,
-        rating ?? null,
-        description || null,
-        JSON.stringify(ingredients || []),
-      ]
+      "INSERT IGNORE INTO favorites (user_id, recipe_id) VALUES (?, ?)",
+      [req.user.id, recipeId]
     );
+    res.status(201).json({ ok: true });
+  } catch (err) {
+    console.error("POST /api/favorites error:", err);
+    res.status(500).json({ error: "server_error" });
   }
-
-  await pool.query(
-    "INSERT IGNORE INTO favorites (user_id, recipe_id) VALUES (?, ?)",
-    [req.user.id, recipeId]
-  );
-  res.status(201).json({ ok: true });
 });
 
+// Remove a favorite
 app.delete("/api/favorites/:id", auth, async (req, res) => {
-  await pool.query("DELETE FROM favorites WHERE user_id = ? AND recipe_id = ?", [
-    req.user.id,
-    req.params.id,
-  ]);
-  res.json({ ok: true });
+  try {
+    await pool.query(
+      "DELETE FROM favorites WHERE user_id = ? AND recipe_id = ?",
+      [req.user.id, req.params.id]
+    );
+    res.json({ ok: true });
+  } catch (err) {
+    console.error("DELETE /api/favorites error:", err);
+    res.status(500).json({ error: "server_error" });
+  }
 });
+
 
 // ---------- Search ----------
 app.get("/api/recipes/search", async (req, res) => {

@@ -1,85 +1,88 @@
 import { useEffect, useState } from "react";
-import { FaHeart, FaRegClock, FaStar } from "react-icons/fa";
-import { loadFavorites, saveFavorites, toggleFavorite } from "../utils/favorites";
-import "../assets/Css/style.css";
+import { FaRegClock, FaStar } from "react-icons/fa";
+import { fetchFavorites } from "../utils/favoritesApi";
 
 export default function Favorites() {
-  // store as id->recipe map (same as Home)
-  const [favorites, setFavorites] = useState({});
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const hasToken = !!localStorage.getItem("token");
 
   useEffect(() => {
-    setFavorites(loadFavorites());
-  }, []);
+    if (!hasToken) {
+      setLoading(false);
+      return;
+    }
 
-  const onToggle = (recipe) => {
-    setFavorites((prev) => toggleFavorite(recipe.id, recipe, prev));
-  };
+    (async () => {
+      try {
+        const favs = await fetchFavorites();
+        setItems(favs);
+      } catch (err) {
+        console.error("Failed to load favorites", err);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [hasToken]);
 
-  const favList = Object.values(favorites);
+  if (!hasToken) {
+    return (
+      <div style={{ padding: "2rem" }}>
+        <h2>Your Favorites</h2>
+        <p>Please log in to see your saved recipes.</p>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return <div style={{ padding: "2rem" }}>Loading favorites…</div>;
+  }
+
+  if (!items.length) {
+    return (
+      <div style={{ padding: "2rem" }}>
+        <h2>Your Favorites</h2>
+        <p>You haven't saved any favorites yet. Tap the hearts on the Home page.</p>
+      </div>
+    );
+  }
 
   return (
-    <section className="weeknights section-gap" style={{ paddingTop: "2rem" }}>
+    <section className="weeknights section-gap">
       <div className="wk-head">
-        <h2 className="wk-title">Favorite Recipes</h2>
-        {favList.length > 0 && <span className="wk-more" aria-hidden>❤️</span>}
+        <h2 className="wk-title">Your Favorites</h2>
       </div>
 
-      {favList.length === 0 ? (
-        <div style={{ padding: "1rem 0" }}>
-          <p>You haven’t added any favorites yet.</p>
-          <a className="wk-more" href="/">← Back to Home</a>
-        </div>
-      ) : (
-        <div className="wk-grid">
-          {favList.map((r) => (
-            <article key={r.id} className="wk-card">
-              <a className="wk-thumb" href={r.href}>
-                <img src={r.img} alt={r.title} />
+      <div className="wk-grid">
+        {items.map((r) => (
+          <article key={r.id} className="wk-card">
+            <a className="wk-thumb" href={r.href}>
+              <img src={r.img} alt={r.title} />
+            </a>
 
-                {/* Heart overlay — same look/size as Home */}
-                <button
-                  type="button"
-                  className="wk-like is-liked"
-                  aria-label="Remove from favorites"
-                  title="Remove from favorites"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    onToggle(r); // remove
-                  }}
-                >
-                  <FaHeart />
-                </button>
+            <div className="wk-body">
+              <span className="wk-tag">{r.tag}</span>
+              <a className="wk-title-link" href={r.href}>
+                <h3 className="wk-h3">{r.title}</h3>
               </a>
-
-              <div className="wk-body">
-                <span className="wk-tag">{r.tag}</span>
-
-                <a className="wk-title-link" href={r.href}>
-                  <h3 className="wk-h3">{r.title}</h3>
-                </a>
-
-                <div className="wk-meta">
-                  <span className="wk-time">
-                    <FaRegClock /> {r.time}
-                  </span>
-
-                  <span
-                    className="wk-stars"
-                    aria-label={`Rating ${r.rating} out of 5`}
-                  >
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <FaStar
-                        key={i}
-                        className={i < Math.round(r.rating) ? "on" : ""}
-                      />
-                    ))}
-                  </span>
-                </div>
+              <div className="wk-meta">
+                <span className="wk-time">
+                  <FaRegClock /> {r.time_label || r.time}
+                </span>
+                <span className="wk-stars">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <FaStar
+                      key={i}
+                      className={i < Math.round(r.rating || 0) ? "on" : ""}
+                    />
+                  ))}
+                </span>
               </div>
-            </article>
-          ))}
-        </div>
-      )}
+            </div>
+          </article>
+        ))}
+      </div>
     </section>
   );
 }

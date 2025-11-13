@@ -1,16 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import { FaUtensils } from "react-icons/fa";
-import { FaFacebookF, FaInstagram, FaPinterestP, FaYoutube, FaShareAlt } from "react-icons/fa";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaPinterestP,
+  FaYoutube,
+  FaShareAlt,
+} from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { FaHeart, FaRegHeart, FaStar, FaRegClock } from "react-icons/fa";
 import "../assets/Css/style.css";
-import { loadFavorites, toggleFavorite } from "../utils/favorites";
 import IngredientPicker from "../components/IngredientPicker";
+import { fetchFavorites, addFavorite, removeFavorite } from "../utils/favoritesApi";
 
 function Home() {
   const navigate = useNavigate();
   const [pickerOpen, setPickerOpen] = useState(false);
-
 
   const slides = [
     {
@@ -18,20 +23,34 @@ function Home() {
       captionPos: { left: "10%", bottom: "20%" },
       align: "text-start",
       title: <>Craving something different?</>,
-      text: <>Our recipes are <br />here to inspire your plate!</>,
+      text: (
+        <>
+          Our recipes are <br />
+          here to inspire your plate!
+        </>
+      ),
     },
     {
       img: "/Images/sliced-tasty-chocolate-brownie-with-cream-cutting-board-high-quality-photo.jpg",
       captionPos: { right: "6.2%", bottom: "20%" },
       align: "text-end",
       title: <>Elevate Your Dessert Game.</>,
-      text: <>Explore our cake recipes and impress <br /> your family and friends!</>,
+      text: (
+        <>
+          Explore our cake recipes and impress <br /> your family and friends!
+        </>
+      ),
     },
     {
       img: "/Images/plate-with-paleo-diet-food-boiled-eggs-avocado-cucumber-nuts-cherry-strawberries-paleo-breakfast-top-view.jpg",
       captionPos: { left: "10%", bottom: "20%" },
       align: "text-start",
-      title: <>Want your salads <br />to be healthy &amp; delicious?</>,
+      title: (
+        <>
+          Want your salads <br />
+          to be healthy &amp; delicious?
+        </>
+      ),
       text: <>Well, we're here to help you!, </>,
       customClass: "salad-caption",
     },
@@ -59,7 +78,8 @@ function Home() {
     {
       id: "wk3",
       tag: "Easy Pies",
-      title: "My Granny's 5-Ingredient Party Pie Is My Favorite Retro Dessert",
+      title:
+        "My Granny's 5-Ingredient Party Pie Is My Favorite Retro Dessert",
       time: "20 mins",
       img: "/Images/Party Pie.webp",
       href: "/recipes/Party Pie",
@@ -121,10 +141,51 @@ function Home() {
     },
   ];
 
-  // ===== Favorites (persistent via localStorage) =====
-  const [liked, setLiked] = useState(() => loadFavorites());
-  const handleLike = (recipe) => {
-    setLiked((prev) => toggleFavorite(recipe.id, recipe, prev));
+  // ===== favorites state (per user) =====
+  const [liked, setLiked] = useState({});
+
+  // load favorites on mount (if logged in)
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    (async () => {
+      try {
+        const favs = await fetchFavorites();
+        const map = {};
+        favs.forEach((r) => {
+          map[r.id] = true;
+        });
+        setLiked(map);
+      } catch (err) {
+        console.error("Failed to load favorites", err);
+      }
+    })();
+  }, []);
+
+  const handleToggleFavorite = async (recipe) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please log in to save favorites.");
+      return;
+    }
+
+    const wasLiked = !!liked[recipe.id];
+
+    // optimistic UI
+    setLiked((prev) => ({ ...prev, [recipe.id]: !wasLiked }));
+
+    try {
+      if (!wasLiked) {
+        await addFavorite(recipe);
+      } else {
+        await removeFavorite(recipe.id);
+      }
+    } catch (err) {
+      console.error("Error updating favorite:", err);
+      // revert on error
+      setLiked((prev) => ({ ...prev, [recipe.id]: wasLiked }));
+    }
   };
 
   // --- Carousel logic ---
@@ -227,10 +288,18 @@ function Home() {
           ))}
         </div>
 
-        <button className="carousel-control-prev" aria-label="Previous" onClick={prev}>
+        <button
+          className="carousel-control-prev"
+          aria-label="Previous"
+          onClick={prev}
+        >
           &lt;
         </button>
-        <button className="carousel-control-next" aria-label="Next" onClick={next}>
+        <button
+          className="carousel-control-next"
+          aria-label="Next"
+          onClick={next}
+        >
           &gt;
         </button>
       </div>
@@ -314,7 +383,11 @@ function Home() {
                   <h5 className="card-title">{item.title}</h5>
                   <p className="card-text">{item.text}</p>
                 </div>
-                <img src={`/Images/${item.img}`} alt={item.title} className="card-img" />
+                <img
+                  src={`/Images/${item.img}`}
+                  alt={item.title}
+                  className="card-img"
+                />
               </div>
             ))}
           </div>
@@ -324,28 +397,33 @@ function Home() {
         <div className="hero-container">
           <div className="hero-content">
             <div className="hero-text">
-              <h1 className="hero-title">Explore Flavorful Dishes Tailored to Your Tastes</h1>
+              <h1 className="hero-title">
+                Explore Flavorful Dishes Tailored to Your Tastes
+              </h1>
               <p className="hero-description">
-                Simply choose your favorite ingredients, and we'll suggest the perfect recipes to delight your taste buds.
+                Simply choose your favorite ingredients, and we'll suggest the
+                perfect recipes to delight your taste buds.
               </p>
-   <button
-  className="hero-button"
-  onClick={() => setPickerOpen(true)}
-  onMouseOver={(e) => {
-    e.currentTarget.style.backgroundColor = "#ff6347";
-    e.currentTarget.style.transform = "scale(1.1)";
-  }}
-  onMouseOut={(e) => {
-    e.currentTarget.style.backgroundColor = "#ff7f50";
-    e.currentTarget.style.transform = "scale(1)";
-  }}
->
-  <FaUtensils style={{ marginRight: 8 }} /> Get Started
-</button>
-
+              <button
+                className="hero-button"
+                onClick={() => setPickerOpen(true)}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.backgroundColor = "#ff6347";
+                  e.currentTarget.style.transform = "scale(1.1)";
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.backgroundColor = "#ff7f50";
+                  e.currentTarget.style.transform = "scale(1)";
+                }}
+              >
+                <FaUtensils style={{ marginRight: 8 }} /> Get Started
+              </button>
             </div>
             <div className="hero-image">
-              <img src="/Images/Chicken-Alfredo-Pizza-HomePage.jpg" alt="Delicious Food" />
+              <img
+                src="/Images/Chicken-Alfredo-Pizza-HomePage.jpg"
+                alt="Delicious Food"
+              />
             </div>
           </div>
         </div>
@@ -380,10 +458,14 @@ function Home() {
                   <button
                     type="button"
                     className={`wk-like ${liked[r.id] ? "is-liked" : ""}`}
-                    aria-label={liked[r.id] ? "Remove from favorites" : "Add to favorites"}
+                    aria-label={
+                      liked[r.id]
+                        ? "Remove from favorites"
+                        : "Add to favorites"
+                    }
                     onClick={(e) => {
                       e.preventDefault();
-                      handleLike(r); // persist full recipe to localStorage
+                      handleToggleFavorite(r);
                     }}
                   >
                     {liked[r.id] ? <FaHeart /> : <FaRegHeart />}
@@ -400,9 +482,17 @@ function Home() {
                     <span className="wk-time">
                       <FaRegClock /> {r.time}
                     </span>
-                    <span className="wk-stars" aria-label={`Rating ${r.rating} out of 5`}>
+                    <span
+                      className="wk-stars"
+                      aria-label={`Rating ${r.rating} out of 5`}
+                    >
                       {Array.from({ length: 5 }).map((_, i) => (
-                        <FaStar key={i} className={i < Math.round(r.rating) ? "on" : ""} />
+                        <FaStar
+                          key={i}
+                          className={
+                            i < Math.round(r.rating || 0) ? "on" : ""
+                          }
+                        />
                       ))}
                     </span>
                   </div>
@@ -415,7 +505,9 @@ function Home() {
         {/* ===== FUN COOKING FACTS ===== */}
         <section className="fun-facts">
           <h2 className="fun-title">Did You Know?</h2>
-          <p className="fun-dek">Surprising (and tasty) science from the kitchen!</p>
+          <p className="fun-dek">
+            Surprising (and tasty) science from the kitchen!
+          </p>
 
           <div className="fun-grid">
             {[
@@ -485,23 +577,25 @@ function Home() {
             <div className="art-text">
               <h2 className="art-title">The Art of Cooking</h2>
               <p>
-                Cooking is more than following a recipe, it's a quiet dialogue between
-                nature, time, and the senses. Every slice of a knife, every scent that
-                fills the air, every taste that lingers on the tongue tells a deeper
-                story, one of care, patience, and gratitude.
+                Cooking is more than following a recipe, it's a quiet dialogue
+                between nature, time, and the senses. Every slice of a knife,
+                every scent that fills the air, every taste that lingers on the
+                tongue tells a deeper story, one of care, patience, and
+                gratitude.
               </p>
               <p>
-                Real cooking begins long before the heat. It starts with curiosity, in
-                the soil that grows our food, in the hands that harvest it, and in the
-                heart that decides to create something nourishing. It teaches us to slow
-                down, to pay attention, and to appreciate the beauty in simple moments,
-                the crackle of butter, the rhythm of stirring, the comfort of sharing a
-                meal.
+                Real cooking begins long before the heat. It starts with
+                curiosity, in the soil that grows our food, in the hands that
+                harvest it, and in the heart that decides to create something
+                nourishing. It teaches us to slow down, to pay attention, and to
+                appreciate the beauty in simple moments, the crackle of butter,
+                the rhythm of stirring, the comfort of sharing a meal.
               </p>
               <p>
-                To cook is to connect, to the earth, to others, and to ourselves. It is
-                a practice of mindfulness and love, where flavor becomes memory, and
-                every dish becomes a reflection of who we are.
+                To cook is to connect, to the earth, to others, and to
+                ourselves. It is a practice of mindfulness and love, where
+                flavor becomes memory, and every dish becomes a reflection of
+                who we are.
               </p>
             </div>
           </div>
@@ -511,16 +605,16 @@ function Home() {
         <NewsletterBand />
       </section>
 
-
-  <IngredientPicker
-  open={pickerOpen}
-  onClose={() => setPickerOpen(false)}
-  onConfirm={(ingredients) => {
-    setPickerOpen(false);
-    const q = ingredients.join(",");
-    navigate(`/search?ingredients=${encodeURIComponent(q)}`);
-  }}
-/>
+      {/* INGREDIENT PICKER MODAL */}
+      <IngredientPicker
+        open={pickerOpen}
+        onClose={() => setPickerOpen(false)}
+        onConfirm={(ingredients) => {
+          setPickerOpen(false);
+          const q = ingredients.join(",");
+          navigate(`/search?ingredients=${encodeURIComponent(q)}`);
+        }}
+      />
     </>
   );
 }
@@ -533,7 +627,8 @@ function TasteTestsRow() {
       img: "/Images/Graham Cracker Taste Test.webp",
       kicker: "COOKING",
       title: "The Best Graham Crackers for Pie Crusts, S'mores, and More",
-      dek: "We tasted 11 grahams—classics to gluten-free—to find the best crackers for everyone.",
+      dek:
+        "We tasted 11 grahams—classics to gluten-free—to find the best crackers for everyone.",
     },
     {
       img: "/Images/taste-test-mint-chip-ice-cream.webp",
@@ -557,7 +652,8 @@ function TasteTestsRow() {
       img: "/Images/DarkChocolateTasteTest.webp",
       kicker: "COOKING",
       title: "The Best Dark Chocolate for Baking, Melting, and Snacking",
-      dek: "We sampled bittersweet bars from Godiva, Ghirardelli, and Guittard to find the best chocolate to keep in your pantry.",
+      dek:
+        "We sampled bittersweet bars from Godiva, Ghirardelli, and Guittard to find the best chocolate to keep in your pantry.",
     },
     {
       img: "/Images/PieCrust.webp",
@@ -568,14 +664,17 @@ function TasteTestsRow() {
     {
       img: "/Images/taste-test-chapagne.webp",
       kicker: "DRINKS",
-      title: "Which Champagne is Best? A Taste Test of Veuve Clicquot, Bollinger, Moët, and More",
-      dek: "We sipped 7 brands to help you figure out your next great party pour.",
+      title:
+        "Which Champagne is Best? A Taste Test of Veuve Clicquot, Bollinger, Moët, and More",
+      dek:
+        "We sipped 7 brands to help you figure out your next great party pour.",
     },
     {
       img: "/Images/taste-test-caesar.webp",
       kicker: "COOKING",
       title: "The Best Caesar Dressing You Can Buy at the Store",
-      dek: "We tried 19 Caesar dressings—Ken's, Cardini, Marzetti, and more—to find our favorite.",
+      dek:
+        "We tried 19 Caesar dressings—Ken's, Cardini, Marzetti, and more—to find our favorite.",
     },
   ];
 
@@ -620,7 +719,11 @@ function CategoriesRow() {
   const cats = [
     { key: "quick", label: "QUICK AND EASY", img: "/Images/QuickAndEasy.webp" },
     { key: "dinner", label: "DINNER", img: "/Images/Dinner.jpg" },
-    { key: "vegetarian", label: "VEGETARIAN", img: "/Images/Vegetarian.webp" },
+    {
+      key: "vegetarian",
+      label: "VEGETARIAN",
+      img: "/Images/Vegetarian.webp",
+    },
     { key: "healthy", label: "HEALTHY", img: "/Images/Healthyjpg.jpg" },
     { key: "instantpot", label: "INSTANT POT", img: "/Images/InstantPot.jpg" },
     { key: "vegan", label: "VEGAN", img: "/Images/Vegan.jpg" },
@@ -781,14 +884,22 @@ function StoryWithSidebar() {
           The Best Instant Pot Toast recipe (vegan & gluten free!)
         </h2>
         <p className="story-excerpt">
-          Three easy breakfast toasts, one board. Savory cherry-tomato + toasted seeds with a glug of olive oil
-          and flaky salt; classic herby avocado brightened with lemon and a pinch of chili; and a sweet banana-blueberry
-          combo finished with maple (or tahini) and a sprinkle of sesame. All vegan and gluten-free, ready in 10 minutes.
-          Serve as a mix-and-match brunch, pack for on-the-go fuel, or pair with plant-based yogurt for a fuller plate.
+          Three easy breakfast toasts, one board. Savory cherry-tomato + toasted
+          seeds with a glug of olive oil and flaky salt; classic herby avocado
+          brightened with lemon and a pinch of chili; and a sweet
+          banana-blueberry combo finished with maple (or tahini) and a sprinkle
+          of sesame. All vegan and gluten-free, ready in 10 minutes. Serve as a
+          mix-and-match brunch, pack for on-the-go fuel, or pair with
+          plant-based yogurt for a fuller plate.
         </p>
 
         <div className="story-actions">
-          <a className="story-readmore" href="/recipes/instant-pot-french-toast">Read more</a>
+          <a
+            className="story-readmore"
+            href="/recipes/instant-pot-french-toast"
+          >
+            Read more
+          </a>
           <button className="story-share" type="button">
             <FaShareAlt /> <span>Share</span>
           </button>
@@ -797,19 +908,34 @@ function StoryWithSidebar() {
 
       <aside className="story-aside">
         <div className="about-card">
-          <img className="about-photo" src="/Images/about-image-new.png" alt="About me" />
+          <img
+            className="about-photo"
+            src="/Images/about-image-new.png"
+            alt="About me"
+          />
           <h4 className="about-title">Hey, I'm Sarah Baker!</h4>
           <p className="about-text">
-            I'm so happy you're here! Many of my favorite memories in life happen around the table
-            and they're even better when nourished by something seriously delicious.
+            I'm so happy you're here! Many of my favorite memories in life
+            happen around the table and they're even better when nourished by
+            something seriously delicious.
           </p>
-          <a className="about-btn" href="/about">More about us</a>
+          <a className="about-btn" href="/about">
+            More about us
+          </a>
 
           <div className="about-socials">
-            <a aria-label="Facebook" href="#"><FaFacebookF /></a>
-            <a aria-label="Instagram" href="#"><FaInstagram /></a>
-            <a aria-label="Pinterest" href="#"><FaPinterestP /></a>
-            <a aria-label="YouTube" href="#"><FaYoutube /></a>
+            <a aria-label="Facebook" href="#">
+              <FaFacebookF />
+            </a>
+            <a aria-label="Instagram" href="#">
+              <FaInstagram />
+            </a>
+            <a aria-label="Pinterest" href="#">
+              <FaPinterestP />
+            </a>
+            <a aria-label="YouTube" href="#">
+              <FaYoutube />
+            </a>
           </div>
         </div>
       </aside>
