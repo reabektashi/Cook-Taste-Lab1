@@ -5,13 +5,10 @@ function Logout() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fshini të gjitha të dhënat e përdoruesit
+    localStorage.removeItem("token");
     localStorage.removeItem("role");
-    localStorage.removeItem("email");
-    localStorage.removeItem("user"); // Nëse e përdor diku
+    localStorage.removeItem("user");
     sessionStorage.clear();
-
-    // Redirekto në faqen kryesore
     navigate("/");
   }, [navigate]);
 

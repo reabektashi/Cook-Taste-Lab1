@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import API from "../api";
 import "../assets/Css/login.css";
 
 function Login() {
@@ -7,6 +8,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [serverError, setServerError] = useState("");
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -21,7 +23,6 @@ function Login() {
       setEmailError("Please enter a valid email!");
       valid = false;
     }
-
     if (!password) {
       setPasswordError("Please enter a password!");
       valid = false;
@@ -35,35 +36,19 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setServerError("");
     if (!validateForm()) return;
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
-      });
-      
-      const data = await res.json();
+      const { data } = await API.post("/login", { email, password });
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("role", data.user.user_role);
 
-      if (!res.ok) {
-        setPasswordError(data.message || "Login failed");
-        return;
-      }
-
-      // Ruaj të dhënat në localStorage
-      localStorage.setItem("role", data.user.role);
-      localStorage.setItem("email", data.user.email);
-
-      // Redirekto sipas rolit
-      if (data.user.role === "admin") {
-        navigate("/dashboard");
-      } else {
-        navigate("/");
-      }
+      if (data.user.user_role === "admin") navigate("/dashboard");
+      else navigate("/");
     } catch (err) {
-      console.error("Login error:", err);
-      setPasswordError("Server error");
+      setServerError(err?.response?.data?.error || "Login failed");
     }
   };
 
@@ -71,28 +56,17 @@ function Login() {
     <div className="container">
       <div className="form-box">
         <h1>Log In</h1>
+        {serverError && <p className="error-message">{serverError}</p>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email address</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            <input type="email" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <div className="error-message">{emailError}</div>
           </div>
 
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             <div className="error-message">{passwordError}</div>
           </div>
 
