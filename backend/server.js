@@ -11,7 +11,7 @@ import jwt from "jsonwebtoken";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5174;
+const PORT = process.env.PORT || 5173;
 
 // ---------- Middleware ----------
 app.use(
@@ -29,18 +29,23 @@ app.use(express.json());
  * - DATABASE_URL (mysql://user:pass@host:port/dbname)
  * - or individual MYSQL_* vars.
  */
-const pool = await mysql.createPool(
-  process.env.DATABASE_URL
-    ? { uri: process.env.DATABASE_URL, waitForConnections: true, connectionLimit: 10 }
-    : {
-        host: process.env.MYSQL_HOST,
-        user: process.env.MYSQL_USER,
-        password: process.env.MYSQL_PASSWORD,
-        database: process.env.MYSQL_DATABASE,
-        waitForConnections: true,
-        connectionLimit: 10,
-      }
-);
+// ---------- MySQL Pool ----------
+let pool;
+
+if (process.env.DATABASE_URL) {
+  // përdor connection string-un direkt
+  pool = await mysql.createPool(process.env.DATABASE_URL);
+} else {
+  // fallback në variablat individuale
+  pool = await mysql.createPool({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
+    waitForConnections: true,
+    connectionLimit: 10,
+  });
+}
 
 // ---------- Helpers ----------
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
