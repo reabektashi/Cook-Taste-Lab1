@@ -19,12 +19,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 // DASHBOARD (layout-i)
 import Dashboard from "./pages/Dashboard";
 
-// Faqet e dashboard-it
-import Overview from "./pages/Admin/Overview";
-import Reports from "./pages/Admin/Reports";
-import Categories from "./pages/Admin/Categories";
-import DrinksAdmin from "./pages/Admin/DrinksAdmin";
-import UsersAdmin from "./pages/Admin/UsersAdmin";
+
 
 export default function App() {
   return (
@@ -43,16 +38,10 @@ export default function App() {
           <Route path="aboutus" element={<AboutUs />} />
           <Route path="logout" element={<Logout />} />
           <Route path="privacy" element={<PrivacyPolicy />} />
+           <Route path="/dashboard" element={<Dashboard />}></Route>
         </Route>
 
-        {/* ====== DASHBOARD ====== */}
-        <Route path="/dashboard" element={<Dashboard />}>
-          <Route index element={<Overview />} />          {/* /dashboard */}
-          <Route path="reports" element={<Reports />} />  {/* /dashboard/reports */}
-          <Route path="categories" element={<Categories />} />
-          <Route path="drinks" element={<DrinksAdmin />} />
-          <Route path="users" element={<UsersAdmin />} />
-        </Route>
+        
       </Routes>
     </BrowserRouter>
   );
