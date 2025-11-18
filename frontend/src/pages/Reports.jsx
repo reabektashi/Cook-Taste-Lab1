@@ -37,31 +37,30 @@ export default function Reports() {
   };
 
   return (
-    <div className="reports-page">
-      {/* HEADER */}
-      <header className="reports-header">
-        <div>
-          <h1 className="reports-title">
-            <FaChartBar className="reports-title-icon" />
-            Reports
-          </h1>
-          <p className="reports-subtitle">
-            Key performance metrics for your Cook&amp;Taste platform.
-          </p>
-        </div>
+  <div className="reports-page">
 
-        <div className="reports-filter">
-          <span>Period</span>
-          <select
-            value={period}
-            onChange={(e) => setPeriod(e.target.value)}
-          >
-            <option value="7days">Last 7 days</option>
-            <option value="30days">Last 30 days</option>
-            <option value="12months">Last 12 months</option>
-          </select>
-        </div>
-      </header>
+  <div className="reports-header">
+      <div>
+        <h1 className="reports-title">
+          <FaChartBar className="reports-title-icon" />
+          Reports
+        </h1>
+
+        <p className="reports-subtitle">
+          Key performance metrics for your Cook&Taste platform.
+        </p>
+      </div>
+
+      <div className="reports-filter">
+        <span>Period</span>
+        <select>
+          <option>Last 7 days</option>
+          <option>Last 14 days</option>
+          <option>Last 30 days</option>
+        </select>
+      </div>
+  </div>
+
 
       
 
@@ -159,7 +158,7 @@ export default function Reports() {
             </div>
             <div>
               <h3>Top segment</h3>
-              <p className="reports-bottom-number">Dinner lovers</p>
+              <p className="reports-bottom-number">Dinner</p>
             </div>
             <div>
               <h3>Suggested next step</h3>

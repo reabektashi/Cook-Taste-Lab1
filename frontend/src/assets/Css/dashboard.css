@@ -631,6 +631,105 @@
   color: #6b7280;
   text-shadow: none !important;
 }
+/* --- FIX REPORTS TITLE ALIGNMENT --- */
+.admin-main .reports-header {
+  text-align: left !important;
+}
+
+.admin-main .reports-title {
+  text-align: left !important;
+  justify-content: flex-start !important;
+  text-shadow: none !important;
+}
+
+.admin-main .reports-subtitle {
+  text-align: left !important;
+  text-shadow: none !important;
+}
+/* ================== CATEGORIES PAGE ================== */
+
+.categories-page {
+  padding: 10px 6px;
+}
+
+/* HEADER FIX – aligned left like Reports */
+.categories-page .admin-header {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.categories-page .admin-title {
+  text-align: left;
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+  text-shadow: none !important;
+}
+
+.categories-page .admin-subtitle {
+  text-align: left;
+  margin-top: 4px;
+  color: #6b7280;
+  font-size: 14px;
+}
+/* Row of pill buttons like in your screenshot */
+.category-buttons-full {
+  display: flex;
+  justify-content: space-between;  /* pushes them apart */
+  align-items: center;
+  max-width: 900px;                /* row width */
+  margin: 16px 0 24px;
+}
+
+/* Small pill buttons (fixed size, not full-width) */
+.category-btn-full {
+  min-width: 140px;                /* same-ish width for each */
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 2px solid #111827;
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.category-btn-full:hover {
+  background: #f3f4ff;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.15);
+}
+
+
+/* ================== TABLE ================== */
+
+.existing-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.categories-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+}
+
+.categories-table th,
+.categories-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.categories-table th {
+  background: #f9fafb;
+  text-align: left;
+  font-weight: 600;
+  color: #4b5563;
+}
 
 
 /* Responsive */
