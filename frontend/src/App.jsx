@@ -1,9 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// Layout për frontend
 import Layout from "./components/Layout";
 
-// Faqet e frontend-it
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/register";
@@ -16,32 +14,40 @@ import AboutUs from "./pages/aboutus";
 import Logout from "./pages/logout";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 
-// DASHBOARD (layout-i)
 import Dashboard from "./pages/Dashboard";
-
-
+import Overview from "./pages/Overview";
+import Reports from "./pages/Reports";
+import Categories from "./pages/Categories";
+import DrinksDash from "./pages/DrinksDash";
+import Users from "./pages/Users";
+import Settings from "./pages/Settings";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* FRONTEND me Layout normal */}
         <Route element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-          <Route path="search" element={<SearchResults />} />
-          <Route path="drinks" element={<Drinks />} />
-          <Route path="recipes/desserts" element={<Desserts />} />
-          <Route path="recipes/dinner" element={<Dinner />} />
-          <Route path="favorites" element={<Favorites />} />
-          <Route path="aboutus" element={<AboutUs />} />
-          <Route path="logout" element={<Logout />} />
-          <Route path="privacy" element={<PrivacyPolicy />} />
-           <Route path="/dashboard" element={<Dashboard />}></Route>
-        </Route>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/search" element={<SearchResults />} />
+          <Route path="/drinks" element={<Drinks />} />
+          <Route path="/recipes/desserts" element={<Desserts />} />
+          <Route path="/recipes/dinner" element={<Dinner />} />
+          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
 
-        
+          <Route path="/dashboard" element={<Dashboard />}>
+            <Route index element={<Overview />} />
+            <Route path="reports" element={<Reports />} />
+            <Route path="categories" element={<Categories />} />
+            <Route path="drinksdash" element={<DrinksDash />} />
+            <Route path="users" element={<Users />} />
+            <Route path="settings" element={<Settings />} />
+          </Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   );
