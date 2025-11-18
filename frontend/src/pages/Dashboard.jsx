@@ -1,7 +1,6 @@
-import { useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+// src/pages/Dashboard.jsx
+import React from "react";
 import "../assets/Css/dashboard.css";
-import React, {useState } from "react";
 import {
   FaHome,
   FaChartBar,
@@ -10,26 +9,14 @@ import {
   FaUsers,
   FaCog,
   FaSignOutAlt,
-  FaUtensils,
-  FaEnvelope,
 } from "react-icons/fa";
 
-
+import { NavLink, Outlet } from "react-router-dom";
 
 function Dashboard() {
-  const [stats, setStats] = useState(null);
-
-  // marrim statistikat nga backend-i
-  useEffect(() => {
-    fetch("http://localhost:3000/api/admin/overview")
-      .then((res) => res.json())
-      .then((data) => setStats(data))
-      .catch((err) => console.error("Dashboard error:", err));
-  }, []);
-
-  if (!stats) {
-    return <div className="admin-loading">Loading dashboard…</div>;
-  }
+  // klasë për linkun aktiv
+  const navClass = ({ isActive }) =>
+    isActive ? "nav-item active" : "nav-item";
 
   return (
     <div className="admin-shell">
@@ -44,30 +31,35 @@ function Dashboard() {
         </div>
 
         <nav className="admin-nav">
-          <button className="nav-item active">
+          {/* OVERVIEW */}
+          <NavLink to="/dashboard" end className={navClass}>
             <FaHome />
             <span>Overview</span>
-          </button>
+          </NavLink>
 
-          <button className="nav-item">
+          {/* REPORTS */}
+          <NavLink to="/dashboard/reports" className={navClass}>
             <FaChartBar />
             <span>Reports</span>
-          </button>
+          </NavLink>
 
-          <button className="nav-item">
+          {/* CATEGORIES */}
+          <NavLink to="/dashboard/categories" className={navClass}>
             <FaListUl />
             <span>Categories</span>
-          </button>
+          </NavLink>
 
-          <button className="nav-item">
+          {/* DRINKS */}
+          <NavLink to="/dashboard/drinks" className={navClass}>
             <FaWineGlassAlt />
             <span>Drinks</span>
-          </button>
+          </NavLink>
 
-          <button className="nav-item">
+          {/* USERS */}
+          <NavLink to="/dashboard/users" className={navClass}>
             <FaUsers />
             <span>Users</span>
-          </button>
+          </NavLink>
 
           <div className="nav-divider" />
 
@@ -85,10 +77,10 @@ function Dashboard() {
 
       {/* ===== MAIN CONTENT ===== */}
       <main className="admin-main">
-        {/* top header */}
+        {/* top header – i përbashkët për krejt faqet */}
         <header className="admin-header">
           <div>
-            <h1 className="admin-title">Dashboard</h1>
+            <h2 className="admin-title">Admin Dashboard</h2>
             <p className="admin-subtitle">
               Overview of your Cook&Taste platform
             </p>
@@ -104,118 +96,8 @@ function Dashboard() {
           </div>
         </header>
 
-        {/* ===== top stat cards ===== */}
-        <section className="admin-cards-row">
-          <div className="stat-card">
-            <div className="stat-icon icon-recipes">
-              <FaUtensils />
-            </div>
-            <div className="stat-label">Recipes</div>
-            <div className="stat-value">{stats.recipes}</div>
-            <p className="stat-caption">Total recipes in the platform</p>
-          </div>
-
-          <div className="stat-card">
-            <div className="stat-icon icon-categories">
-              <FaListUl />
-            </div>
-            <div className="stat-label">Categories</div>
-            <div className="stat-value">{stats.categories}</div>
-            <p className="stat-caption">Breakfast, lunch, dinner, desserts…</p>
-          </div>
-
-          <div className="stat-card">
-            <div className="stat-icon icon-drinks">
-              <FaWineGlassAlt />
-            </div>
-            <div className="stat-label">Drinks</div>
-            <div className="stat-value">{stats.drinks}</div>
-            <p className="stat-caption">Smoothies, cocktails & more</p>
-          </div>
-
-          <div className="stat-card">
-            <div className="stat-icon icon-users">
-              <FaUsers />
-            </div>
-            <div className="stat-label">Users</div>
-            <div className="stat-value">{stats.users}</div>
-            <p className="stat-caption">Registered accounts</p>
-          </div>
-
-          <div className="stat-card">
-            <div className="stat-icon icon-subs">
-              <FaEnvelope />
-            </div>
-            <div className="stat-label">Subscribers</div>
-            <div className="stat-value">{stats.subscribers}</div>
-            <p className="stat-caption">Newsletter sign-ups</p>
-          </div>
-        </section>
-
-        {/* ===== SUMMARY + SIDEBAR RIGHT ===== */}
-        <section className="admin-bottom">
-          {/* "Summary" me një pseudo-grafik si në template */}
-          <div className="summary-card">
-            <div className="summary-header">
-              <h2>Summary</h2>
-              <span className="summary-period">Last 7 days</span>
-            </div>
-
-            <div className="summary-substats">
-              <div>
-                <span className="summary-label">New recipes</span>
-                <strong>{Math.max(1, Math.round(stats.recipes / 6))}</strong>
-              </div>
-              <div>
-                <span className="summary-label">New users</span>
-                <strong>{Math.max(1, Math.round(stats.users / 8))}</strong>
-              </div>
-              <div>
-                <span className="summary-label">New subscribers</span>
-                <strong>
-                  {Math.max(1, Math.round(stats.subscribers / 10))}
-                </strong>
-              </div>
-            </div>
-
-            {/* thjesht dekorim – “chart” me bare */}
-            <div className="summary-chart">
-              {Array.from({ length: 7 }).map((_, i) => (
-                <div key={i} className="chart-col">
-                  <div
-                    className="chart-bar"
-                    style={{ height: `${40 + (i % 4) * 12}px` }}
-                  />
-                  <span className="chart-label">
-                    {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][i]}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* lista e shkurtër me statistika për subscribers */}
-          <div className="side-card">
-            <h3 className="side-title">Newsletter snapshot</h3>
-            <ul className="side-list">
-              <li>
-                <span>Total subscribers</span>
-                <strong>{stats.subscribers}</strong>
-              </li>
-              <li>
-                <span>Open rate (est.)</span>
-                <strong>42%</strong>
-              </li>
-              <li>
-                <span>Top segment</span>
-                <strong>Dinner lovers</strong>
-              </li>
-            </ul>
-            <p className="side-foot">
-              Use these insights to plan your next recipe drops and campaigns.
-            </p>
-          </div>
-        </section>
+        {/* KËTU FUTET FAQJA KONKRETE: Overview, Reports, Categories, Drinks, Users */}
+        <Outlet />
       </main>
     </div>
   );
