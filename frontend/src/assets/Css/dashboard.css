@@ -700,6 +700,91 @@
   box-shadow: 0 4px 10px rgba(15, 23, 42, 0.15);
 }
 
+/* Breakfast Table */
+
+.admin-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  margin-top: 10px;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+}
+
+.admin-data-table th,
+.admin-data-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+}
+
+.admin-data-table th {
+  background: #f9fafb;
+  text-align: left;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+/* zebra stripes like in many admin tables */
+.admin-data-table tbody tr:nth-child(even) {
+  background: #fdfdfd;
+}
+
+/* Edit / Delete buttons */
+.btn-edit,
+.btn-delete {
+  border: none;
+  padding: 6px 16px;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn-edit {
+  background-color: #22c55e; /* green */
+}
+
+.btn-delete {
+  background-color: #ef4444; /* red */
+}
+
+.btn-edit:hover {
+  background-color: #16a34a;
+}
+
+.btn-delete:hover {
+  background-color: #dc2626;
+}
+
+/* thumbnail image inside table */
+.category-img-thumb {
+  width: 70px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* heart and favorites count */
+.fav-icon {
+  color: #f97373;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.favorites-cell {
+  text-align: center !important;     /* center left/right */
+  vertical-align: middle !important; /* center top/bottom */
+  padding-left: 0 !important;        /* remove left push */
+  padding-right: 30px !important;   
+}
+.category-btn-full.active {
+  background: #4c46f5;
+  color: white;
+  border-color: #4c46f5;
+}
+
 
 /* ================== TABLE ================== */
 

@@ -210,7 +210,6 @@ app.get("/api/recipes/search", async (req, res) => {
 });
 
 
-
 // ---------- Subscribe (DB insert + optional email) ----------
 app.post("/api/subscribe", async (req, res) => {
   const email = (req.body?.email || "").trim().toLowerCase();
@@ -265,6 +264,41 @@ app.post("/api/subscribe", async (req, res) => {
     if (!res.headersSent) res.status(500).json({ ok: false, error: "Server error" });
   }
 });
+//Breakfast-Categories Table
+app.get("/api/category-items", async (req, res) => {
+  const category = req.query.category;
+
+  if (!category) {
+    return res.status(400).json({ error: "category_required" });
+  }
+
+  try {
+    const [rows] = await pool.query(
+      `SELECT id,
+              category,
+              card_id,
+              tag,
+              title,
+              time_label,
+              img_url,
+              href,
+              favorites
+       FROM category_items
+       WHERE category = ?
+       ORDER BY id`,
+      [category]
+    );
+
+
+
+    res.json({ items: rows });
+  } catch (err) {
+    console.error("GET /api/category-items error:", err);
+    res.status(500).json({ error: "server_error" });
+  }
+});
+
+
 
 // ---------- Start server ----------
 app.listen(PORT, () => {
