@@ -1,10 +1,59 @@
+// src/pages/Categories.jsx
 import React, { useState, useEffect } from "react";
 import "../assets/Css/dashboard.css";
 import { FaHeart } from "react-icons/fa";
 
+// icons for the cards
+import {
+  MdFreeBreakfast,
+  MdLunchDining,
+  MdDinnerDining,
+  MdCake,
+} from "react-icons/md";
+import { GiForkKnifeSpoon } from "react-icons/gi";
+
 const CATEGORIES = ["Breakfast", "Lunch", "Dinner", "Desserts", "Appetizers"];
 
-// Change if your backend runs on a different port
+// static card info – only for display
+const CATEGORY_CARDS = [
+  {
+    key: "Breakfast",
+    label: "BREAKFAST",
+    value: 12, // change these numbers however you like
+    desc: "Morning recipes & ideas",
+    icon: <MdFreeBreakfast className="cat-icon" />,
+  },
+  {
+    key: "Lunch",
+    label: "LUNCH",
+    value: 9,
+    desc: "Mid-day meals & bowls",
+    icon: <MdLunchDining className="cat-icon" />,
+  },
+  {
+    key: "Dinner",
+    label: "DINNER",
+    value: 15,
+    desc: "Family mains & dinners",
+    icon: <MdDinnerDining className="cat-icon" />,
+  },
+  {
+    key: "Desserts",
+    label: "DESSERTS",
+    value: 8,
+    desc: "Sweet treats & baking",
+    icon: <MdCake className="cat-icon" />,
+  },
+  {
+    key: "Appetizers",
+    label: "APPETIZERS",
+    value: 6,
+    desc: "Small bites & starters",
+    icon: <GiForkKnifeSpoon className="cat-icon" />,
+  },
+];
+
+// change if your backend is on a different port
 const API_BASE = "http://localhost:5174";
 
 function Categories() {
@@ -12,9 +61,9 @@ function Categories() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Fetch items from backend whenever we pick a category
+  // Fetch items when a category button is clicked
   useEffect(() => {
-    if (!selectedCategory) return; // don't fetch on first load
+    if (!selectedCategory) return; // don't fetch on initial load
 
     async function fetchItems() {
       setLoading(true);
@@ -49,7 +98,7 @@ function Categories() {
         </div>
       </div>
 
-      {/* CATEGORY BUTTONS */}
+      {/* CATEGORY BUTTONS (same as before) */}
       <div className="category-buttons-full">
         {CATEGORIES.map((cat) => (
           <button
@@ -65,7 +114,19 @@ function Categories() {
         ))}
       </div>
 
-      {/* ONLY SHOW TABLE AFTER A CATEGORY IS CLICKED */}
+      {/* STATIC CARDS UNDER BUTTONS (3 on top row, 2 on bottom) */}
+      <div className="category-stats-grid">
+        {CATEGORY_CARDS.map((card) => (
+          <div key={card.key} className="category-card">
+            <div className="cat-icon-wrapper">{card.icon}</div>
+            <div className="cat-title">{card.label}</div>
+            <div className="cat-count">{card.value}</div>
+            <div className="cat-desc">{card.desc}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* TABLE – only after a button is clicked */}
       {selectedCategory && (
         <>
           <h2 className="existing-title">{selectedCategory} recipes</h2>
@@ -92,7 +153,7 @@ function Categories() {
                 {items.length === 0 ? (
                   <tr>
                     <td
-                      colSpan={9}
+                      colSpan={8}
                       style={{ textAlign: "center", padding: "16px" }}
                     >
                       No recipes for this category yet.
@@ -102,7 +163,6 @@ function Categories() {
                   items.map((item) => (
                     <tr key={item.id}>
                       <td>{item.id}</td>
-                    
                       <td>
                         {item.img_url ? (
                           <img
@@ -119,7 +179,6 @@ function Categories() {
                       <td>{item.time_label}</td>
                       <td className="favorites-cell">
                         {item.favorites ?? 0}
-                        
                       </td>
                       <td>
                         <button className="btn-edit">EDIT</button>
