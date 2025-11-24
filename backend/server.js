@@ -11,7 +11,7 @@ import jwt from "jsonwebtoken";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5173;
+const PORT = process.env.PORT || 5174;
 
 // ---------- Middleware ----------
 app.use(
