@@ -114,27 +114,29 @@ function Categories() {
         ))}
       </div>
 
-      {/* STATIC CARDS UNDER BUTTONS (3 on top row, 2 on bottom) */}
-      <div className="category-stats-grid">
-        {CATEGORY_CARDS.map((card) => (
-          <div key={card.key} className="category-card">
-            <div className="cat-icon-wrapper">{card.icon}</div>
-            <div className="cat-title">{card.label}</div>
-            <div className="cat-count">{card.value}</div>
-            <div className="cat-desc">{card.desc}</div>
-          </div>
-        ))}
+ {/* STATIC CARDS – show only on first load (no category selected) */}
+{!selectedCategory && (
+  <div className="category-stats-grid">
+    {CATEGORY_CARDS.map((card) => (
+      <div key={card.key} className="category-card">
+        <div className="cat-icon-wrapper">{card.icon}</div>
+        <div className="cat-title">{card.label}</div>
+        <div className="cat-count">{card.value}</div>
+        <div className="cat-desc">{card.desc}</div>
       </div>
+    ))}
+  </div>
+)}
 
-      {/* TABLE – only after a button is clicked */}
-      {selectedCategory && (
-        <>
-          <h2 className="existing-title">{selectedCategory} recipes</h2>
+{/* TABLE – show after a button is clicked */}
+{selectedCategory && (
+  <>
+    <h2 className="existing-title">{selectedCategory} recipes</h2>
 
-          {loading ? (
-            <p style={{ padding: "12px 0" }}>Loading...</p>
-          ) : (
-            <table className="admin-data-table">
+    {loading ? (
+      <p style={{ padding: "12px 0" }}>Loading...</p>
+    ) : (
+      <table className="admin-data-table">
               <thead>
                 <tr>
                   <th>ID</th>
