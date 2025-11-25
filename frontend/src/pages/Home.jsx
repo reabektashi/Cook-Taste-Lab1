@@ -214,11 +214,11 @@ function Home() {
       {/* CAROUSEL */}
       <div
         id="recipeCarousel"
-        className="carousel"
+        className="ct-carousel"
         onMouseEnter={stopAuto}
         onMouseLeave={startAuto}
       >
-        <div className="carousel-indicators">
+        <div className="ct-carousel-indicators">
           {slides.map((_, i) => (
             <button
               key={i}
@@ -230,16 +230,16 @@ function Home() {
           ))}
         </div>
 
-        <div className="carousel-inner">
+        <div className="ct-carousel-inner">
           {slides.map((s, i) => (
             <div
               key={i}
-              className={`carousel-item ${i === index ? "active" : ""}`}
+              className={`ct-carousel-item ${i === index ? "active" : ""}`}
               aria-hidden={i === index ? "false" : "true"}
             >
               <img src={s.img} alt={`Food ${i + 1}`} />
               <div
-                className={`carousel-caption ${s.align} ${s.customClass || ""}`}
+                className={`ct-carousel-caption ${s.align} ${s.customClass || ""}`}
                 style={{
                   ...s.captionPos,
                   ...(s.customClass === "salad-caption" ? { left: "10%" } : {}),
@@ -248,38 +248,36 @@ function Home() {
                 <h3 className="caption-title">{s.title}</h3>
                 <p className="caption-text">{s.text}</p>
 
+                {/* buttons now use ct-btn */}
                 {s.customClass === "salad-caption" ? (
-                  // Slide 3 — open Healthy listing (no scroll)
                   <button
                     type="button"
-                    className="btn read-more-btn"
+                    className="ct-btn read-more-btn"
                     onClick={() => navigate("/recipes?cat=healthy")}
                     style={{ position: "relative", zIndex: 20 }}
                   >
                     Read More <span className="btn-icon">»</span>
                   </button>
                 ) : i === 0 ? (
-                  // Slide 1 — Dinner
                   <button
                     type="button"
-                    className="btn read-more-btn"
+                    className="ct-btn read-more-btn"
                     onClick={() => navigate("/recipes/dinner")}
                     style={{ position: "relative", zIndex: 20 }}
                   >
                     Read More <span className="btn-icon">»</span>
                   </button>
                 ) : i === 1 ? (
-                  // Slide 2 — Desserts
                   <button
                     type="button"
-                    className="btn read-more-btn"
+                    className="ct-btn read-more-btn"
                     onClick={() => navigate("/recipes/desserts")}
                     style={{ position: "relative", zIndex: 20 }}
                   >
                     Read More <span className="btn-icon">»</span>
                   </button>
                 ) : (
-                  <button type="button" className="btn read-more-btn">
+                  <button type="button" className="ct-btn read-more-btn">
                     Read More <span className="btn-icon">»</span>
                   </button>
                 )}
@@ -289,20 +287,21 @@ function Home() {
         </div>
 
         <button
-          className="carousel-control-prev"
+          className="ct-carousel-control-prev"
           aria-label="Previous"
           onClick={prev}
         >
           &lt;
         </button>
         <button
-          className="carousel-control-next"
+          className="ct-carousel-control-next"
           aria-label="Next"
           onClick={next}
         >
           &gt;
         </button>
       </div>
+
 
       <section className="cook">
         <div className="cook-head">
@@ -348,50 +347,49 @@ function Home() {
         {/* Categories bubbles row */}
         <CategoriesRow />
 
-        {/* TRENDING */}
         <div className="trending-container">
-          <h2 className="heading">Trending Now</h2>
-          <div className="row">
-            {[
-              {
-                title: "Buffalo Chicken Tacos",
-                text:
-                  "This weeknight winner is ready in under 20 minutes and is topped with a creamy, crunchy slaw and blue cheese.",
-                img: "BuffaloChickenTacos.jpg",
-              },
-              {
-                title: "Antipasto Salad",
-                text:
-                  "Combine all of the best antipasti with crisp lettuce and savory dressing for a satisfying antipasto salad.",
-                img: "AntipastoSalad.jpg",
-              },
-              {
-                title: "Tiramisu Cake",
-                text:
-                  "This gorgeous two-layer cake is a tiramisu lover's dream. The fluffy mascarpone and Marsala filling uses instant vanilla pudding.",
-                img: "TiramisuCake.jpg",
-              },
-              {
-                title: "Banana Chocolate Chip Muffins",
-                text:
-                  "Turn overripe bananas into crowd-pleasing muffins tender, moist and chocolate-studded.",
-                img: "BananaChocolateMuffins.jpg",
-              },
-            ].map((item, i) => (
-              <div key={i} className="card">
-                <div className="card-body">
-                  <h5 className="card-title">{item.title}</h5>
-                  <p className="card-text">{item.text}</p>
-                </div>
-                <img
-                  src={`/Images/${item.img}`}
-                  alt={item.title}
-                  className="card-img"
-                />
+        <h2 className="heading">Trending Now</h2>
+        <div className="ct-row">
+          {[
+            {
+              title: "Buffalo Chicken Tacos",
+              text:
+                "This weeknight winner is ready in under 20 minutes and is topped with a creamy, crunchy slaw and blue cheese.",
+              img: "BuffaloChickenTacos.jpg",
+            },
+            {
+              title: "Antipasto Salad",
+              text:
+                "Combine all of the best antipasti with crisp lettuce and savory dressing for a satisfying antipasto salad.",
+              img: "AntipastoSalad.jpg",
+            },
+            {
+              title: "Tiramisu Cake",
+              text:
+                "This gorgeous two-layer cake is a tiramisu lover's dream. The fluffy mascarpone and Marsala filling uses instant vanilla pudding.",
+              img: "TiramisuCake.jpg",
+            },
+            {
+              title: "Banana Chocolate Chip Muffins",
+              text:
+                "Turn overripe bananas into crowd-pleasing muffins tender, moist and chocolate-studded.",
+              img: "BananaChocolateMuffins.jpg",
+            },
+          ].map((item, i) => (
+            <div key={i} className="ct-card">
+              <div className="ct-card-body">
+                <h5 className="ct-card-title">{item.title}</h5>
+                <p className="ct-card-text">{item.text}</p>
               </div>
-            ))}
-          </div>
+              <img
+                src={`/Images/${item.img}`}
+                alt={item.title}
+                className="ct-card-img"
+              />
+            </div>
+          ))}
         </div>
+      </div>
 
         {/* HERO */}
         <div className="hero-container">
