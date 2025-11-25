@@ -21,6 +21,7 @@ import Categories from "./pages/Categories";
 import DrinksDash from "./pages/DrinksDash";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
+import Breakfast from "./pages/recipes/breakfast";
 
 export default function App() {
   return (
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/recipes/breakfast" element={<Breakfast />} />
 
           <Route path="/dashboard" element={<Dashboard />}>
             <Route index element={<Overview />} />
@@ -46,6 +48,7 @@ export default function App() {
             <Route path="drinksdash" element={<DrinksDash />} />
             <Route path="users" element={<Users />} />
             <Route path="settings" element={<Settings />} />
+            
           </Route>
         </Route>
       </Routes>
