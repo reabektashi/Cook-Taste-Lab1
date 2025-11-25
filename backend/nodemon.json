@@ -1,5 +1,6 @@
 {
   "watch": ["server.js"],
-  "ignore": ["data/*"],
-  "ext": "js,json"
+  "exec": "node server.js",
+  "ext": "js",
+  "signal": "SIGTERM"
 }

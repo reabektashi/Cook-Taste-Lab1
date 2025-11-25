@@ -7,13 +7,18 @@ import dotenv from "dotenv";
 import mysql from "mysql2/promise";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";   // 👈 NEW
+import crypto from "crypto";  
 
 dotenv.config();
 
-const app = express();
-const PORT = process.env.PORT || 5174;
 
-// ---------- Middleware ----------
+const app = express();
+const PORT = process.env.PORT || 5400;
+
+// ---------- Middleware ---------
+
+
 app.use(
   cors({
     origin: true,          
@@ -22,6 +27,7 @@ app.use(
 );
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(cookieParser());
 
 // ---------- MySQL Pool ----------
 /**
@@ -48,12 +54,18 @@ if (process.env.DATABASE_URL) {
 }
 
 // ---------- Helpers ----------
+// ---------- Helpers ----------
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function signJwt(payload) {
-  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "7d" });
+const ACCESS_TOKEN_EXP = "15m";    // short-lived access token
+const REFRESH_TOKEN_DAYS = 7;      // refresh token lifetime in days
+
+// create access token (JWT)
+function signAccessToken(payload) {
+  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: ACCESS_TOKEN_EXP });
 }
 
+// middleware to protect routes with access token
 function auth(req, res, next) {
   const token = req.headers.authorization?.split(" ")[1];
   if (!token) return res.status(401).json({ error: "no_token" });
@@ -63,6 +75,42 @@ function auth(req, res, next) {
   } catch {
     res.status(401).json({ error: "invalid_token" });
   }
+}
+
+// create random refresh token string
+function createRefreshToken() {
+  return crypto.randomBytes(64).toString("hex");
+}
+
+// save hashed refresh token into DB
+async function saveRefreshToken(userId, refreshToken) {
+  const hash = await bcrypt.hash(refreshToken, 10);
+  const expiresAt = new Date();
+  expiresAt.setDate(expiresAt.getDate() + REFRESH_TOKEN_DAYS);
+
+  await pool.query(
+    "INSERT INTO refresh_tokens (user_id, token_hash, expires_at) VALUES (?, ?, ?)",
+    [userId, hash, expiresAt]
+  );
+}
+
+// delete all refresh tokens for a user (logout or rotation)
+async function deleteUserRefreshTokens(userId) {
+  await pool.query("DELETE FROM refresh_tokens WHERE user_id = ?", [userId]);
+}
+
+// check if the provided refresh token is valid for that user
+async function findValidRefreshToken(userId, refreshToken) {
+  const [rows] = await pool.query(
+    "SELECT * FROM refresh_tokens WHERE user_id = ? AND expires_at > NOW()",
+    [userId]
+  );
+
+  for (const row of rows) {
+    const ok = await bcrypt.compare(refreshToken, row.token_hash);
+    if (ok) return row;
+  }
+  return null;
 }
 
 // ---------- SMTP (optional) ----------
@@ -100,27 +148,129 @@ app.post("/api/register", async (req, res) => {
       "INSERT INTO users (email, password_hash) VALUES (?, ?)",
       [email, hash]
     );
+
     const user = { id: result.insertId, email, user_role: "user" };
-    const token = signJwt(user);
-    res.json({ token, user });
+
+    // 1) short-lived access token
+    const accessToken = signAccessToken(user);
+
+    // 2) long-lived refresh token (cookie)
+    const refreshToken = createRefreshToken();
+    await deleteUserRefreshTokens(user.id);       // remove old ones (just in case)
+    await saveRefreshToken(user.id, refreshToken);
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false, // set to true when you deploy with HTTPS
+      maxAge: REFRESH_TOKEN_DAYS * 24 * 60 * 60 * 1000,
+    });
+
+    // keep response shape similar: token + user
+    res.json({ token: accessToken, user });
   } catch (err) {
     console.error("register error:", err);
     res.status(400).json({ error: "email_exists" });
   }
 });
 
+
 app.post("/api/login", async (req, res) => {
   const { email, password } = req.body || {};
-  const [rows] = await pool.query("SELECT * FROM users WHERE email = ?", [email]);
-  const u = rows[0];
-  if (!u) return res.status(401).json({ error: "invalid_credentials" });
 
-  const ok = await bcrypt.compare(password, u.password_hash);
-  if (!ok) return res.status(401).json({ error: "invalid_credentials" });
+  try {
+    const [rows] = await pool.query("SELECT * FROM users WHERE email = ?", [email]);
+    const u = rows[0];
+    if (!u) return res.status(401).json({ error: "invalid_credentials" });
 
-  const token = signJwt({ id: u.id, email: u.email, user_role: u.user_role });
-  res.json({ token, user: { id: u.id, email: u.email, user_role: u.user_role } });
+    const ok = await bcrypt.compare(password, u.password_hash);
+    if (!ok) return res.status(401).json({ error: "invalid_credentials" });
+
+    const userPayload = { id: u.id, email: u.email, user_role: u.user_role };
+
+    // 1) short-lived access token
+    const accessToken = signAccessToken(userPayload);
+
+    // 2) refresh token in DB + cookie
+    const refreshToken = createRefreshToken();
+    await deleteUserRefreshTokens(u.id);
+    await saveRefreshToken(u.id, refreshToken);
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false,
+      maxAge: REFRESH_TOKEN_DAYS * 24 * 60 * 60 * 1000,
+    });
+
+    res.json({
+      token: accessToken,
+      user: { id: u.id, email: u.email, user_role: u.user_role },
+    });
+  } catch (err) {
+    console.error("login error:", err);
+    res.status(500).json({ error: "server_error" });
+  }
 });
+// Issue new access token using refresh token cookie
+app.post("/api/refresh", async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  const { userId } = req.body || {};
+
+  if (!refreshToken) return res.status(401).json({ error: "no_refresh_token" });
+  if (!userId) return res.status(400).json({ error: "missing_userId" });
+
+  try {
+    const record = await findValidRefreshToken(userId, refreshToken);
+    if (!record) return res.status(401).json({ error: "invalid_refresh_token" });
+
+    const [rows] = await pool.query("SELECT * FROM users WHERE id = ?", [userId]);
+    const u = rows[0];
+    if (!u) return res.status(401).json({ error: "user_not_found" });
+
+    const userPayload = { id: u.id, email: u.email, user_role: u.user_role };
+    const newAccessToken = signAccessToken(userPayload);
+
+    // rotate refresh token
+    const newRefreshToken = createRefreshToken();
+    await deleteUserRefreshTokens(u.id);
+    await saveRefreshToken(u.id, newRefreshToken);
+
+    res.cookie("refreshToken", newRefreshToken, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false,
+      maxAge: REFRESH_TOKEN_DAYS * 24 * 60 * 60 * 1000,
+    });
+
+    res.json({ token: newAccessToken });
+  } catch (err) {
+    console.error("POST /api/refresh error:", err);
+    res.status(500).json({ error: "server_error" });
+  }
+});
+// Logout: clear refresh tokens and cookie
+app.post("/api/logout", async (req, res) => {
+  const { userId } = req.body || {};
+
+  try {
+    if (userId) {
+      await deleteUserRefreshTokens(userId);
+    }
+
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false,
+    });
+
+    res.json({ ok: true });
+  } catch (err) {
+    console.error("POST /api/logout error:", err);
+    res.status(500).json({ error: "server_error" });
+  }
+});
+
 
 // ===================== FAVORITES API ===================== //
 

@@ -70,7 +70,7 @@ function Layout() {
 
             {/* Logout OR Login */}
             {localStorage.getItem("role") ? (
-            <Link to="/logout" title="Logout" style={{ fontSize: "20px" }} className="nav-link logout-icon">
+            <Link to="/logout" title="Logout" style={{ fontSize: "20px" }} className="ct-nav-link logout-icon">
             <FaSignOutAlt />
            </Link>
 
