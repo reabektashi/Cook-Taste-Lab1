@@ -2070,21 +2070,30 @@ box-sizing: border-box;
 }
 
 /* Bigger button text + a touch more padding */
-.hero-btn{
- display: inline-block;   /* jo më block */
-  width: 200px;             /* gjerësia sipas tekstit */
-  margin-left: 130px ;
-  padding: 10px 15px;
-  background: transparent;
+
+/* Remove underline from ALL custom buttons */
+.hero-btn,
+.ct-btn {
+  text-decoration: none !important;
   border: 2px solid white;
-  border-radius: 20px;
+  padding: 12px 28px;         /* match home read-more button */
+  border-radius: 30px;        /* match home style */
+  font-size: 1.05rem;         /* same text size */
+  font-weight: 600;           
   color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;                   /* spacing between text and » */
   cursor: pointer;
-  margin-top: 15px;
-  font-weight: 600;          /* teksti më i trashë */
-  text-align: center;
-  transition: all 0.3s ease; /* animacion smooth */
-  
+}
+.hero-btn .btn-icon,
+.ct-btn .btn-icon {
+  text-decoration: none !important;
+}
+.hero-btn:hover,
+.ct-btn:hover {
+  text-decoration: none !important;
+  opacity: 0.85;
 }
 
 

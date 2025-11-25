@@ -45,7 +45,9 @@ function Drinks() {
           <p className="hero-sub">
             Cocktails, smoothies, teas & more to quench your thirst.
           </p>
-          <a className="hero-btn" href="#categories">Explore Recipes  <span className="btn-icon">»</span></a>
+          <a className="hero-btn" href="#categories">
+            Explore Recipes <span className="btn-icon">»</span>
+          </a>
         </div>
       </header>
 
@@ -62,77 +64,103 @@ function Drinks() {
         </div>
       </section>
 
-    {/* EDITORIAL GRID */}
-<section className="ed-dark">
-  <div className="editorial">
-    <div className="ed-grid left-feature">
-      {/* Feature (left) */}
-      <article className="ed-feature ed-d has-image">
-        <div className="ed-feature-media">
-          <img
-            src="/Images/balance.png"
-            alt="Balancing a cocktail with citrus and syrup"
-            loading="lazy"
-          />
+      {/* EDITORIAL GRID */}
+      <section className="ed-dark">
+        <div className="editorial">
+          <div className="ed-grid left-feature">
+            {/* Feature (left) */}
+            <article className="ed-feature ed-d has-image">
+              <div className="ed-feature-media">
+                <img
+                  src="/Images/balance.png"
+                  alt="Balancing a cocktail with citrus and syrup"
+                  loading="lazy"
+                />
+              </div>
+
+              <div className="ed-feature-body">
+                <span className="ed-tag">COCKTAIL BASICS</span>
+                <h3 className="ed-title">How to Balance a Drink Like a Pro</h3>
+                <p className="ed-excerpt">
+                  Master the 2:1:1 rule (spirit : sour : sweet), then adjust bitterness and
+                  dilution for bar-quality cocktails at home.
+                </p>
+                <a className="ed-link" href="/guides/balance-a-drink">
+                  Read more →
+                </a>
+              </div>
+            </article>
+
+            {/* Right images */}
+            <a
+              className="ed-img ed-a"
+              href="/drinks/cocktails"
+              aria-label="Blue Lagoon"
+            >
+              <img
+                src="/Images/bluelagoon.png"
+                alt="Blue Lagoon cocktail"
+                loading="lazy"
+              />
+            </a>
+
+            <a
+              className="ed-img ed-b"
+              href="/drinks/coffee"
+              aria-label="Coffee"
+            >
+              <img
+                src="/Images/coffee.png"
+                alt="Iced coffee"
+                loading="lazy"
+              />
+            </a>
+
+            {/* Right tall tile as VIDEO */}
+            <a
+              className="ed-img ed-c"
+              href="/drinks/iced-tea"
+              aria-label="Watch: Peach iced tea"
+            >
+              <video
+                className="ed-media"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster="/Images/big.jpg"
+              >
+                <source src="/Images/big.mp4" type="video/mp4" />
+                {/* <source src="/Images/big.webm" type="video/webm" /> */}
+                Sorry, your browser doesn’t support embedded videos.
+              </video>
+            </a>
+          </div>
         </div>
+      </section>
 
-        <div className="ed-feature-body">
-          <span className="ed-tag">COCKTAIL BASICS</span>
-          <h3 className="ed-title">How to Balance a Drink Like a Pro</h3>
-          <p className="ed-excerpt">
-            Master the 2:1:1 rule (spirit : sour : sweet), then adjust bitterness and
-            dilution for bar-quality cocktails at home.
-          </p>
-          <a className="ed-link" href="/guides/balance-a-drink">Read more →</a>
-        </div>
-      </article>
-
-      {/* Right images */}
-      <a className="ed-img ed-a" href="/drinks/cocktails" aria-label="Blue Lagoon">
-        <img src="/Images/bluelagoon.png" alt="Blue Lagoon cocktail" loading="lazy" />
-      </a>
-
-      <a className="ed-img ed-b" href="/drinks/coffee" aria-label="Coffee">
-        <img src="/Images/coffee.png" alt="Iced coffee" loading="lazy" />
-      </a>
-
-      {/* Right tall tile as VIDEO (file kept under /Images) */}
-      <a className="ed-img ed-c" href="/drinks/iced-tea" aria-label="Watch: Peach iced tea">
-        <video
-          className="ed-media"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster="/Images/big.jpg"
-        >
-          <source src="/Images/big.mp4" type="video/mp4" />
-          {/* <source src="/Images/big.webm" type="video/webm" /> */}
-          Sorry, your browser doesn’t support embedded videos.
-        </video>
-      </a>
-    </div>
-  </div>
-</section>
-
-      {/* TOP RATED — now directly AFTER editorial */}
+      {/* TOP RATED */}
       <section className="trending-container section-gap" id="top-rated">
         <h2 className="heading">TOP RATED DRINKS</h2>
-        <div className="row">
+        <div className="ct-row">
           {trending.map((d, i) => (
-            <div key={i} className="card drink-card">
-              <img src={d.img} alt={d.title} className="card-img" />
-              <div className="card-body">
-                <h5 className="card-title">{d.title}</h5>
-                <p className="card-text">{d.text}</p>
+            <div key={i} className="drink-card">
+              <img
+                src={d.img}
+                alt={d.title}
+                className="ct-card-img drink-card-img"
+              />
+              <div className="drink-card-body">
+                <h5 className="drink-card-title">{d.title}</h5>
+                <p className="drink-card-text">{d.text}</p>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* PROMO BANNER (video background) */}
+      {/* PROMO BANNER */}
       <section className="promo has-video">
         <div className="promo-media">
           <video autoPlay muted loop playsInline preload="metadata">
@@ -143,73 +171,71 @@ function Drinks() {
         <div className="promo-text">
           <h3>Try Something New</h3>
           <p>Five-minute spritzes & sunny sips.</p>
-          <a className="btn" href="#top-rated">See Recipes <span className="btn-icon">»</span></a>
+          <a className="ct-btn" href="#top-rated">
+            See Recipes <span className="btn-icon">»</span>
+          </a>
         </div>
       </section>
 
-    {/* ===== Feature Tiles (9 cards) ===== */}
-<section className="ft section-gap">
-  <h2 className="section-title">SEASONAL PICKS</h2>
+      {/* SEASONAL PICKS */}
+      <section className="ft section-gap">
+        <h2 className="section-title">SEASONAL PICKS</h2>
 
-  <div className="ft-grid">
-    {[
-      {
-        title: "Cocktails",
-        img: "/Images/limon.png",
-        href: "/drinks/cocktails",
-      },
-      {
-        title: "Blue Cocktail",
-        img: "/Images/blue.png",
-        href: "/drinks/tea",
-      },
-      {
-        title: "Iced Vietnamese Coffee",
-        img: "/Images/Iced Vietnamese Coffee.png",
-        href: "/drinks/smoothies",
-      },
-      {
-        title: "Pineapple Coconut Colada",
-        img: "/Images/Pineapple Coconut Colada.png",
-        href: "/drinks/mocktails",
-      },
-      {
-        title: "Cucumber Mint Spa Water",
-        img: "/Images/Cucumber Mint Spa Water.png",
-        href: "/drinks/coffee",
-      },
-      {
-        title: "Grapefruit Paloma",
-        img: "/Images/Grapefruit Paloma.png",
-        href: "/drinks/juices",
-      },
-
-      
-      {
-        title: "Mango Pineapple Smoothie",
-        img: "/Images/Mango Pineapple Smoothie.png",
-        href: "/drinks/smoothies",
-      },
-      {
-        title: "Mixed Berry Smoothie",
-        img: "/Images/Mixed Berry Smoothie.png",
-        href: "/drinks/smoothies",
-      },
-      {
-        title: "Green Detox Smoothie",
-        img: "/Images/Green Detox Smoothie.png",
-        href: "/drinks/smoothies",
-      },
-    ].map((t, i) => (
-      <a key={i} className="ft-card" href={t.href}>
-        <img className="ft-img" src={t.img} alt={t.title} />
-        <h3 className="ft-title">{t.title}</h3>
-      </a>
-    ))}
-  </div>
-</section>
-
-
+        <div className="ft-grid">
+          {[
+            {
+              title: "Cocktails",
+              img: "/Images/limon.png",
+              href: "/drinks/cocktails",
+            },
+            {
+              title: "Blue Cocktail",
+              img: "/Images/blue.png",
+              href: "/drinks/tea",
+            },
+            {
+              title: "Iced Vietnamese Coffee",
+              img: "/Images/Iced Vietnamese Coffee.png",
+              href: "/drinks/smoothies",
+            },
+            {
+              title: "Pineapple Coconut Colada",
+              img: "/Images/Pineapple Coconut Colada.png",
+              href: "/drinks/mocktails",
+            },
+            {
+              title: "Cucumber Mint Spa Water",
+              img: "/Images/Cucumber Mint Spa Water.png",
+              href: "/drinks/coffee",
+            },
+            {
+              title: "Grapefruit Paloma",
+              img: "/Images/Grapefruit Paloma.png",
+              href: "/drinks/juices",
+            },
+            {
+              title: "Mango Pineapple Smoothie",
+              img: "/Images/Mango Pineapple Smoothie.png",
+              href: "/drinks/smoothies",
+            },
+            {
+              title: "Mixed Berry Smoothie",
+              img: "/Images/Mixed Berry Smoothie.png",
+              href: "/drinks/smoothies",
+            },
+            {
+              title: "Green Detox Smoothie",
+              img: "/Images/Green Detox Smoothie.png",
+              href: "/drinks/smoothies",
+            },
+          ].map((t, i) => (
+            <a key={i} className="ft-card" href={t.href}>
+              <img className="ft-img" src={t.img} alt={t.title} />
+              <h3 className="ft-title">{t.title}</h3>
+            </a>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
