@@ -8,8 +8,7 @@ import Register from "./pages/register";
 import SearchResults from "./pages/SearchResults";
 import Drinks from "./pages/Drinks";
 import Favorites from "./pages/Favorites";
-import Desserts from "./pages/Recipes/dessert";
-import Dinner from "./pages/Recipes/dinner";
+import Desserts from "./pages/recipes/desserts";
 import AboutUs from "./pages/aboutus";
 import Logout from "./pages/logout";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -23,6 +22,8 @@ import Users from "./pages/Users";
 import Settings from "./pages/Settings";
 import Breakfast from "./pages/recipes/breakfast";
 import Lunch from "./pages/recipes/lunch";
+import Dinner from "./pages/recipes/dinner";
+import Appetizers from "./pages/recipes/appetizers";
 
 export default function App() {
   return (
@@ -42,6 +43,8 @@ export default function App() {
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/recipes/breakfast" element={<Breakfast />} />
           <Route path="/recipes/lunch" element={<Lunch />} />
+          <Route path="/recipes/dinner" element={<Dinner />} />
+          <Route path="/recipes/appetizers" element={<Appetizers />} />
 
           <Route path="/dashboard" element={<Dashboard />}>
             <Route index element={<Overview />} />

@@ -2,72 +2,74 @@ import React, { useState, useEffect } from "react";
 import { FaHeart, FaRegHeart, FaRegClock, FaStar } from "react-icons/fa";
 import API from "../../api";
 
-const dinnerRecipes = [
+const dessertsRecipes = [
   {
     id: 1,
-    tag: "DINNER",
-    title:"Meatloaf Muffins Are a Dinner My Whole Family Can Agree On",
-    time: "55 mins",
-    img: "/Images/meatloaf.webp",
-    href: "/recipes/meat-loaf",
+    tag: "DESSERTS",
+    title:"2-Ingredient Cherry Cobbler I Make Every Saturday ",
+    time: "30 mins",
+    img: "/Images/cherrycobbler.webp",
+    href: "/recipes/cherry-cobbler-Recipe",
     rating: 4.5,
   },
   {
     id: 2,
-    tag: "DINNER",
-    title: "My Loaded Chicken Breasts Are Ready In 15 Minutes Flat" ,
-    time: "20 mins",
-    img: "/Images/loadedchickenbreasts.webp",
-    href: "/recipes/loaded-chicken-breasts",
+    tag: "DESSERTS",
+    title: "I Make This Easy Red Velvet Cake Every Year for Passovered" ,
+    time: "60 mins",
+    img: "/Images/Red-Velvet-Cake.jpg",
+    href: "/recipes/Red-Velvet-Cake-Recipe",
     rating: 4.2,
   },
   {
     id: 3,
-    tag: "DINNER",
-    title:"This Irish Potato Casserole Is the Ultimate Comfort Food",
-    time: "80 mins",
-    img: "/Images/irishpatato.webp",
-    href: "/recipes/irish-patato",
+    tag: "DESSERTS",
+    title:"These 4-Ingredient Cake Pops Take 30 Minutes to Make",
+    time: "40 mins",
+    img: "/Images/Cake-Pops.jpg",
+    href: "/recipes/Cake-Pops-Recipe",
     rating: 3.5,
   },
   {
     id: 4,
-    tag: "DINNER",
-    title: "My Grandma Judy’s Matzo Ball Soup Tastes Like Home",
+    tag: "DESSERTS",
+    title: "The Easy Oreo-Cheesecake Anyone Can Make ",
     time: "60 mins",
-    img: "/Images/grandmasmatzoball.webp",
-    href: "/recipes/grandmas-matzo-ball",
+    img: "/Images/Oreo-Cheesecake.jpg",
+    href: "/recipes/Oreo-Cheesecake-Recipe",
     rating: 5.0,
   },
   {
     id: 5,
-    tag: "DINNER",
-    title: "I Make My 2-Ingredient Caesar Salmon On Busy Weeknights",
-    time: "15 mins",
-    img: "/Images/caesarsalmonrecipe.webp",
-    href: "/recipes/caesar-salmon-recipe",
+    tag: "DESSERTS",
+    title: "The best Pumpkin Chocolate Chip Muffins",
+    time: "65 mins",
+    img: "/Images/Chocolate-Pumpkin-Muffins.jpg",
+    href: "/recipesChocolate-Pumpkin-Muffins-recipe",
     rating: 4.6,
   },
   {
     
     id: 6,
-    tag: "DINNER",
-    title: "My Favorite 5-Ingredient Dinner Couldn’t Be Easier",
-    time: "2 hours",
-    img: "/Images/fetatomatostuffedspaghetti.webp",
-    href: "/recipes/feta-tomato-stuffed-spaghetti",
+    tag: "DESSERTS",
+    title: "The Easy Chocolate Pudding Cake I Make on Repeat ",
+    time: "45 mins",
+    img: "/Images/Chocolate-Pudding-Cake.jpg",
+    href: "/recipes/Chocolate-Pudding-Cake-Recipe",
     rating: 4.6,
   },
 ];
 
-const Dinner = () => {
+const Desserts = () => {
+  
+  
   // local like state
   const [liked, setLiked] = useState({});
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   // load likes once
   useEffect(() => {
-    const stored = localStorage.getItem("dinnerLikes");
+    const stored = localStorage.getItem("dessertsLikes");
     if (stored) {
       setLiked(JSON.parse(stored));
     }
@@ -87,7 +89,7 @@ const Dinner = () => {
     // logjika ekzistuese – update local state + localStorage
     setLiked((prev) => {
       const updated = { ...prev, [recipe.id]: !prev[recipe.id] };
-      localStorage.setItem("dinnerLikes", JSON.stringify(updated));
+      localStorage.setItem("dessertsLikes", JSON.stringify(updated));
       return updated;
     });
 
@@ -139,20 +141,23 @@ const Dinner = () => {
     ));
 
   return (
+
+
+    
     // Bootstrap + your custom classes
-    <section className="dinner section-gap py-5">
+    <section className="desserts section-gap py-5">
       {/* Header – like your home Simply Recipes block */}
       <div className="bk-head d-flex justify-content-center mb-4">
-        <h2 className="bk-title display-5 fw-bold ">Dinner Recipes</h2>
+        <h2 className="bk-title display-5 fw-bold ">Desserts Recipes</h2>
         <a
           className="bk-more fs-2 text-decoration-none"
-          href="/recipes?tag=dinner"
+          href="/recipes?tag=desserts"
         ></a>
       </div>
 
       <div className="container px-4 bg-transparent">
         <div className="row g-5 justify-content-center">
-          {dinnerRecipes.map((r) => (
+          {dessertsRecipes.map((r) => (
             <div key={r.id} className="col-md-4 d-flex">
               <article
                 className="wk-card bg-white shadow-sm rounded-4 overflow-hidden"
@@ -265,4 +270,4 @@ const Dinner = () => {
   );
 };
 
-export default Dinner;
+export default Desserts;
