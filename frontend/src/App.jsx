@@ -22,6 +22,7 @@ import DrinksDash from "./pages/DrinksDash";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
 import Breakfast from "./pages/recipes/breakfast";
+import Lunch from "./pages/recipes/lunch";
 
 export default function App() {
   return (
@@ -40,6 +41,7 @@ export default function App() {
           <Route path="/logout" element={<Logout />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/recipes/breakfast" element={<Breakfast />} />
+          <Route path="/recipes/lunch" element={<Lunch />} />
 
           <Route path="/dashboard" element={<Dashboard />}>
             <Route index element={<Overview />} />

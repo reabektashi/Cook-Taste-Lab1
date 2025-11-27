@@ -2,72 +2,71 @@ import React, { useState, useEffect } from "react";
 import { FaHeart, FaRegHeart, FaRegClock, FaStar } from "react-icons/fa";
 import API from "../../api";
 
-const breakfastRecipes = [
+const lunchRecipes = [
   {
     id: 1,
-    tag: "BREAKFAST",
-    title: "The One-Pot Persian Recipe I Make for Breakfast, Lunch, and Dinner" ,
+    tag: "LUNCH",
+    title:"Menemen (Turkish Scrambled Eggs and Tomatoes)",
     time: "40 mins",
-    img: "/Images/Persian Recipe.webp",
-    href: "/recipes/one-pot-persian",
+    img: "/Images/menemen.webp",
+    href: "/recipes/menemen- turkish",
     rating: 4.5,
   },
   {
     id: 2,
-    tag: "BREAKFAST",
-    title:"Forget Tomato Sandwiches—Make This Tomato Ricotta Toast Instead",
-    time: "9 mins",
-    img: "/Images/Tomato.webp",
-    href: "/recipes/tomato-ricotta-toast",
-    rating: 4.7,
+    tag: "LUNCH",
+    title: "Turn a Simple Baked Potato Into a Memorable Dinner" ,
+    time: "70 mins",
+    img: "/Images/bakedpatato.webp",
+    href: "/recipes/baked-patato",
+    rating: 4.2,
   },
   {
     id: 3,
-    tag: "BREAKFAST",
-    title: "The 4-Ingredient Breakfast I Eat Almost Every Day",
-    time: "10 mins",
-    img: "/Images/HamnCheese.webp",
-    href: "/recipes/ham-cheese",
-    rating: 3.6,
+    tag: "LUNCH",
+    title: "Tortilla Española (Spanish Tortilla)",
+    time: "35 mins",
+    img: "/Images/spanishtortilla.webp",
+    href: "/recipes/spanish-tortilla",
+    rating: 4.6,
   },
   {
     id: 4,
-    tag: "BREAKFAST",
-    title: "2-Ingredient Banana Pancakes Recipe",
-    time: "13 mins",
-    img: "/Images/bananapancake.webp",
-    href: "/recipes/banana-pancake",
+    tag: "LUNCH",
+    title: "The 15-Minute Mediterranean-Inspired Meal I Make Once a Week",
+    time: "15 mins",
+    img: "/Images/tunabread.webp",
+    href: "/recipes/tuna-bread",
     rating: 5.0,
   },
   {
     id: 5,
-    tag: "BREAKFAST",
-    title: "Bircher Muesli Recipe",
-    time: "15 mins",
-    img: "/Images/BircherMuesli.webp",
-    href: "/recipes/bircher-uesli",
+    tag: "LUNCH",
+    title: "Potato Knishes",
+    time: "2 hours",
+    img: "/Images/patatoknishes.webp",
+    href: "/recipes/patato-knishes",
     rating: 4.6,
   },
   {
     id: 6,
-    tag: "BREAKFAST",
-    title:
-      "Make-Ahead Frittata Squares with Spinach, Tomatoes, and Feta",
-    time: "60 mins",
-    img: "/Images/frittatasquares.webp",
-    href: "/recipes/frittata-squares",
-    rating: 5.0,
+    tag: "LUNCH",
+    title:"The 3-Ingredient Egg Salad I Make Every Week",
+    time: "20 mins",
+    img: "/Images/eggssalad.webp",
+    href: "/recipes/egg-salad",
+    rating: 3.5,
   },
 ];
 
-const Breakfast = () => {
+const Lunch = () => {
   // local like state
   const [liked, setLiked] = useState({});
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   // load likes once
   useEffect(() => {
-    const stored = localStorage.getItem("breakfastLikes");
+    const stored = localStorage.getItem("lunchLikes");
     if (stored) {
       setLiked(JSON.parse(stored));
     }
@@ -87,7 +86,7 @@ const Breakfast = () => {
     // logjika ekzistuese – update local state + localStorage
     setLiked((prev) => {
       const updated = { ...prev, [recipe.id]: !prev[recipe.id] };
-      localStorage.setItem("breakfastLikes", JSON.stringify(updated));
+      localStorage.setItem("lunchLikes", JSON.stringify(updated));
       return updated;
     });
 
@@ -140,19 +139,19 @@ const Breakfast = () => {
 
   return (
     // Bootstrap + your custom classes
-    <section className="breakfast section-gap py-5">
+    <section className="lunch section-gap py-5">
       {/* Header – like your home Simply Recipes block */}
       <div className="bk-head d-flex justify-content-center mb-4">
-        <h2 className="bk-title display-5 fw-bold ">Breakfast Recipes</h2>
+        <h2 className="bk-title display-5 fw-bold ">Lunch Recipes</h2>
         <a
           className="bk-more fs-2 text-decoration-none"
-          href="/recipes?tag=breakfast"
+          href="/recipes?tag=lunch"
         ></a>
       </div>
 
       <div className="container px-4 bg-transparent">
         <div className="row g-5 justify-content-center">
-          {breakfastRecipes.map((r) => (
+          {lunchRecipes.map((r) => (
             <div key={r.id} className="col-md-4 d-flex">
               <article
                 className="wk-card bg-white shadow-sm rounded-4 overflow-hidden"
@@ -265,4 +264,4 @@ const Breakfast = () => {
   );
 };
 
-export default Breakfast;
+export default Lunch;
