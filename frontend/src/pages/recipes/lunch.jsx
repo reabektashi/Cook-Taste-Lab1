@@ -58,6 +58,33 @@ const lunchRecipes = [
     href: "/recipes/egg-salad",
     rating: 3.5,
   },
+  {
+    id:4007,
+    tag: "LUNCH",
+    title: "The 15-Minute Mediterranean-Inspired Meal I Make Once a Week",
+    time: "6 mins",
+    img: "/Images/tuna-rice-bowl.webp",
+    href: "/recipes/tuna-rice-bowl",
+    rating: 5.0,
+  },
+  {
+    id: 4008,
+    tag: "LUNCH",
+    title: "For the Best Pasta Salad, Make It Cowboy-Style",
+    time: "40 mins",
+    img: "/Images/pastasalad.webp",
+    href: "/recipes/pastasalad",
+    rating: 4.6,
+  },
+  {
+    id: 4009,
+    tag: "LUNCH",
+    title: "Tteokbokki (Spicy Korean Rice Cakes)",
+    time: "30 mins",
+    img: "/Images/teokbokki.webp",
+    href: "/recipes/teokbokki",
+    rating: 3.5,
+  }
 ];
 
 const Lunch = () => {

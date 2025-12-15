@@ -22,8 +22,9 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 1rem 2rem;
   width: 100%;
-  position: relative; 
-  z-index: 10;
+  position: sticky;
+  top: 0;              /* ✅ KJO e bon sticky me punu */
+  z-index: 2000;
 }
 .ct-navbar-container {
   display: flex;
@@ -51,7 +52,10 @@ body {
 .ct-navbar-nav {
   display: flex;
   list-style: none;
-  margin-left: 20px; 
+  margin: 0;           /* ✅ mos e le me i prish spacing */
+  padding: 0;          /* ✅ */
+  margin-left: 20px;
+  align-items: center; 
 }
 
 .ct-navbar-nav .ct-nav-link {

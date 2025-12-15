@@ -46,7 +46,7 @@ const dessertsRecipes = [
     title: "The best Pumpkin Chocolate Chip Muffins",
     time: "65 mins",
     img: "/Images/Chocolate-Pumpkin-Muffins.jpg",
-    href: "/recipesChocolate-Pumpkin-Muffins-recipe",
+    href: "/recipes/Chocolate-Pumpkin-Muffins-recipe",
     rating: 4.6,
   },
   {
@@ -58,6 +58,33 @@ const dessertsRecipes = [
     href: "/recipes/Chocolate-Pudding-Cake-Recipe",
     rating: 4.6,
   },
+  {
+    id: 2007,
+    tag: "DESSERTS",
+    title: "Chocolate Delight",
+    time: "30 mins",
+    img: "/Images/ChocolateDelight.webp",
+    href: "/recipes/ChocolateDelight",
+    rating: 5.0,
+  },
+  {
+    id: 2008,
+    tag: "DESSERTS",
+    title: "This 200-Year-Old Summer Dessert Is Just as Delicious Today",
+    time: "45 mins",
+    img: "/Images/Peach-Brown-Betty.webp",
+    href: "/recipes/Peach-Brown-Betty",
+    rating: 4.6,
+  },
+  {
+    id: 2009,
+    tag: "DESSERTS",
+    title: "This 3-Ingredient British Dessert Looks Fancy But Is So Easy To Make",
+    time: "45 mins",
+    img: "/Images/pudding-summer.webp",
+    href: "/recipes/pudding-summer-Recipe",
+    rating: 4.6,
+  }
 ];
 
 const Desserts = () => {

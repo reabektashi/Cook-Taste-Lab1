@@ -48,7 +48,7 @@ const breakfastRecipes = [
     img: "/Images/BircherMuesli.webp",
     href: "/recipes/bircher-uesli",
     rating: 4.6,
-  },
+  }, 
   {
     id: 1006,
     tag: "BREAKFAST",
@@ -58,6 +58,32 @@ const breakfastRecipes = [
     href: "/recipes/frittata-squares",
     rating: 5.0,
   },
+  {
+    id: 1007,
+    tag: "BREAKFAST",
+    title: "My Dutch Baby Recipe Is Totally Foolproof—I Make It Every Weekend",
+    time: "45 mins",
+    img: "/Images/Dutchbaby.webp",
+    href: "/recipes/Dutchbaby",
+    rating: 5.0,
+  },{
+    id: 1008,
+    tag: "BREAKFAST",
+    title: "Turn Your Leftover Mashed Potatoes Into Irish Boxty",
+    time: "34 mins",
+    img: "/Images/irishbreakfast.webp",
+    href: "/recipes/irishbreakfast",
+    rating: 5.0,
+  },
+  {
+    id: 1009,
+    tag: "BREAKFAST",
+    title: "My New Favorite Dessert Is Just 3 Ingredients and Takes 5 Minutes To Make",
+    time: "15 mins",
+    img: "/Images/koreantoast.webp",
+    href: "/recipes/koreantoast",
+    rating: 4.6,
+  }
 ];
 
 const Breakfast = () => {

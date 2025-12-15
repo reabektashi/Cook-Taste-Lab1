@@ -58,6 +58,33 @@ const appetizersRecipes = [
     href: "/recipes/grilled-feta-stuffed-peppers-recipe",
     rating: 3.5,
   },
+   {
+    id: 5007,
+    tag: "APPETIZERS",
+    title: "The 4-Ingredient Zucchini Dip My Whole Family Loves",
+    time: "25 mins",
+    img: "/Images/zucchinidip.webp",
+    href: "/recipes/zucchinidip",
+    rating: 5.0,
+  },
+  {
+    id: 5008,
+    tag: "APPETIZERS",
+    title: "The 2-Ingredient Chicken Wings You Need To Make",
+    time: "35 mins",
+    img: "/Images/chickenwings.webp",
+    href: "/recipes/chickenwings",
+    rating: 4.2,
+  },
+  {
+    id: 5009,
+    tag: "APPETIZERS",
+    title: "The Easy Appetizer I Make Every Game Day",
+    time: "60 mins",
+    img: "/Images/burgera.webp",
+    href: "/recipes/burgera",
+    rating: 3.5,
+  }
 ];
 
 const Appetizers = () => {

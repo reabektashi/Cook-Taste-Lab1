@@ -58,6 +58,33 @@ const dinnerRecipes = [
     href: "/recipes/feta-tomato-stuffed-spaghetti",
     rating: 4.6,
   },
+  {
+    id: 3007,
+    tag: "DINNER",
+    title: "The 15-Minute Dinner I Make All Summer Long",
+    time: "15 mins",
+    img: "/Images/shrimpbowl.webp",
+    href: "/recipes/shrimpbowl",
+    rating: 5.0,
+  },
+  {
+    id: 3008,
+    tag: "DINNER",
+    title: "My Mom’s Korean Curry Rice Is My Favorite Comfort Food",
+    time: "75 mins",
+    img: "/Images/curry-rice.webp",
+    href: "/recipes/curry-rice",
+    rating: 4.6,
+  },
+  {
+    id: 3009,
+    tag: "DINNER",
+    title: "The 20-Minute Dinner I’ll Be Making All Summer Longr",
+    time: "20 mins",
+    img: "/Images/lemonrissoto.webp",
+    href: "/recipes/lemonrissoto",
+    rating: 4.6,
+  }
 ];
 
 const Dinner = () => {
