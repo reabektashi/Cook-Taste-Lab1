@@ -1,37 +1,38 @@
 import React, { useState, useEffect } from "react";
 import { FaHeart, FaRegHeart, FaRegClock, FaStar } from "react-icons/fa";
 import API from "../../api";
+import { useNavigate } from "react-router-dom"; // kept for consistency
 
 const dinnerRecipes = [
   {
-    id: 1,
+    id: 3001,
     tag: "DINNER",
-    title:"Meatloaf Muffins Are a Dinner My Whole Family Can Agree On",
+    title: "Meatloaf Muffins Are a Dinner My Whole Family Can Agree On",
     time: "55 mins",
     img: "/Images/meatloaf.webp",
     href: "/recipes/meat-loaf",
     rating: 4.5,
   },
   {
-    id: 2,
+    id: 3002,
     tag: "DINNER",
-    title: "My Loaded Chicken Breasts Are Ready In 15 Minutes Flat" ,
+    title: "My Loaded Chicken Breasts Are Ready In 15 Minutes Flat",
     time: "20 mins",
     img: "/Images/loadedchickenbreasts.webp",
     href: "/recipes/loaded-chicken-breasts",
     rating: 4.2,
   },
   {
-    id: 3,
+    id: 3003,
     tag: "DINNER",
-    title:"This Irish Potato Casserole Is the Ultimate Comfort Food",
+    title: "This Irish Potato Casserole Is the Ultimate Comfort Food",
     time: "80 mins",
     img: "/Images/irishpatato.webp",
     href: "/recipes/irish-patato",
     rating: 3.5,
   },
   {
-    id: 4,
+    id: 3004,
     tag: "DINNER",
     title: "My Grandma Judy’s Matzo Ball Soup Tastes Like Home",
     time: "60 mins",
@@ -40,7 +41,7 @@ const dinnerRecipes = [
     rating: 5.0,
   },
   {
-    id: 5,
+    id: 3005,
     tag: "DINNER",
     title: "I Make My 2-Ingredient Caesar Salmon On Busy Weeknights",
     time: "15 mins",
@@ -49,8 +50,7 @@ const dinnerRecipes = [
     rating: 4.6,
   },
   {
-    
-    id: 6,
+    id: 3006,
     tag: "DINNER",
     title: "My Favorite 5-Ingredient Dinner Couldn’t Be Easier",
     time: "2 hours",
@@ -61,11 +61,11 @@ const dinnerRecipes = [
 ];
 
 const Dinner = () => {
-  // local like state
+  const navigate = useNavigate(); // not used, kept same as other pages
+
   const [liked, setLiked] = useState({});
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-  // load likes once
   useEffect(() => {
     const stored = localStorage.getItem("dinnerLikes");
     if (stored) {
@@ -74,35 +74,26 @@ const Dinner = () => {
   }, []);
 
   const handleToggleFavorite = async (recipe) => {
-    // kontrollo nëse user-i është i loguar
     const token = localStorage.getItem("token");
     if (!token) {
       setShowLoginModal(true);
       return;
     }
 
-    // a është aktualisht e pëlqyer?
     const wasLiked = !!liked[recipe.id];
 
-    // logjika ekzistuese – update local state + localStorage
     setLiked((prev) => {
       const updated = { ...prev, [recipe.id]: !prev[recipe.id] };
       localStorage.setItem("dinnerLikes", JSON.stringify(updated));
       return updated;
     });
 
-    // sync me backend (favorites API)
     try {
       if (wasLiked) {
-        // nëse ka qenë e pëlqyer → tani po e heqim → DELETE
         await API.delete(`/favorites/${recipe.id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           withCredentials: true,
         });
       } else {
-        // nëse s’ka qenë e pëlqyer → tani po e shtojmë → POST
         await API.post(
           "/favorites",
           {
@@ -116,38 +107,24 @@ const Dinner = () => {
               rating: recipe.rating,
             },
           },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            withCredentials: true,
-          }
+          { withCredentials: true }
         );
       }
     } catch (err) {
       console.error("favorites sync error:", err);
-      // opcionalisht: mundesh me kthye state-in mbrapa nese deshton
     }
   };
 
   const renderStars = (rating) =>
     Array.from({ length: 5 }).map((_, i) => (
-      <FaStar
-        key={i}
-        className={i < Math.round(rating || 0) ? "on" : ""}
-      />
+      <FaStar key={i} className={i < Math.round(rating || 0) ? "on" : ""} />
     ));
 
   return (
-    // Bootstrap + your custom classes
     <section className="dinner section-gap py-5">
-      {/* Header – like your home Simply Recipes block */}
       <div className="bk-head d-flex justify-content-center mb-4">
         <h2 className="bk-title display-5 fw-bold ">Dinner Recipes</h2>
-        <a
-          className="bk-more fs-2 text-decoration-none"
-          href="/recipes?tag=dinner"
-        ></a>
+        <a className="bk-more fs-2 text-decoration-none" href="/recipes?tag=dinner"></a>
       </div>
 
       <div className="container px-4 bg-transparent">
@@ -158,7 +135,6 @@ const Dinner = () => {
                 className="wk-card bg-white shadow-sm rounded-4 overflow-hidden"
                 style={{ paddingBottom: "15px" }}
               >
-                {/* Thumbnail */}
                 <a className="d-block position-relative" href={r.href}>
                   <img
                     src={r.img}
@@ -170,7 +146,6 @@ const Dinner = () => {
                     }}
                   />
 
-                  {/* heart button */}
                   <button
                     type="button"
                     className={` wk-like position-absolute top-0 end-0 m-3 ${
@@ -189,16 +164,12 @@ const Dinner = () => {
                   </button>
                 </a>
 
-                {/* Body */}
                 <div className="p-3">
                   <span className="text-uppercase fw-semibold small text-muted d-block mb-1">
                     {r.tag}
                   </span>
 
-                  <a
-                    href={r.href}
-                    className="text-decoration-none text-dark"
-                  >
+                  <a href={r.href} className="text-decoration-none text-dark">
                     <h3 className="fw-bold h5 mb-2">{r.title}</h3>
                   </a>
 
@@ -207,9 +178,7 @@ const Dinner = () => {
                       <FaRegClock className="me-1" />
                       {r.time}
                     </span>
-                    <span className="text-warning">
-                      {renderStars(r.rating)}
-                    </span>
+                    <span className="text-warning">{renderStars(r.rating)}</span>
                   </div>
                 </div>
               </article>
@@ -218,18 +187,12 @@ const Dinner = () => {
         </div>
       </div>
 
-      {/* 🔵 Bootstrap modal – "Please log in to save favorites." */}
+      {/* Login modal */}
       <div
-        className={`modal fade ${
-          showLoginModal ? "show d-block" : ""
-        }`}
+        className={`modal fade ${showLoginModal ? "show d-block" : ""}`}
         tabIndex="-1"
         aria-hidden={!showLoginModal}
-        style={
-          showLoginModal
-            ? { backgroundColor: "rgba(0,0,0,0.5)" }
-            : {}
-        }
+        style={showLoginModal ? { backgroundColor: "rgba(0,0,0,0.5)" } : {}}
       >
         <div className="modal-dialog modal-dialog-centered modal-sm">
           <div className="modal-content">
@@ -242,9 +205,7 @@ const Dinner = () => {
               ></button>
             </div>
             <div className="modal-body">
-              <p className="mb-0">
-                Please log in to save favorites.
-              </p>
+              <p className="mb-0">Please log in to save favorites.</p>
             </div>
             <div className="modal-footer border-0">
               <button

@@ -1,29 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { FaHeart, FaRegHeart, FaRegClock, FaStar } from "react-icons/fa";
 import API from "../../api";
+import { useNavigate } from "react-router-dom"; // kept for consistency
 
 const appetizersRecipes = [
   {
-    id: 1,
+    id: 5001,
     tag: "APPETIZERS",
-    title:"Corn Oysters Are the Retro Summer Dish You Need to Make",
+    title: "Corn Oysters Are the Retro Summer Dish You Need to Make",
     time: "35 mins",
     img: "/Images/cornoyster.webp",
     href: "/recipes/corn-oyster",
     rating: 4.5,
   },
   {
-    id: 2,
+    id: 5002,
     tag: "APPETIZERS",
     title: "The Easy Recipe I Make for Every Holiday Gathering",
     time: "30 mins",
     img: "/Images/mixednuts.webp",
     href: "/recipes/mixed-nuts",
     rating: 4.6,
-    
   },
   {
-    id: 3,
+    id: 5003,
     tag: "APPETIZERS",
     title: "The Secret to the Best French Bread Pizza",
     time: "25 mins",
@@ -32,7 +32,7 @@ const appetizersRecipes = [
     rating: 4.6,
   },
   {
-    id: 4,
+    id: 5004,
     tag: "APPETIZERS",
     title: "For the Best Loaded Queso Dip, Skip the Velveeta",
     time: "35 mins",
@@ -41,18 +41,18 @@ const appetizersRecipes = [
     rating: 5.0,
   },
   {
-    id: 5,
+    id: 5005,
     tag: "APPETIZERS",
-    title: "How to Make the Best Guacamole" ,
+    title: "How to Make the Best Guacamole",
     time: "12 mins",
     img: "/Images/Guacamole.webp",
     href: "/recipes/Guacamole",
     rating: 4.2,
   },
   {
-    id: 6,
+    id: 5006,
     tag: "APPETIZERS",
-    title:"The 4-Ingredient Appetizer I’m Making All Summer Long",
+    title: "The 4-Ingredient Appetizer I’m Making All Summer Long",
     time: "24 mins",
     img: "/Images/grilledfetastuffedpeppers.webp",
     href: "/recipes/grilled-feta-stuffed-peppers-recipe",
@@ -61,11 +61,11 @@ const appetizersRecipes = [
 ];
 
 const Appetizers = () => {
-  // local like state
+  const navigate = useNavigate(); // not used, kept same as other pages
+
   const [liked, setLiked] = useState({});
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-  // load likes once
   useEffect(() => {
     const stored = localStorage.getItem("appetizersLikes");
     if (stored) {
@@ -74,35 +74,26 @@ const Appetizers = () => {
   }, []);
 
   const handleToggleFavorite = async (recipe) => {
-    // kontrollo nëse user-i është i loguar
     const token = localStorage.getItem("token");
     if (!token) {
       setShowLoginModal(true);
       return;
     }
 
-    // a është aktualisht e pëlqyer?
     const wasLiked = !!liked[recipe.id];
 
-    // logjika ekzistuese – update local state + localStorage
     setLiked((prev) => {
       const updated = { ...prev, [recipe.id]: !prev[recipe.id] };
       localStorage.setItem("appetizersLikes", JSON.stringify(updated));
       return updated;
     });
 
-    // sync me backend (favorites API)
     try {
       if (wasLiked) {
-        // nëse ka qenë e pëlqyer → tani po e heqim → DELETE
         await API.delete(`/favorites/${recipe.id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           withCredentials: true,
         });
       } else {
-        // nëse s’ka qenë e pëlqyer → tani po e shtojmë → POST
         await API.post(
           "/favorites",
           {
@@ -116,17 +107,11 @@ const Appetizers = () => {
               rating: recipe.rating,
             },
           },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            withCredentials: true,
-          }
+          { withCredentials: true }
         );
       }
     } catch (err) {
       console.error("favorites sync error:", err);
-      // opcionalisht: mundesh me kthye state-in mbrapa nese deshton
     }
   };
 
@@ -139,11 +124,9 @@ const Appetizers = () => {
     ));
 
   return (
-    // Bootstrap + your custom classes
     <section className="appetizers section-gap py-5">
-      {/* Header – like your home Simply Recipes block */}
       <div className="bk-head d-flex justify-content-center mb-4">
-        <h2 className="bk-title display-5 fw-bold ">Appetizers Recipes</h2>
+        <h2 className="bk-title display-5 fw-bold">Appetizers Recipes</h2>
         <a
           className="bk-more fs-2 text-decoration-none"
           href="/recipes?tag=appetizers"
@@ -158,22 +141,16 @@ const Appetizers = () => {
                 className="wk-card bg-white shadow-sm rounded-4 overflow-hidden"
                 style={{ paddingBottom: "15px" }}
               >
-                {/* Thumbnail */}
                 <a className="d-block position-relative" href={r.href}>
                   <img
                     src={r.img}
                     alt={r.title}
                     className="img-fluid w-100"
-                    style={{
-                      borderBottomLeftRadius: "0.5rem",
-                      borderBottomRightRadius: "0.5rem",
-                    }}
                   />
 
-                  {/* heart button */}
                   <button
                     type="button"
-                    className={` wk-like position-absolute top-0 end-0 m-3 ${
+                    className={`wk-like position-absolute top-0 end-0 m-3 ${
                       liked[r.id] ? "is-liked text-danger" : ""
                     }`}
                     onClick={(e) => {
@@ -189,16 +166,12 @@ const Appetizers = () => {
                   </button>
                 </a>
 
-                {/* Body */}
                 <div className="p-3">
                   <span className="text-uppercase fw-semibold small text-muted d-block mb-1">
                     {r.tag}
                   </span>
 
-                  <a
-                    href={r.href}
-                    className="text-decoration-none text-dark"
-                  >
+                  <a href={r.href} className="text-decoration-none text-dark">
                     <h3 className="fw-bold h5 mb-2">{r.title}</h3>
                   </a>
 
@@ -218,17 +191,13 @@ const Appetizers = () => {
         </div>
       </div>
 
-      {/* 🔵 Bootstrap modal – "Please log in to save favorites." */}
+      {/* Login modal */}
       <div
-        className={`modal fade ${
-          showLoginModal ? "show d-block" : ""
-        }`}
+        className={`modal fade ${showLoginModal ? "show d-block" : ""}`}
         tabIndex="-1"
         aria-hidden={!showLoginModal}
         style={
-          showLoginModal
-            ? { backgroundColor: "rgba(0,0,0,0.5)" }
-            : {}
+          showLoginModal ? { backgroundColor: "rgba(0,0,0,0.5)" } : {}
         }
       >
         <div className="modal-dialog modal-dialog-centered modal-sm">
@@ -242,9 +211,7 @@ const Appetizers = () => {
               ></button>
             </div>
             <div className="modal-body">
-              <p className="mb-0">
-                Please log in to save favorites.
-              </p>
+              <p className="mb-0">Please log in to save favorites.</p>
             </div>
             <div className="modal-footer border-0">
               <button

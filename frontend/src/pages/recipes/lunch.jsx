@@ -1,28 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { FaHeart, FaRegHeart, FaRegClock, FaStar } from "react-icons/fa";
 import API from "../../api";
+import { useNavigate } from "react-router-dom"; // same pattern as other pages
 
 const lunchRecipes = [
   {
-    id: 1,
+    id: 4001,
     tag: "LUNCH",
-    title:"Menemen (Turkish Scrambled Eggs and Tomatoes)",
+    title: "Menemen (Turkish Scrambled Eggs and Tomatoes)",
     time: "40 mins",
     img: "/Images/menemen.webp",
     href: "/recipes/menemen- turkish",
     rating: 4.5,
   },
   {
-    id: 2,
+    id: 4002,
     tag: "LUNCH",
-    title: "Turn a Simple Baked Potato Into a Memorable Dinner" ,
+    title: "Turn a Simple Baked Potato Into a Memorable Dinner",
     time: "70 mins",
     img: "/Images/bakedpatato.webp",
     href: "/recipes/baked-patato",
     rating: 4.2,
   },
   {
-    id: 3,
+    id: 4003,
     tag: "LUNCH",
     title: "Tortilla Española (Spanish Tortilla)",
     time: "35 mins",
@@ -31,7 +32,7 @@ const lunchRecipes = [
     rating: 4.6,
   },
   {
-    id: 4,
+    id:4004,
     tag: "LUNCH",
     title: "The 15-Minute Mediterranean-Inspired Meal I Make Once a Week",
     time: "15 mins",
@@ -40,7 +41,7 @@ const lunchRecipes = [
     rating: 5.0,
   },
   {
-    id: 5,
+    id: 4005,
     tag: "LUNCH",
     title: "Potato Knishes",
     time: "2 hours",
@@ -49,9 +50,9 @@ const lunchRecipes = [
     rating: 4.6,
   },
   {
-    id: 6,
+    id: 4006,
     tag: "LUNCH",
-    title:"The 3-Ingredient Egg Salad I Make Every Week",
+    title: "The 3-Ingredient Egg Salad I Make Every Week",
     time: "20 mins",
     img: "/Images/eggssalad.webp",
     href: "/recipes/egg-salad",
@@ -60,11 +61,11 @@ const lunchRecipes = [
 ];
 
 const Lunch = () => {
-  // local like state
+  const navigate = useNavigate(); // kept for consistency (not used)
+
   const [liked, setLiked] = useState({});
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-  // load likes once
   useEffect(() => {
     const stored = localStorage.getItem("lunchLikes");
     if (stored) {
@@ -73,35 +74,26 @@ const Lunch = () => {
   }, []);
 
   const handleToggleFavorite = async (recipe) => {
-    // kontrollo nëse user-i është i loguar
     const token = localStorage.getItem("token");
     if (!token) {
       setShowLoginModal(true);
       return;
     }
 
-    // a është aktualisht e pëlqyer?
     const wasLiked = !!liked[recipe.id];
 
-    // logjika ekzistuese – update local state + localStorage
     setLiked((prev) => {
       const updated = { ...prev, [recipe.id]: !prev[recipe.id] };
       localStorage.setItem("lunchLikes", JSON.stringify(updated));
       return updated;
     });
 
-    // sync me backend (favorites API)
     try {
       if (wasLiked) {
-        // nëse ka qenë e pëlqyer → tani po e heqim → DELETE
         await API.delete(`/favorites/${recipe.id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           withCredentials: true,
         });
       } else {
-        // nëse s’ka qenë e pëlqyer → tani po e shtojmë → POST
         await API.post(
           "/favorites",
           {
@@ -115,17 +107,11 @@ const Lunch = () => {
               rating: recipe.rating,
             },
           },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            withCredentials: true,
-          }
+          { withCredentials: true }
         );
       }
     } catch (err) {
       console.error("favorites sync error:", err);
-      // opcionalisht: mundesh me kthye state-in mbrapa nese deshton
     }
   };
 
@@ -138,11 +124,9 @@ const Lunch = () => {
     ));
 
   return (
-    // Bootstrap + your custom classes
     <section className="lunch section-gap py-5">
-      {/* Header – like your home Simply Recipes block */}
       <div className="bk-head d-flex justify-content-center mb-4">
-        <h2 className="bk-title display-5 fw-bold ">Lunch Recipes</h2>
+        <h2 className="bk-title display-5 fw-bold">Lunch Recipes</h2>
         <a
           className="bk-more fs-2 text-decoration-none"
           href="/recipes?tag=lunch"
@@ -157,22 +141,16 @@ const Lunch = () => {
                 className="wk-card bg-white shadow-sm rounded-4 overflow-hidden"
                 style={{ paddingBottom: "15px" }}
               >
-                {/* Thumbnail */}
                 <a className="d-block position-relative" href={r.href}>
                   <img
                     src={r.img}
                     alt={r.title}
                     className="img-fluid w-100"
-                    style={{
-                      borderBottomLeftRadius: "0.5rem",
-                      borderBottomRightRadius: "0.5rem",
-                    }}
                   />
 
-                  {/* heart button */}
                   <button
                     type="button"
-                    className={` wk-like position-absolute top-0 end-0 m-3 ${
+                    className={`wk-like position-absolute top-0 end-0 m-3 ${
                       liked[r.id] ? "is-liked text-danger" : ""
                     }`}
                     onClick={(e) => {
@@ -188,16 +166,12 @@ const Lunch = () => {
                   </button>
                 </a>
 
-                {/* Body */}
                 <div className="p-3">
                   <span className="text-uppercase fw-semibold small text-muted d-block mb-1">
                     {r.tag}
                   </span>
 
-                  <a
-                    href={r.href}
-                    className="text-decoration-none text-dark"
-                  >
+                  <a href={r.href} className="text-decoration-none text-dark">
                     <h3 className="fw-bold h5 mb-2">{r.title}</h3>
                   </a>
 
@@ -217,17 +191,13 @@ const Lunch = () => {
         </div>
       </div>
 
-      {/* 🔵 Bootstrap modal – "Please log in to save favorites." */}
+      {/* Login modal */}
       <div
-        className={`modal fade ${
-          showLoginModal ? "show d-block" : ""
-        }`}
+        className={`modal fade ${showLoginModal ? "show d-block" : ""}`}
         tabIndex="-1"
         aria-hidden={!showLoginModal}
         style={
-          showLoginModal
-            ? { backgroundColor: "rgba(0,0,0,0.5)" }
-            : {}
+          showLoginModal ? { backgroundColor: "rgba(0,0,0,0.5)" } : {}
         }
       >
         <div className="modal-dialog modal-dialog-centered modal-sm">
@@ -241,9 +211,7 @@ const Lunch = () => {
               ></button>
             </div>
             <div className="modal-body">
-              <p className="mb-0">
-                Please log in to save favorites.
-              </p>
+              <p className="mb-0">Please log in to save favorites.</p>
             </div>
             <div className="modal-footer border-0">
               <button
