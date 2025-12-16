@@ -93,9 +93,29 @@ const Breakfast = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem("breakfastLikes");
-    if (stored) setLiked(JSON.parse(stored));
-  }, []);
+  const token = localStorage.getItem("token");
+
+  // 1) load from localStorage first (fast UI)
+  const stored = localStorage.getItem("liked");
+  if (stored) setLiked(JSON.parse(stored));
+
+  // 2) then, if logged in, sync from backend (real truth)
+  if (!token) return;
+
+  (async () => {
+    try {
+      const res = await API.get("/favorites", { withCredentials: true });
+      const favs = res.data.favorites || [];
+      const map = {};
+      favs.forEach((r) => (map[r.id] = true));
+      setLiked(map);
+      localStorage.setItem("liked", JSON.stringify(map));
+    } catch (e) {
+      console.error("Failed to sync favorites:", e);
+    }
+  })();
+}, []);
+
 
   const handleToggleFavorite = async (recipe) => {
     const token = localStorage.getItem("token");
@@ -108,7 +128,7 @@ const Breakfast = () => {
 
     setLiked((prev) => {
       const updated = { ...prev, [recipe.id]: !prev[recipe.id] };
-      localStorage.setItem("breakfastLikes", JSON.stringify(updated));
+      localStorage.setItem("liked", JSON.stringify(updated));
       return updated;
     });
 

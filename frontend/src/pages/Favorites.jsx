@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { FaRegClock, FaStar } from "react-icons/fa";
-import { fetchFavorites } from "../utils/favoritesApi";
+import { FaRegClock, FaStar, FaHeart } from "react-icons/fa";
+import { fetchFavorites, removeFavorite } from "../utils/favoritesApi";
 
 export default function Favorites() {
   const [items, setItems] = useState([]);
@@ -25,6 +25,29 @@ export default function Favorites() {
       }
     })();
   }, [hasToken]);
+
+  const handleRemove = async (recipeId) => {
+    // ✅ instant UI update
+    setItems((prev) => prev.filter((x) => x.id !== recipeId));
+
+    // ✅ keep localStorage liked map in sync (optional but recommended)
+    try {
+      const stored = JSON.parse(localStorage.getItem("liked") || "{}");
+      delete stored[recipeId];
+      localStorage.setItem("liked", JSON.stringify(stored));
+    } catch {
+      // ignore
+    }
+
+    // ✅ backend delete
+    try {
+      await removeFavorite(recipeId);
+    } catch (err) {
+      console.error("Failed to remove favorite", err);
+      // optional: refetch to restore UI if you want
+      // const favs = await fetchFavorites(); setItems(favs);
+    }
+  };
 
   if (!hasToken) {
     return (
@@ -59,6 +82,20 @@ export default function Favorites() {
           <article key={r.id} className="wk-card">
             <a className="wk-thumb" href={r.href}>
               <img src={r.img} alt={r.title} />
+
+              {/* ❤️ heart overlay */}
+              <button
+                type="button"
+                className="wk-like is-liked"
+                aria-label="Remove from favorites"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleRemove(r.id);
+                }}
+              >
+                <FaHeart />
+              </button>
             </a>
 
             <div className="wk-body">
@@ -66,10 +103,12 @@ export default function Favorites() {
               <a className="wk-title-link" href={r.href}>
                 <h3 className="wk-h3">{r.title}</h3>
               </a>
+
               <div className="wk-meta">
                 <span className="wk-time">
                   <FaRegClock /> {r.time_label || r.time}
                 </span>
+
                 <span className="wk-stars">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <FaStar
