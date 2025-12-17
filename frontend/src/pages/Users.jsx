@@ -1,93 +1,139 @@
-import React, { useState } from "react";
-import { FaUsers } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
 import "../assets/Css/dashboard.css";
 
-const MOCK_USERS = [
-  { id: 1, email: "admin@cooktaste.com", role: "admin", status: "active" },
-  { id: 2, email: "sara@example.com", role: "user", status: "active" },
-  { id: 3, email: "john@example.com", role: "user", status: "blocked" },
-  { id: 4, email: "maria@example.com", role: "user", status: "active" },
+const API_BASE = "http://localhost:5174";
+
+const FILTERS = [
+  { key: "all", label: "ALL" },
+  { key: "user", label: "USERS" },
+  { key: "admin", label: "ADMINS" },
 ];
 
-export default function Users() {
-  const [roleFilter, setRoleFilter] = useState("all");
-  const [statusFilter, setStatusFilter] = useState("all");
 
-  const filtered = MOCK_USERS.filter((u) => {
-    if (roleFilter !== "all" && u.role !== roleFilter) return false;
-    if (statusFilter !== "all" && u.status !== statusFilter) return false;
-    return true;
-  });
+
+function Users() {
+  const [selectedFilter, setSelectedFilter] = useState("all");
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    async function fetchUsers() {
+      setLoading(true);
+      try {
+        const res = await fetch(
+          `${API_BASE}/api/users?role=${selectedFilter}`
+        );
+        const data = await res.json();
+        setUsers(data.users || []);
+      } catch (err) {
+        console.error("Fetch users error:", err);
+        setUsers([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchUsers();
+  }, [selectedFilter]);
 
   return (
-    <div className="admin-page">
-      <header className="admin-page-header">
-        <h1>
-          <FaUsers style={{ marginRight: 8 }} />
-          Users
-        </h1>
-        <p>See who is registered on Cook&amp;Taste.</p>
-      </header>
-
-      {/* Filters */}
-      <section className="admin-form-card">
-        <h2>Filters</h2>
-        <div className="admin-form-grid">
-          <div className="form-group">
-            <label>Role</label>
-            <select
-              value={roleFilter}
-              onChange={(e) => setRoleFilter(e.target.value)}
-            >
-              <option value="all">All</option>
-              <option value="admin">Admins</option>
-              <option value="user">Users</option>
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label>Status</label>
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-            >
-              <option value="all">All</option>
-              <option value="active">Active</option>
-              <option value="blocked">Blocked</option>
-            </select>
-          </div>
+    <div className="categories-page">
+      {/* HEADER */}
+      <div className="admin-header">
+        <div>
+          <h1 className="admin-title">Users</h1>
+          <p className="admin-subtitle">
+            Manage users and admins access & status.
+          </p>
         </div>
-      </section>
 
-      {/* Users table */}
-      <section className="admin-table-section">
-        <h2>Registered users</h2>
-        <div className="admin-table-wrapper">
-          <table className="admin-table">
-            <thead>
+        {/* ADD USER */}
+        <button className="btn-add">+ ADD USER</button>
+      </div>
+
+      {/* FILTER BUTTONS */}
+      <div className="category-buttons-full">
+        {FILTERS.map((f) => (
+          <button
+            key={f.key}
+            className={
+              "category-btn-full" +
+              (selectedFilter === f.key ? " active" : "")
+            }
+            onClick={() => setSelectedFilter(f.key)}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
+
+      {/* TABLE */}
+      <h2 className="existing-title">
+        {selectedFilter === "all"
+          ? "All users"
+          : selectedFilter === "admin"
+          ? "Admins"
+          : "Users"}
+      </h2>
+
+      {loading ? (
+        <p style={{ padding: "12px 0" }}>Loading...</p>
+      ) : (
+        <table className="admin-data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Created</th>
+              <th>EDIT</th>
+              <th>DELETE</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {users.length === 0 ? (
               <tr>
-                <th>#</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Status</th>
+                <td colSpan={7} style={{ textAlign: "center", padding: "16px" }}>
+                  No users found.
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {filtered.map((u, idx) => (
+            ) : (
+              users.map((u) => (
                 <tr key={u.id}>
-                  <td>{idx + 1}</td>
+                  <td>{u.id}</td>
                   <td>{u.email}</td>
-                  <td>{u.role}</td>
-                  <td>{u.status}</td>
+                  <td>{u.user_role}</td>
+
+                  <td>
+                    <span
+                      className={
+                        u.status === "active"
+                          ? "status-active"
+                          : "status-blocked"
+                      }
+                    >
+                      {u.status}
+                    </span>
+                  </td>
+
+                  <td>{new Date(u.created_at).toLocaleString()}</td>
+
+                  <td>
+                    <button className="btn-edit">EDIT</button>
+                  </td>
+                  <td>
+                    <button className="btn-delete">DELETE</button>
+                  </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p className="admin-table-subtitle">
-          Later you can add actions here (block user, promote to admin, etc.).
-        </p>
-      </section>
+              ))
+            )}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }
+
+export default Users;
