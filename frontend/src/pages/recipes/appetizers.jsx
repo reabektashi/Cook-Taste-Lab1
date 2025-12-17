@@ -169,9 +169,11 @@ const Appetizers = () => {
     ));
 
   return (
-    <section className="appetizers section-gap py-5">
-      <div className="bk-head d-flex justify-content-center mb-4">
+    <section className="appetizers section-gap py-5 aboutus-page">
+      <div className="bk-head text-center mb-4">
         <h2 className="bk-title display-5 fw-bold">Appetizers Recipes</h2>
+        <h3 className="fs-5 fw-normal mt-3 px-2">Whether you need a casual pre-dinner nibble or something fancy to take to a holiday party,
+        we’ve got all the appetizing appetizers here for you.</h3>
         <a
           className="bk-more fs-2 text-decoration-none"
           href="/recipes?tag=appetizers"

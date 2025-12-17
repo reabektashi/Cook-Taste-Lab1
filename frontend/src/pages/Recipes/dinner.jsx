@@ -166,9 +166,11 @@ const Dinner = () => {
     ));
 
   return (
-    <section className="dinner section-gap py-5">
-      <div className="bk-head d-flex justify-content-center mb-4">
+    <section className="dinner section-gap py-5 aboutus-page">
+      <div className="bk-head text-center mb-4">
         <h2 className="bk-title display-5 fw-bold ">Dinner Recipes</h2>
+        <h3 className="fs-5 fw-normal mt-3 px-2">Need help with dinner ideas? We have one-pot dishes,
+        30-minute meals, slow cooker feasts, and dinner recipes for every mood.</h3>
         <a className="bk-more fs-2 text-decoration-none" href="/recipes?tag=dinner"></a>
       </div>
 

@@ -169,9 +169,11 @@ const Desserts = () => {
     ));
 
   return (
-    <section className="desserts section-gap py-5">
-      <div className="bk-head d-flex justify-content-center mb-4">
+    <section className="desserts section-gap py-5 aboutus-page">
+      <div className="bk-head text-center mb-4">
         <h2 className="bk-title display-5 fw-bold">Desserts Recipes</h2>
+        <h3 className="fs-5 fw-normal mt-3 px-2"> Whether you're looking for a snack cake, lunchbox cookie, or showstopper for your dinner party,
+        we've got scores of dessert recipes to choose from.</h3>
         <a className="bk-more fs-2 text-decoration-none" href="/recipes?tag=desserts"></a>
       </div>
 

@@ -169,9 +169,11 @@ const Lunch = () => {
     ));
 
   return (
-    <section className="lunch section-gap py-5">
-      <div className="bk-head d-flex justify-content-center mb-4">
+    <section className="lunch section-gap py-5 aboutus-page">
+      <div className="bk-head text-center mb-4">
         <h2 className="bk-title display-5 fw-bold">Lunch Recipes</h2>
+        <h3 className="fs-5 fw-normal mt-3 px-3">We know you need tasty,
+          easy lunches to get you through your day. Browse pasta salads, quick soups, and sandwiches galore!</h3>
         <a
           className="bk-more fs-2 text-decoration-none"
           href="/recipes?tag=lunch"

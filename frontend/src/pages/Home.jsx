@@ -303,7 +303,7 @@ function Home() {
       </div>
 
 
-      <section className="cook">
+      <section className="cook aboutus-page">
         <div className="cook-head">
           <h2 className="cook-title">Cooking</h2>
           <p className="cook-dek">

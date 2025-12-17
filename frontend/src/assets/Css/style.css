@@ -2953,3 +2953,25 @@ box-sizing: border-box;
   }
 }
 
+/* ABOUT US PAGE FONTS */
+.aboutus-page h1,
+.aboutus-page h2{
+  font-family: "Playfair Display", serif;
+  letter-spacing: 0.5px;
+}
+
+.aboutus-page p,
+.aboutus-page .card-text {
+  font-family: "Inter", sans-serif;
+  line-height: 1.7;
+}
+
+.aboutus-page .card-title,
+.aboutus-page .modal-title {
+  font-family: "Playfair Display", serif;
+}
+.aboutus-page h3 {
+  font-family: "Inter", sans-serif;
+  line-height: 1.7;
+}
+

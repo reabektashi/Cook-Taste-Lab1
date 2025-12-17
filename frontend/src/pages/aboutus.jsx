@@ -30,7 +30,7 @@ function AboutUs() {
   const closeModal = () => setActiveMember(null);
 
   return (
-    <div className="main-wrapper bg-light">
+    <div className="main-wrapper bg-light aboutus-page">
       <section
         className="py-5"
         style={{
