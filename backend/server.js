@@ -415,6 +415,7 @@ app.post("/api/subscribe", async (req, res) => {
   }
 });
 //Breakfast-Categories Table
+// Get category items with REAL favorites count
 app.get("/api/category-items", async (req, res) => {
   const category = req.query.category;
 
@@ -424,22 +425,27 @@ app.get("/api/category-items", async (req, res) => {
 
   try {
     const [rows] = await pool.query(
-      `SELECT id,
-              category,
-              card_id,
-              tag,
-              title,
-              time_label,
-              img_url,
-              href,
-              favorites
-       FROM category_items
-       WHERE category = ?
-       ORDER BY id`,
+      `
+      SELECT
+        ci.id,
+        ci.category,
+        ci.card_id,
+        ci.tag,
+        ci.title,
+        ci.time_label,
+        ci.img_url,
+        ci.href,
+        COUNT(f.recipe_id) AS favorites
+      FROM category_items ci
+      LEFT JOIN favorites f
+        ON f.recipe_id COLLATE utf8mb4_unicode_ci
+         = ci.card_id COLLATE utf8mb4_unicode_ci
+      WHERE ci.category = ?
+      GROUP BY ci.id
+      ORDER BY ci.id
+      `,
       [category]
     );
-
-
 
     res.json({ items: rows });
   } catch (err) {
@@ -448,9 +454,80 @@ app.get("/api/category-items", async (req, res) => {
   }
 });
 
+// Add new category item (used by + ADD RECIPE modal)
+app.post("/api/category-items", async (req, res) => {
+  const { category, card_id, tag, title, time_label, img_url, href } =
+    req.body || {};
 
+  if (!category || !title) {
+    return res.status(400).json({ error: "category_and_title_required" });
+  }
 
-// ---------- Start server ----------
+  try {
+    const [result] = await pool.query(
+      `INSERT INTO category_items
+       (category, card_id, tag, title, time_label, img_url, href)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [
+        category,
+        card_id || null,
+        tag || null,
+        title,
+        time_label || null,
+        img_url || null,
+        href || null,
+      ]
+    );
+
+    res.status(201).json({ ok: true, id: result.insertId });
+  } catch (err) {
+    console.error("POST /api/category-items error:", err);
+    res.status(500).json({ error: "server_error" });
+  }
+});
+app.put("/api/category-items/:id", async (req, res) => {
+  const { id } = req.params;
+  const { category, card_id, tag, title, time_label, img_url, href } = req.body || {};
+
+  if (!category || !title) {
+    return res.status(400).json({ error: "category_and_title_required" });
+  }
+
+  try {
+    const [result] = await pool.query(
+      `UPDATE category_items
+       SET category = ?, card_id = ?, tag = ?, title = ?, time_label = ?, img_url = ?, href = ?
+       WHERE id = ?`,
+      [
+        category,
+        card_id || null,
+        tag || null,
+        title,
+        time_label || null,
+        img_url || null,
+        href || null,
+        id,
+      ]
+    );
+
+    res.json({ ok: true, affected: result.affectedRows });
+  } catch (err) {
+    console.error("PUT /api/category-items/:id error:", err);
+    res.status(500).json({ error: "server_error" });
+  }
+});
+app.delete("/api/category-items/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const [result] = await pool.query("DELETE FROM category_items WHERE id = ?", [id]);
+    res.json({ ok: true, affected: result.affectedRows });
+  } catch (err) {
+    console.error("DELETE /api/category-items/:id error:", err);
+    res.status(500).json({ error: "server_error" });
+  }
+});// ---------- Start server ----------
 app.listen(PORT, () => {
   console.log(`✅ API running at http://localhost:${PORT}`);
 });
+
