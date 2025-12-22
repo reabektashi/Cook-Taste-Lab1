@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import "../assets/Css/dashboard.css";
 import { FaHeart } from "react-icons/fa";
+import API from "../api";
 
 // icons for the cards
 import {
@@ -53,9 +54,6 @@ const CATEGORY_CARDS = [
   },
 ];
 
-// change if your backend is on a different port
-const API_BASE = "http://localhost:5174";
-
 function Categories() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [items, setItems] = useState([]);
@@ -80,6 +78,13 @@ function Categories() {
 
   const [form, setForm] = useState(emptyForm);
 
+  const fetchCategoryItems = async (category) => {
+    const { data } = await API.get("/category-items", {
+      params: { category },
+    });
+    return data.items || [];
+  };
+
   // Fetch items when a category button is clicked
   useEffect(() => {
     if (!selectedCategory) return;
@@ -87,13 +92,8 @@ function Categories() {
     (async () => {
       setLoading(true);
       try {
-        const res = await fetch(
-          `${API_BASE}/api/category-items?category=${encodeURIComponent(
-            selectedCategory
-          )}`
-        );
-        const data = await res.json();
-        setItems(data.items || []);
+        const newItems = await fetchCategoryItems(selectedCategory);
+        setItems(newItems);
       } catch (err) {
         console.error("Fetch category items error:", err);
         setItems([]);
@@ -106,13 +106,8 @@ function Categories() {
   const refreshSelected = async () => {
     if (!selectedCategory) return;
     try {
-      const res = await fetch(
-        `${API_BASE}/api/category-items?category=${encodeURIComponent(
-          selectedCategory
-        )}`
-      );
-      const data = await res.json();
-      setItems(data.items || []);
+      const newItems = await fetchCategoryItems(selectedCategory);
+      setItems(newItems);
     } catch (e) {
       console.error("Refresh failed:", e);
     }
@@ -159,32 +154,23 @@ function Categories() {
       return;
     }
 
-    const isEdit = editId !== null;
-    const url = isEdit
-      ? `${API_BASE}/api/category-items/${editId}`
-      : `${API_BASE}/api/category-items`;
-
-    const method = isEdit ? "PUT" : "POST";
+    const payload = {
+      category: form.category,
+      card_id: form.card_id,
+      tag: form.tag,
+      title: form.title,
+      time_label: form.time_label,
+      img_url: form.img_url,
+      href: form.href,
+    };
 
     try {
-      const res = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          category: form.category,
-          card_id: form.card_id,
-          tag: form.tag,
-          title: form.title,
-          time_label: form.time_label,
-          img_url: form.img_url,
-          href: form.href,
-        }),
-      });
-
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        alert(data?.error || "Save failed.");
-        return;
+      if (editId !== null) {
+        // EDIT (admin only)
+        await API.put(`/category-items/${editId}`, payload);
+      } else {
+        // ADD (admin only)
+        await API.post(`/category-items`, payload);
       }
 
       closeModal();
@@ -198,7 +184,7 @@ function Categories() {
       }
     } catch (err) {
       console.error("Save error:", err);
-      alert("Server error while saving.");
+      alert(err?.response?.data?.error || "Save failed.");
     }
   };
 
@@ -208,18 +194,12 @@ function Categories() {
     if (!ok) return;
 
     try {
-      const res = await fetch(`${API_BASE}/api/category-items/${item.id}`, {
-        method: "DELETE",
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        alert(data?.error || "Failed to delete.");
-        return;
-      }
+      // DELETE (admin only)
+      await API.delete(`/category-items/${item.id}`);
       await refreshSelected();
     } catch (err) {
       console.error("Delete error:", err);
-      alert("Server error while deleting.");
+      alert(err?.response?.data?.error || "Failed to delete.");
     }
   };
 
@@ -247,11 +227,7 @@ function Categories() {
               <h2 className="modal-title">
                 {editId !== null ? "Edit Recipe" : "Add Recipe"}
               </h2>
-              <button
-                type="button"
-                className="modal-close"
-                onClick={closeModal}
-              >
+              <button type="button" className="modal-close" onClick={closeModal}>
                 ✕
               </button>
             </div>
@@ -289,9 +265,7 @@ function Categories() {
                 Tag
                 <input
                   value={form.tag}
-                  onChange={(e) =>
-                    setForm((p) => ({ ...p, tag: e.target.value }))
-                  }
+                  onChange={(e) => setForm((p) => ({ ...p, tag: e.target.value }))}
                   placeholder="ex: QUICK DINNERS"
                 />
               </label>
@@ -333,9 +307,7 @@ function Categories() {
                 Href (link)
                 <input
                   value={form.href}
-                  onChange={(e) =>
-                    setForm((p) => ({ ...p, href: e.target.value }))
-                  }
+                  onChange={(e) => setForm((p) => ({ ...p, href: e.target.value }))}
                   placeholder="/recipes/my-recipe"
                 />
               </label>
@@ -408,10 +380,7 @@ function Categories() {
               <tbody>
                 {items.length === 0 ? (
                   <tr>
-                    <td
-                      colSpan={8}
-                      style={{ textAlign: "center", padding: "16px" }}
-                    >
+                    <td colSpan={8} style={{ textAlign: "center", padding: "16px" }}>
                       No recipes for this category yet.
                     </td>
                   </tr>
