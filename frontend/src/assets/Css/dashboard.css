@@ -891,10 +891,10 @@
 }
 
 .modal-card {
-  width: min(760px, 92vw);
-  background: #fff;
-  border-radius: 16px;
-  padding: 18px;
+  width: 100%;
+  max-width: 520px;        /* 👈 makes it smaller */
+  padding: 20px 22px;     /* tighter padding */
+  border-radius: 14px;
 }
 
 .modal-head {
@@ -916,8 +916,7 @@
 }
 
 .modal-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+ 
   gap: 12px;
 }
 
@@ -929,9 +928,8 @@
 
 .modal-grid input,
 .modal-grid select {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 14px;
 }
 
 .modal-actions {
@@ -1110,5 +1108,233 @@
   font-size: 13px;
   color: #111827;
 }
-/*------------------------------------------*/
 
+/* SETTINGS PAGE FIX: prevent giant overlapping title */
+.admin-page-header {
+  position: relative;
+  display: block;
+}
+
+.settings-title {
+  position: static !important;
+  transform: none !important;
+  text-shadow: none !important;
+  margin: 0 0 6px 0;
+  font-size: 34px; /* adjust if you want */
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: #020617;
+}
+/* ===== PRIMARY ADMIN BUTTON (ADD / SAVE / UPDATE) ===== */
+.btn-primary,
+.btn-update {
+  background-color: #0f172a; /* dark navy */
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;      /* pill shape */
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover,
+.btn-update:hover {
+  background-color: #020617;
+  transform: translateY(-1px);
+}
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+/* =========================
+   SETTINGS PAGE: HARD RESET
+   Put this at the END of dashboard.css
+   ========================= */
+
+/* Stop any global h1/h2 styles messing the layout inside admin pages */
+.admin-page h1,
+.admin-page h2 {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+/* Header layout */
+.admin-page-header {
+  position: static !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 6px !important;
+  padding: 18px 22px !important;
+  margin: 0 0 16px 0 !important;
+  background: transparent !important;
+}
+
+/* Kill any watermark pseudo-elements that might be used in your header */
+.admin-page-header::before,
+.admin-page-header::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Actual Settings title */
+.admin-page-header .settings-title {
+  margin: 0 !important;
+  font-size: 32px !important;
+  line-height: 1.15 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+}
+
+/* Subtitle */
+.admin-page-header p {
+  margin: 0 !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+  color: #6b7280 !important;
+}
+
+/* Section titles like "General" and "Change password" */
+.admin-form-card h2 {
+  margin: 0 0 12px 0 !important;
+  font-size: 22px !important;
+  line-height: 1.2 !important;
+  font-weight: 700 !important;
+}
+
+/* Card spacing */
+.admin-form-card {
+  padding: 18px 22px !important;
+  margin: 0 0 16px 0 !important;
+  border-radius: 14px !important;
+}
+
+/* ===== PRIMARY ADMIN BUTTON (ADD / SAVE / UPDATE) ===== */
+.btn-primary,
+.btn-update {
+  background-color: #0f172a;
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover,
+.btn-update:hover {
+  background-color: #020617;
+  transform: translateY(-1px);
+}
+
+/* ===== MODAL SIZE FIX ===== */
+.modal-card {
+  width: 100%;
+  max-width: 520px;
+  padding: 20px 22px;
+  border-radius: 14px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.modal-grid {
+  display: grid !important;   /* you were missing display:grid */
+  gap: 12px;
+}
+
+.modal-grid label {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.modal-grid input,
+.modal-grid select {
+  padding: 8px 10px;
+  font-size: 14px;
+}
+/* ===============================
+   SETTINGS PAGE LAYOUT FIX
+   =============================== */
+
+/* Header container */
+.admin-page-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 16px 24px;
+  margin-bottom: 18px;
+}
+
+/* Main title: Settings */
+.admin-page-header .settings-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 32px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+/* Subtitle under Settings */
+.admin-page-header p {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+  max-width: 520px;
+}
+
+/* Section cards */
+.admin-form-card {
+  margin: 0 24px 20px 24px;
+  padding: 18px 22px;
+  border-radius: 14px;
+}
+
+/* Section titles: General / Change password */
+.admin-form-card h2 {
+  text-align: left;              /* 👈 FIX */
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 14px 0;
+}
+
+/* Kill any centered or absolute styles leaking in */
+.admin-form-card h2,
+.admin-page-header h1,
+.admin-page-header p {
+  position: static !important;
+  transform: none !important;
+  text-align: left !important;
+}
+
+/* Button already good, just spacing */
+.form-actions {
+  margin-top: 12px;
+}
