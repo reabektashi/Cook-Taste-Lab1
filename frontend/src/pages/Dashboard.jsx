@@ -10,12 +10,35 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 import { useNavigate, useLocation, Outlet } from "react-router-dom";
+import API from "../api"; // ✅ use your axios instance (with baseURL + cookies)
 
 function Dashboard() {
   const navigate = useNavigate();
   const location = useLocation();
 
   const isActive = (path) => location.pathname === path;
+
+  const handleLogout = async () => {
+    try {
+      const userStr = localStorage.getItem("user");
+      const user = userStr ? JSON.parse(userStr) : null;
+      const userId = user?.id;
+
+      // ✅ tell backend to clear refresh token (cookie + DB tokens)
+      await API.post("/logout", { userId });
+    } catch (err) {
+      console.error("Logout error:", err);
+      // even if backend fails, still logout locally
+    } finally {
+      // ✅ clear local auth
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("role");
+
+      // ✅ redirect
+      navigate("/login");
+    }
+  };
 
   return (
     <div className="admin-shell">
@@ -90,7 +113,8 @@ function Dashboard() {
             <span>Settings</span>
           </button>
 
-          <button className="nav-item logout">
+          {/* ✅ WORKING LOGOUT */}
+          <button className="nav-item logout" onClick={handleLogout}>
             <FaSignOutAlt />
             <span>Log out</span>
           </button>
