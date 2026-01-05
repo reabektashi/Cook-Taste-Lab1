@@ -132,6 +132,23 @@ function Drinks() {
           ))}
         </div>
       </section>
+      
+      {/* PROMO BANNER */}
+      <section className="promo has-video">
+        <div className="promo-media">
+          <video autoPlay muted loop playsInline preload="metadata">
+            <source src="/Images/video.mp4" type="video/mp4" />
+          </video>
+        </div>
+
+        <div className="promo-text">
+          <h3>Try Something New</h3>
+          <p>Five-minute spritzes & sunny sips.</p>
+          <a className="ct-btn" href="#top-rated">
+            See Recipes <span className="btn-icon">»</span>
+          </a>
+        </div>
+      </section>
 
       {/* SEASONAL PICKS */}
       <section className="ft section-gap aboutus-page">
