@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../assets/Css/dashboard.css";
 
-const API_BASE = "http://localhost:5174";
+const API_BASE = "https://localhost:5174";
 
 const FILTERS = [
   { key: "all", label: "ALL" },

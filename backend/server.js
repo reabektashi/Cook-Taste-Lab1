@@ -11,26 +11,26 @@ import cookieParser from "cookie-parser";   // 👈 NEW
 import crypto from "crypto";  
 
 dotenv.config();
+  const app = express();
+  const PORT = process.env.PORT || 5174;
+  
 
+  // ---------- Middleware ---------
 
-const app = express();
-const PORT = process.env.PORT || 5174;
+  app.use(
+    cors({
+      origin: true,          
+      credentials: true,     
+    })
+  );
+  app.use(morgan("dev"));
+  app.use(express.json());
+  app.use(cookieParser());
 
-// ---------- Middleware ---------
+ 
 
-
-app.use(
-  cors({
-    origin: true,          
-    credentials: true,     
-  })
-);
-app.use(morgan("dev"));
-app.use(express.json());
-app.use(cookieParser());
-
-// ---------- MySQL Pool ----------
-/**
+  // ---------- MySQL Pool ----------
+  /**
  * You can use either:
  * - DATABASE_URL (mysql://user:pass@host:port/dbname)
  * - or individual MYSQL_* vars.
@@ -208,7 +208,7 @@ app.post("/api/login", async (req, res) => {
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       sameSite: "lax",
-      secure: false,
+      secure: true,
       maxAge: REFRESH_TOKEN_DAYS * 24 * 60 * 60 * 1000,
     });
 
@@ -248,7 +248,7 @@ app.post("/api/refresh", async (req, res) => {
     res.cookie("refreshToken", newRefreshToken, {
       httpOnly: true,
       sameSite: "lax",
-      secure: false,
+      secure: true,
       maxAge: REFRESH_TOKEN_DAYS * 24 * 60 * 60 * 1000,
     });
 
@@ -270,7 +270,7 @@ app.post("/api/logout", async (req, res) => {
     res.clearCookie("refreshToken", {
       httpOnly: true,
       sameSite: "lax",
-      secure: false,
+      secure: true,
     });
 
     res.json({ ok: true });
@@ -645,8 +645,30 @@ app.put("/api/change-password", auth, requireRole("admin"), async (req, res) => 
 });
 
 
-// ---------- Start server ----------
-app.listen(PORT, () => {
-  console.log(`✅ API running at http://localhost:${PORT}`);
+
+
+//HTTPS SERVER
+import https from "https";
+import fs from "fs";
+import path from "path";
+
+// Load SSL certificates
+const options = {
+  key: fs.readFileSync(path.join(process.cwd(), "certs", "key.pem")),
+  cert: fs.readFileSync(path.join(process.cwd(), "certs", "cert.crt")),
+};
+
+// Serve React frontend
+app.use(express.static(path.join(process.cwd(), "../frontend/dist")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(process.cwd(), "../frontend/dist", "index.html"));
 });
 
+// Start HTTPS server
+
+
+const httpsServer = https.createServer(options, app);
+
+httpsServer.listen(PORT, () => {
+  console.log(`✅ API + frontend running at https://localhost:${PORT}`);
+});

@@ -10,7 +10,7 @@ import {
 import { GiOrange } from "react-icons/gi";
 import { MdBlender } from "react-icons/md";
 
-const API_BASE = "http://localhost:5174";
+const API_BASE = "https://localhost:5174";
 
 const DRINK_CATEGORIES = [
   "Cocktails",
