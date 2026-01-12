@@ -721,14 +721,12 @@ function TasteTestsRow() {
 }
 
 function CategoriesRow() {
+  const navigate = useNavigate();
+
   const cats = [
     { key: "quick", label: "QUICK AND EASY", img: "/Images/QuickAndEasy.webp" },
     { key: "dinner", label: "DINNER", img: "/Images/Dinner.jpg" },
-    {
-      key: "vegetarian",
-      label: "VEGETARIAN",
-      img: "/Images/Vegetarian.webp",
-    },
+    { key: "vegetarian", label: "VEGETARIAN", img: "/Images/Vegetarian.webp" },
     { key: "healthy", label: "HEALTHY", img: "/Images/Healthyjpg.jpg" },
     { key: "instantpot", label: "INSTANT POT", img: "/Images/InstantPot.jpg" },
     { key: "vegan", label: "VEGAN", img: "/Images/Vegan.jpg" },
@@ -737,21 +735,30 @@ function CategoriesRow() {
 
   return (
     <section className="cats">
-      <div className="cats-track">
-        {cats.map((c) => (
-          <a
-            key={c.key}
-            className="cat"
-            href={`/recipes?cat=${encodeURIComponent(c.key)}`}
-          >
-            <img className="cat-img" src={c.img} alt={c.label} />
-            <span className="cat-label">{c.label}</span>
-          </a>
-        ))}
+  <div className="cats-track">
+    {cats.map((c) => (
+      <div
+        key={c.key}
+        className="cat"
+        onClick={() => {
+          if (c.key === "quick") {
+            navigate("/quick-easy"); // hap QuickEasy.jsx
+          } else {
+            navigate(`/recipes?cat=${encodeURIComponent(c.key)}`);
+          }
+        }}
+        style={{ cursor: "pointer" }}
+      >
+        <img className="cat-img" src={c.img} alt={c.label} />
+        <span className="cat-label">{c.label}</span>
       </div>
-    </section>
+    ))}
+  </div>
+</section>
+
   );
 }
+
 
 function NewsletterBand() {
   const [message, setMessage] = useState("");

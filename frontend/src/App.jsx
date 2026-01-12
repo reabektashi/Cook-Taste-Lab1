@@ -25,6 +25,7 @@ import Categories from "./pages/Categories";
 import DrinksDash from "./pages/DrinksDash";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
+import QuickEasy from "./pages/QuickEasy";
 
 export default function App() {
   return (
@@ -42,12 +43,11 @@ export default function App() {
           <Route path="/recipes/lunch" element={<Lunch />} />
           <Route path="/recipes/dinner" element={<Dinner />} />
           <Route path="/recipes/appetizers" element={<Appetizers />} />
-          <Route path="/recipes/dinner" element={<Dinner />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
-          
+           <Route path="/quick-easy" element={<QuickEasy />} />
 
           <Route path="/dashboard" element={<Dashboard />}>
             <Route index element={<Overview />} />
