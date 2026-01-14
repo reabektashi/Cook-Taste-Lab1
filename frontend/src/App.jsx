@@ -12,7 +12,7 @@ import Desserts from "./pages/recipes/desserts";
 import Breakfast from "./pages/recipes/breakfast";
 import Lunch from "./pages/recipes/lunch";
 import Dinner from "./pages/recipes/dinner";
-import Appetizers from "./pages/recipes/appetizers";
+import Appetizers from "./pages/Recipes/appetizers";
 import Favorites from "./pages/Favorites";
 import AboutUs from "./pages/aboutus";
 import Logout from "./pages/logout";
@@ -28,11 +28,14 @@ import Settings from "./pages/Settings";
 import QuickEasy from "./pages/QuickEasy";
 import Vegetarian from "./pages/Vegetarian";
 
+// ⭐ Protected Admin Route
+import ProtectedRoutes from "./utils/ProtectedRoutes";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* PUBLIC ROUTES */}
         <Route element={<Layout />}>
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -49,16 +52,21 @@ export default function App() {
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
-           <Route path="/quick-easy" element={<QuickEasy />} />
-         <Route path="/vegetarian" element={<Vegetarian />} />
-          <Route path="/dashboard" element={<Dashboard />}>
-            <Route index element={<Overview />} />
-            <Route path="reports" element={<Reports />} />
-            <Route path="categories" element={<Categories />} />
-            <Route path="drinksdash" element={<DrinksDash />} />
-            <Route path="users" element={<Users />} />
-            <Route path="settings" element={<Settings />} />
-            
+          <Route path="/quick-easy" element={<QuickEasy />} />
+          <Route path="/vegetarian" element={<Vegetarian />} />
+
+          {/* ================================
+              🔐 ADMIN PROTECTED ROUTES
+              ================================= */}
+          <Route element={<ProtectedRoutes requireAdmin={true} />}>
+            <Route path="/dashboard" element={<Dashboard />}>
+              <Route index element={<Overview />} />
+              <Route path="reports" element={<Reports />} />
+              <Route path="categories" element={<Categories />} />
+              <Route path="drinksdash" element={<DrinksDash />} />
+              <Route path="users" element={<Users />} />
+              <Route path="settings" element={<Settings />} />
+            </Route>
           </Route>
         </Route>
       </Routes>
