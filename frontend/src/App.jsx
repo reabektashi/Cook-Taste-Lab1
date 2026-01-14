@@ -26,13 +26,15 @@ import DrinksDash from "./pages/DrinksDash";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
 import QuickEasy from "./pages/QuickEasy";
+import Vegetarian from "./pages/Vegetarian";
+
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/search" element={<SearchResults />} />
@@ -48,7 +50,7 @@ export default function App() {
           <Route path="/logout" element={<Logout />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
            <Route path="/quick-easy" element={<QuickEasy />} />
-
+         <Route path="/vegetarian" element={<Vegetarian />} />
           <Route path="/dashboard" element={<Dashboard />}>
             <Route index element={<Overview />} />
             <Route path="reports" element={<Reports />} />

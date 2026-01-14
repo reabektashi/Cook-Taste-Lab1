@@ -743,7 +743,13 @@ function CategoriesRow() {
         onClick={() => {
           if (c.key === "quick") {
             navigate("/quick-easy"); // hap QuickEasy.jsx
-          } else {
+          }else if (c.key === "dinner") {
+                navigate("/recipes/dinner"); // Dinner page ekzistuese
+              } 
+              else if (c.key === "vegetarian") {
+                navigate("/vegetarian"); 
+              } 
+           else {
             navigate(`/recipes?cat=${encodeURIComponent(c.key)}`);
           }
         }}

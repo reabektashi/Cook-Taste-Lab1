@@ -3,77 +3,76 @@ import { FaHeart, FaRegHeart, FaRegClock, FaStar } from "react-icons/fa";
 import API from "../api";
 import "../assets/Css/style.css";
 
-const quickEasyRecipes = [
+
+const vegetarianRecipes = [
   {
-    id: 6001,
-    tag: "QUICK & EASY",
-    title: "The Cheap, Nutritious Breakfast I Make All the Time (It Takes 5 Minutes)",
-    time: "5 mins",
-    img: "/Images/avocado-toast.webp",
-    href: "/recipes/avocado-toast",
-    rating: 4.8,
-  },
-  {
-    id: 6002,
-    tag: "QUICK & EASY",
-    title: "Creamy Lemon Pasta",
-    time: "20 mins",
-    img: "/Images/Creamy-Lemon-Pasta.webp",
-    href: "/recipes/creamy-lemon-pasta",
-    rating: 4.6,
-  },
-  {
-    id: 6003,
-    tag: "QUICK & EASY",
-    title: "Egg & Veggie Wrap",
-    time: "15 mins",
-    img: "/Images/egg-wrapper.webp",
-    href: "/recipes/egg-veggie-wrap",
+    id: 7001,
+    tag: "VEGETARIAN",
+    title: "Vegetarian Spinach and Mushroom Lasagna",
+    time: "30 mins",
+    img: "/Images/Vegetarian Spinach and Mushroom Lasagna.webp",
+    href: "/recipes/Vegetarian Spinach and Mushroom Lasagna",
     rating: 4.5,
   },
   {
-  id: 6004,
-  tag: "QUICK & EASY",
-  title: "The 3-Ingredient Garlic Butter Chicken Bites I Can't Stop Making",
-  time: "25 mins",
-  img: "/Images/garlic-butter-chicken.webp",
-  href: "/recipes/garlic-butter-chicken",
-  rating: 4.7,
-},
-{
-  id: 6005,
-  tag: "QUICK & EASY",
-  title: "10-Minute Greek Yogurt Bowl",
-  time: "10 mins",
-  img: "/Images/greek-yogurt-bowl.webp",
-  href: "/recipes/greek-yogurt-bowl",
-  rating: 4.6,
-},
-{
-  id: 6006,
-  tag: "QUICK & EASY",
-  title: "Easy Veggie Fried Rice",
-  time: "20 mins",
-  img: "/Images/veggie-fried-rice.webp",
-  href: "/recipes/veggie-fried-rice",
-  rating: 4.5,
-}
+    id: 7002,
+    tag: "VEGETARIAN",
+    title: "Creamy Mushroom Risotto",
+    time: "35 mins",
+    img: "/Images/mushroom-risotto.webp",
+    href: "/recipes/mushroom-risotto",
+    rating: 4.8,
+  },
+  {
+    id: 7003,
+    tag: "VEGETARIAN",
+    title: "Vegetarian Stuffed Peppers",
+    time: "40 mins",
+    img: "/Images/Vegetarian Stuffed Peppers.webp",
+    href: "/recipes/Vegetarian Stuffed Peppers",
+    rating: 4.6,
+  },
+  {
+    id: 7004,
+    tag: "VEGETARIAN",
+    title: "Vegetarian Meatloaf",
+    time: "75 mins",
+    img: "/Images/Vegetarian Meatloaf.webp",
+    href: "/recipes/Vegetarian Meatloaf",
+    rating: 4.5,
+  },
+  {
+    id: 7005,
+    tag: "VEGETARIAN",
+    title: "Spicy Vegetarian Chili",
+    time: "40 mins",
+    img: "/Images/Spicy Vegetarian Chili.webp",
+    href: "/recipes/Spicy Vegetarian Chili",
+    rating: 4.7,
+  },
+  {
+    id: 7006,
+    tag: "VEGETARIAN",
+    title: "Vegetarian Freezer Burrito",
+    time: "15 mins",
+    img: "/Images/Vegetarian Freezer Burrito.webp",
+    href: "/recipes/Vegetarian Freezer Burrito",
+    rating: 4.6,
+  },
 ];
 
-const QuickEasyRecipes = () => {
+const Vegetarian = () => {
   const [liked, setLiked] = useState({});
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    // load from localStorage first
     const stored = localStorage.getItem("liked");
     if (stored) setLiked(JSON.parse(stored));
 
     if (!token) return;
 
-    // sync from backend
     (async () => {
       try {
         const res = await API.get("/favorites", { withCredentials: true });
@@ -113,14 +112,7 @@ const QuickEasyRecipes = () => {
           "/favorites",
           {
             recipeId: recipe.id,
-            recipe: {
-              title: recipe.title,
-              tag: recipe.tag,
-              time: recipe.time,
-              img: recipe.img,
-              href: recipe.href,
-              rating: recipe.rating,
-            },
+            recipe,
           },
           { withCredentials: true }
         );
@@ -138,15 +130,15 @@ const QuickEasyRecipes = () => {
   return (
     <section className="section-gap py-5 aboutus-page">
       <div className="bk-head text-center mb-4">
-        <h2 className="bk-title display-5 fw-bold">Quick & Easy Recipes</h2>
+        <h2 className="bk-title display-5 fw-bold">Vegetarian Recipes</h2>
         <h3 className="fs-5 fw-normal mt-3 px-2">
-          Simple ingredients. Fast results. Perfect for busy days.
+          Fresh, healthy and delicious vegetarian meals for every day.
         </h3>
       </div>
 
       <div className="container px-4 bg-transparent">
         <div className="row g-5 justify-content-center">
-          {quickEasyRecipes.map((r) => (
+          {vegetarianRecipes.map((r) => (
             <div key={r.id} className="col-md-4 d-flex">
               <article className="wk-card bg-white shadow-sm rounded-4 overflow-hidden">
                 <a className="d-block position-relative" href={r.href}>
@@ -193,7 +185,7 @@ const QuickEasyRecipes = () => {
         </div>
       </div>
 
-    {/* Login modal */}
+      {/* Login modal */}
       <div
         className={`modal fade ${showLoginModal ? "show d-block" : ""}`}
         tabIndex="-1"
@@ -234,4 +226,4 @@ const QuickEasyRecipes = () => {
   );
 };
 
-export default QuickEasyRecipes;
+export default Vegetarian;

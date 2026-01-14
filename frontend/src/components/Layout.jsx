@@ -3,6 +3,7 @@ import { useState } from 'react';
 import '../assets/Css/style.css';
 import { FaSignOutAlt } from "react-icons/fa";
 
+
 function Layout() {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
@@ -13,7 +14,7 @@ function Layout() {
       navigate(`/search?q=${encodeURIComponent(query)}`);
     }
   };
-
+ 
   return (
     <>
       {/* NAVBAR */}
