@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./components/Layout";
 
 import Home from "./pages/Home";
@@ -7,6 +8,9 @@ import Login from "./pages/Login";
 import Register from "./pages/register";
 import SearchResults from "./pages/SearchResults";
 import Drinks from "./pages/Drinks";
+import Coffee from "./pages/Coffee";
+import Tea from "./pages/Tea";
+import Juices from "./pages/Juices";
 import Coctails from "./pages/recipes/cocktails";
 import Desserts from "./pages/recipes/desserts";
 import Breakfast from "./pages/recipes/breakfast";
@@ -34,14 +38,18 @@ import ProtectedRoutes from "./utils/ProtectedRoutes";
 export default function App() {
   return (
     <BrowserRouter>
+    <ScrollToTop />
       <Routes>
         {/* PUBLIC ROUTES */}
         <Route element={<Layout />}>
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/search" element={<SearchResults />} />
           <Route path="/drinks" element={<Drinks />} />
+          <Route path="/drinks/coffee" element={<Coffee />} />
+          <Route path="/drinks/tea" element={<Tea />} />
+          <Route path="/drinks/juices" element={<Juices />} />
           <Route path="/recipes/coctails" element={<Coctails />} />
           <Route path="/recipes/desserts" element={<Desserts />} />
           <Route path="/recipes/breakfast" element={<Breakfast />} />

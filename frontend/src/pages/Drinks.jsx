@@ -1,7 +1,9 @@
 // src/pages/Drinks.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom"; // SPA navigation
+import { FaHeart, FaRegHeart, FaStar, FaRegClock } from "react-icons/fa";
 import "../assets/Css/style.css";
+import { fetchFavorites, addFavorite, removeFavorite } from "../utils/favoritesApi";
 
 function Drinks() {
   const categories = [
@@ -37,16 +39,66 @@ function Drinks() {
   ];
 
   const seasonalPicks = [
-    { title: "Cocktails", img: "/Images/limon.png", key: "cocktails" },
-    { title: "Blue Cocktail", img: "/Images/blue.png", key: "mocktails" },
-    { title: "Iced Vietnamese Coffee", img: "/Images/Iced Vietnamese Coffee.png", key: "coffee" },
-    { title: "Pineapple Coconut Colada", img: "/Images/Pineapple Coconut Colada.png", key: "mocktails" },
-    { title: "Cucumber Mint Spa Water", img: "/Images/Cucumber Mint Spa Water.png", key: "juices" },
-    { title: "Grapefruit Paloma", img: "/Images/Grapefruit Paloma.png", key: "juices" },
-    { title: "Mango Pineapple Smoothie", img: "/Images/Mango Pineapple Smoothie.png", key: "smoothies" },
-    { title: "Mixed Berry Smoothie", img: "/Images/Mixed Berry Smoothie.png", key: "smoothies" },
-    { title: "Green Detox Smoothie", img: "/Images/Green Detox Smoothie.png", key: "smoothies" },
+    { id: "sp1", title: "Cocktails", img: "/Images/limon.png", key: "cocktails" },
+    { id: "sp2", title: "Blue Cocktail", img: "/Images/blue.png", key: "mocktails" },
+    { id: "sp3", title: "Iced Vietnamese Coffee", img: "/Images/Iced Vietnamese Coffee.png", key: "coffee" },
+    { id: "sp4", title: "Pineapple Coconut Colada", img: "/Images/Pineapple Coconut Colada.png", key: "mocktails" },
+    { id: "sp5", title: "Cucumber Mint Spa Water", img: "/Images/Cucumber Mint Spa Water.png", key: "juices" },
+    { id: "sp6", title: "Grapefruit Paloma", img: "/Images/Grapefruit Paloma.png", key: "juices" },
+    { id: "sp7", title: "Mango Pineapple Smoothie", img: "/Images/Mango Pineapple Smoothie.png", key: "smoothies" },
+    { id: "sp8", title: "Mixed Berry Smoothie", img: "/Images/Mixed Berry Smoothie.png", key: "smoothies" },
+    { id: "sp9", title: "Green Detox Smoothie", img: "/Images/Green Detox Smoothie.png", key: "smoothies" },
   ];
+
+  // ===== favorites state =====
+  const [liked, setLiked] = useState({});
+
+  // load favorites on mount (if logged in)
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    (async () => {
+      try {
+        const favs = await fetchFavorites();
+        const map = {};
+        favs.forEach((r) => (map[r.id] = true));
+        setLiked(map);
+      } catch (err) {
+        console.error("Failed to load favorites", err);
+      }
+    })();
+  }, []);
+
+  const handleToggleFavorite = async (recipe) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please log in to save favorites.");
+      return;
+    }
+
+    const wasLiked = !!liked[recipe.id];
+
+    // Optimistic UI
+    setLiked((prev) => ({ ...prev, [recipe.id]: !wasLiked }));
+
+    try {
+      if (!wasLiked) {
+        await addFavorite(recipe);
+      } else {
+        await removeFavorite(recipe.id);
+      }
+    } catch (err) {
+      console.error("Error updating favorite:", err);
+      // revert on error
+      setLiked((prev) => ({ ...prev, [recipe.id]: wasLiked }));
+    }
+  };
+
+  const renderStars = (rating) =>
+    Array.from({ length: 5 }).map((_, i) => (
+      <FaStar key={i} className={i < Math.round(rating || 0) ? "on" : ""} />
+    ));
 
   return (
     <div className="drinks-page">
@@ -59,9 +111,9 @@ function Drinks() {
           <p className="hero-sub">
             Cocktails, smoothies, teas & more to quench your thirst.
           </p>
-          <Link className="hero-btn" to="#categories">
+          <a className="hero-btn" href="#categories">
             Explore Recipes <span className="btn-icon">»</span>
-          </Link>
+          </a>
         </div>
       </header>
 
@@ -132,7 +184,7 @@ function Drinks() {
           ))}
         </div>
       </section>
-      
+
       {/* PROMO BANNER */}
       <section className="promo has-video">
         <div className="promo-media">
@@ -154,10 +206,23 @@ function Drinks() {
       <section className="ft section-gap aboutus-page">
         <h2 className="section-title">SEASONAL PICKS</h2>
         <div className="ft-grid">
-          {seasonalPicks.map((t, i) => (
-            <Link key={i} className="ft-card" to={`/drinks/${t.key}`}>
+          {seasonalPicks.map((t) => (
+            <Link key={t.id} className="ft-card" to={`/drinks/${t.key}`} style={{ position: "relative" }}>
               <img className="ft-img" src={t.img} alt={t.title} />
               <h3 className="ft-title">{t.title}</h3>
+
+              {/* Heart button */}
+              <button
+                type="button"
+                className={`wk-like position-absolute top-0 end-0 m-2 ${liked[t.id] ? "is-liked" : ""}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleToggleFavorite(t);
+                }}
+                aria-label={liked[t.id] ? "Remove from favorites" : "Add to favorites"}
+              >
+                {liked[t.id] ? <FaHeart size={28} color="red" /> : <FaRegHeart size={28} color="white" />}
+              </button>
             </Link>
           ))}
         </div>

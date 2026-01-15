@@ -20,13 +20,13 @@ function Layout() {
       {/* NAVBAR */}
       <nav className="ct-navbar">
         <div className="ct-navbar-container">
-          <Link className="ct-navbar-brand" to="/home">
+          <Link className="ct-navbar-brand" to="/">
             <img src="/Images/brandL.png" alt="Cook & Taste Logo" />
           </Link>
 
           <div className="ct-navbar-links" id="navbarLinks">
             <ul className="ct-navbar-nav">
-              <li><Link className="ct-nav-link" to="/home">Home</Link></li>
+              <li><Link className="ct-nav-link" to="/">Home</Link></li>
 
               <li className="ct-dropdown">
                 <span className="ct-nav-link">Recipes</span>
