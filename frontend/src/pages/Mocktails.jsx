@@ -1,121 +1,93 @@
 import React, { useState, useEffect } from "react";
 import { FaHeart, FaRegHeart, FaRegClock, FaStar } from "react-icons/fa";
-import API from "../../api";
+import API from "../api";
 import { useNavigate } from "react-router-dom";
 
-const breakfastRecipes = [
+// ⭐ Mocktail recipes
+const MocktailRecipes = [
   {
-    id: 1001,
-    tag: "BREAKFAST",
-    title: "The One-Pot Persian Recipe I Make for Breakfast, Lunch, and Dinner",
-    time: "40 mins",
-    img: "/Images/Persian Recipe.webp",
-    href: "/recipes/one-pot-persian",
-    rating: 4.5,
-  },
-  {
-    id: 1002,
-    tag: "BREAKFAST",
-    title: "Forget Tomato Sandwiches—Make This Tomato Ricotta Toast Instead",
-    time: "9 mins",
-    img: "/Images/Tomato.webp",
-    href: "/recipes/tomato-ricotta-toast",
+    id: 301,
+    tag: "MOCKTAILS",
+    title: "Virgin Mojito",
+    time: "8 mins",
+    img: "/Images/virgin-mojito.jpg",
+    href: "/drinks/virgin-mojito",
     rating: 4.7,
   },
   {
-    id: 1003,
-    tag: "BREAKFAST",
-    title: "The 4-Ingredient Breakfast I Eat Almost Every Day",
+    id: 302,
+    tag: "MOCKTAILS",
+    title: "Strawberry Basil Cooler",
     time: "10 mins",
-    img: "/Images/HamnCheese.webp",
-    href: "/recipes/ham-cheese",
-    rating: 3.6,
+    img: "/Images/strawberry-basil-cooler.jpg",
+    href: "/drinks/strawberry-basil-cooler",
+    rating: 4.8,
   },
   {
-    id: 1004,
-    tag: "BREAKFAST",
-    title: "2-Ingredient Banana Pancakes Recipe",
-    time: "13 mins",
-    img: "/Images/bananapancake.webp",
-    href: "/recipes/banana-pancake",
-    rating: 5.0,
-  },
-  {
-    id: 1005,
-    tag: "BREAKFAST",
-    title: "Bircher Muesli Recipe",
-    time: "15 mins",
-    img: "/Images/BircherMuesli.webp",
-    href: "/recipes/bircher-uesli",
+    id: 303,
+    tag: "MOCKTAILS",
+    title: "Cucumber Mint Fizz",
+    time: "7 mins",
+    img: "/Images/cucumber-mint-fizz.jpg",
+    href: "/drinks/cucumber-mint-fizz",
     rating: 4.6,
-  }, 
-  {
-    id: 1006,
-    tag: "BREAKFAST",
-    title: "Make-Ahead Frittata Squares with Spinach, Tomatoes, and Feta",
-    time: "60 mins",
-    img: "/Images/frittatasquares.webp",
-    href: "/recipes/frittata-squares",
-    rating: 5.0,
   },
   {
-    id: 1007,
-    tag: "BREAKFAST",
-    title: "My Dutch Baby Recipe Is Totally Foolproof—I Make It Every Weekend",
-    time: "45 mins",
-    img: "/Images/Dutchbaby.webp",
-    href: "/recipes/Dutchbaby",
-    rating: 5.0,
-  },{
-    id: 1008,
-    tag: "BREAKFAST",
-    title: "Turn Your Leftover Mashed Potatoes Into Irish Boxty",
-    time: "34 mins",
-    img: "/Images/irishbreakfast.webp",
-    href: "/recipes/irishbreakfast",
-    rating: 5.0,
+    id: 304,
+    tag: "MOCKTAILS",
+    title: "Tropical Sunrise Mocktail",
+    time: "9 mins",
+    img: "/Images/tropical-sunrise.jpg",
+    href: "/drinks/tropical-sunrise-mocktail",
+    rating: 4.9,
   },
   {
-    id: 1009,
-    tag: "BREAKFAST",
-    title: "My New Favorite Dessert Is Just 3 Ingredients and Takes 5 Minutes To Make",
-    time: "15 mins",
-    img: "/Images/koreantoast.webp",
-    href: "/recipes/koreantoast",
-    rating: 4.6,
-  }
+    id: 305,
+    tag: "MOCKTAILS",
+    title: "Raspberry Lemon Spritzer",
+    time: "6 mins",
+    img: "/Images/raspberry-lemon-spritzer.jpg",
+    href: "/drinks/raspberry-lemon-spritzer",
+    rating: 4.5,
+  },
+  {
+    id: 306,
+    tag: "MOCKTAILS",
+    title: "Citrus Ginger Sparkler",
+    time: "6 mins",
+    img: "/Images/citrus-ginger-sparkler.jpg",
+    href: "/drinks/citrus-ginger-sparkler",
+    rating: 4.4,
+  },
 ];
 
-const Breakfast = () => {
-  const navigate = useNavigate(); // ✅ hook must be inside component
-
+const Mocktails = () => {
+  const navigate = useNavigate();
   const [liked, setLiked] = useState({});
   const [showLoginModal, setShowLoginModal] = useState(false);
 
+  // Load + sync favorites
   useEffect(() => {
-  const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
-  // 1) load from localStorage first (fast UI)
-  const stored = localStorage.getItem("liked");
-  if (stored) setLiked(JSON.parse(stored));
+    const stored = localStorage.getItem("liked");
+    if (stored) setLiked(JSON.parse(stored));
 
-  // 2) then, if logged in, sync from backend (real truth)
-  if (!token) return;
+    if (!token) return;
 
-  (async () => {
-    try {
-      const res = await API.get("/favorites", { withCredentials: true });
-      const favs = res.data.favorites || [];
-      const map = {};
-      favs.forEach((r) => (map[r.id] = true));
-      setLiked(map);
-      localStorage.setItem("liked", JSON.stringify(map));
-    } catch (e) {
-      console.error("Failed to sync favorites:", e);
-    }
-  })();
-}, []);
-
+    (async () => {
+      try {
+        const res = await API.get("/favorites", { withCredentials: true });
+        const favs = res.data.favorites || [];
+        const map = {};
+        favs.forEach((r) => (map[r.id] = true));
+        setLiked(map);
+        localStorage.setItem("liked", JSON.stringify(map));
+      } catch (e) {
+        console.error("Failed to sync favorites:", e);
+      }
+    })();
+  }, []);
 
   const handleToggleFavorite = async (recipe) => {
     const token = localStorage.getItem("token");
@@ -134,10 +106,8 @@ const Breakfast = () => {
 
     try {
       if (wasLiked) {
-        // remove favorite
         await API.delete(`/favorites/${recipe.id}`, { withCredentials: true });
       } else {
-        // add favorite
         await API.post(
           "/favorites",
           {
@@ -153,8 +123,6 @@ const Breakfast = () => {
           },
           { withCredentials: true }
         );
-
-       
       }
     } catch (err) {
       console.error("favorites sync error:", err);
@@ -169,18 +137,18 @@ const Breakfast = () => {
   return (
     <section className="breakfast section-gap py-5 aboutus-page">
       <div className="bk-head text-center mb-4">
-        <h2 className="bk-title display-5 fw-bold ">Breakfast Recipes</h2>
-        <h3 className="fs-5 fw-normal mt-3 px-2"> Whether it's a grab-and-go or a hearty breakfast to eat while reading the news,
-        get off to a great start with our breakfast recipes and ideas.</h3>
-        <a className="bk-more fs-2 text-decoration-none" href="/recipes?tag=breakfast"></a>
+        <h2 className="bk-title display-5 fw-bold">Mocktail Recipes</h2>
+        <h3 className="fs-5 fw-normal mt-3 px-2">
+          All the flavour and fun, without the alcohol.
+        </h3>
       </div>
 
       <div className="container px-4 bg-transparent">
         <div className="row g-5 justify-content-center">
-          {breakfastRecipes.map((r) => (
+          {MocktailRecipes.map((r) => (
             <div key={r.id} className="col-md-4 d-flex">
               <article
-                className="wk-card bg-white shadow-sm rounded-4 overflow-hidden"
+                className="wk-card bg-white shadow-sm rounded-4 overflow-hidden h-100"
                 style={{ paddingBottom: "15px" }}
               >
                 <a className="d-block position-relative" href={r.href}>
@@ -191,12 +159,14 @@ const Breakfast = () => {
                     style={{
                       borderBottomLeftRadius: "0.5rem",
                       borderBottomRightRadius: "0.5rem",
+                      height: "260px",
+                      objectFit: "cover",
                     }}
                   />
 
                   <button
                     type="button"
-                    className={` wk-like position-absolute top-0 end-0 m-3 ${
+                    className={`wk-like position-absolute top-0 end-0 m-3 ${
                       liked[r.id] ? "is-liked text-danger" : ""
                     }`}
                     onClick={(e) => {
@@ -235,7 +205,7 @@ const Breakfast = () => {
         </div>
       </div>
 
-      {/* Login modal */}
+      {/* Login Modal */}
       <div
         className={`modal fade ${showLoginModal ? "show d-block" : ""}`}
         tabIndex="-1"
@@ -274,4 +244,4 @@ const Breakfast = () => {
   );
 };
 
-export default Breakfast;
+export default Mocktails;

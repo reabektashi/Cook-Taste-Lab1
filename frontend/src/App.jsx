@@ -9,9 +9,11 @@ import Register from "./pages/register";
 import SearchResults from "./pages/SearchResults";
 import Drinks from "./pages/Drinks";
 import Coffee from "./pages/Coffee";
+import Cocktails from "./pages/Cocktails";
+import Mocktails from "./pages/Mocktails";
+import Smoothies from "./pages/Smoothies";
 import Tea from "./pages/Tea";
 import Juices from "./pages/Juices";
-import Coctails from "./pages/recipes/cocktails";
 import Desserts from "./pages/recipes/desserts";
 import Breakfast from "./pages/recipes/breakfast";
 import Lunch from "./pages/recipes/lunch";
@@ -21,7 +23,6 @@ import Favorites from "./pages/Favorites";
 import AboutUs from "./pages/aboutus";
 import Logout from "./pages/logout";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
-
 import Dashboard from "./pages/Dashboard";
 import Overview from "./pages/Overview";
 import Reports from "./pages/Reports";
@@ -48,9 +49,11 @@ export default function App() {
           <Route path="/search" element={<SearchResults />} />
           <Route path="/drinks" element={<Drinks />} />
           <Route path="/drinks/coffee" element={<Coffee />} />
+          <Route path="/drinks/cocktails" element={<Cocktails />} />
+          <Route path="/drinks/mocktails" element={<Mocktails />} />
+          <Route path="/drinks/smoothies" element={<Smoothies />} />
           <Route path="/drinks/tea" element={<Tea />} />
           <Route path="/drinks/juices" element={<Juices />} />
-          <Route path="/recipes/coctails" element={<Coctails />} />
           <Route path="/recipes/desserts" element={<Desserts />} />
           <Route path="/recipes/breakfast" element={<Breakfast />} />
           <Route path="/recipes/lunch" element={<Lunch />} />
@@ -62,6 +65,7 @@ export default function App() {
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/quick-easy" element={<QuickEasy />} />
           <Route path="/vegetarian" element={<Vegetarian />} />
+          
 
           {/* ================================
               🔐 ADMIN PROTECTED ROUTES
