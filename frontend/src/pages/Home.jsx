@@ -748,6 +748,16 @@ function CategoriesRow() {
               } 
               else if (c.key === "vegetarian") {
                 navigate("/vegetarian"); 
+              }  else if (c.key === "healthy") {
+                navigate("/healthy"); 
+              } 
+             else if (c.key === "instantpot") {
+              navigate("/instantpot");
+              }
+             else if (c.key === "vegan") {
+                navigate("/vegan"); 
+              } else if (c.key === "mealprep") {
+                navigate("/mealprep"); 
               } 
            else {
             navigate(`/recipes?cat=${encodeURIComponent(c.key)}`);

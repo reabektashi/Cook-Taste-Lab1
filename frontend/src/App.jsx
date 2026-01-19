@@ -32,6 +32,10 @@ import Users from "./pages/Users";
 import Settings from "./pages/Settings";
 import QuickEasy from "./pages/QuickEasy";
 import Vegetarian from "./pages/Vegetarian";
+import Healthy from "./pages/Healthy";
+import InstantPot from "./pages/InstantPot";
+import Vegan from "./pages/Vegan";
+import MealPrep from "./pages/MealPrep";
 
 // ⭐ Protected Admin Route
 import ProtectedRoutes from "./utils/ProtectedRoutes";
@@ -65,7 +69,10 @@ export default function App() {
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/quick-easy" element={<QuickEasy />} />
           <Route path="/vegetarian" element={<Vegetarian />} />
-          
+          <Route path="/healthy" element={<Healthy />} />
+           <Route path="/instantpot" element={<InstantPot />} />
+            <Route path="/vegan" element={<Vegan />} />
+             <Route path="/mealprep" element={<MealPrep />} />
 
           {/* ================================
               🔐 ADMIN PROTECTED ROUTES
