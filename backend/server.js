@@ -9,6 +9,12 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";   // 👈 NEW
 import crypto from "crypto";  
+import https from "https";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
   const app = express();
@@ -19,7 +25,7 @@ dotenv.config();
 
   app.use(
     cors({
-      origin: true,          
+      origin:  ["https://localhost:5173", "https://127.0.0.1:5173"],          
       credentials: true,     
     })
   );
@@ -84,6 +90,10 @@ function requireRole(...roles) {
     next();
   };
 }
+app.get("/api/me", auth, (req, res) => {
+  res.json({ user: req.user });
+});
+
 
 
 // create random refresh token string
@@ -170,8 +180,8 @@ app.post("/api/register", async (req, res) => {
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      sameSite: "lax",
-      secure: false, // set to true when you deploy with HTTPS
+      sameSite: "none",
+      secure: true,
       maxAge: REFRESH_TOKEN_DAYS * 24 * 60 * 60 * 1000,
     });
 
@@ -207,7 +217,7 @@ app.post("/api/login", async (req, res) => {
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: "none",
       secure: true,
       maxAge: REFRESH_TOKEN_DAYS * 24 * 60 * 60 * 1000,
     });
@@ -247,7 +257,7 @@ app.post("/api/refresh", async (req, res) => {
 
     res.cookie("refreshToken", newRefreshToken, {
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: "none",
       secure: true,
       maxAge: REFRESH_TOKEN_DAYS * 24 * 60 * 60 * 1000,
     });
@@ -648,27 +658,12 @@ app.put("/api/change-password", auth, requireRole("admin"), async (req, res) => 
 
 
 //HTTPS SERVER
-import https from "https";
-import fs from "fs";
-import path from "path";
-
-// Load SSL certificates
-const options = {
-  key: fs.readFileSync(path.join(process.cwd(), "certs", "key.pem")),
-  cert: fs.readFileSync(path.join(process.cwd(), "certs", "cert.crt")),
-};
-
-// Serve React frontend
-app.use(express.static(path.join(process.cwd(), "../frontend/dist")));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(process.cwd(), "../frontend/dist", "index.html"));
-});
-
-// Start HTTPS server
-
-
-const httpsServer = https.createServer(options, app);
-
-httpsServer.listen(PORT, () => {
-  console.log(`✅ API + frontend running at https://localhost:${PORT}`);
+https.createServer(
+  {
+    key: fs.readFileSync(path.join(__dirname, "certs", "localhost-key.pem")),
+    cert: fs.readFileSync(path.join(__dirname, "certs", "localhost.pem")),
+  },
+  app
+).listen(5174, () => {
+  console.log("✅ Backend running at https://localhost:5174");
 });
