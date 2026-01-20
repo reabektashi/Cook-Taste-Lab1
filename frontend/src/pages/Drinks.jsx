@@ -15,28 +15,33 @@ function Drinks() {
     { key: "juices", label: "Juices", img: "/Images/cat-juice.png" },
   ];
 
-  const trending = [
-    {
-      title: "Classic Mojito",
-      text: "Fresh lime, mint, soda water — simple & refreshing.",
-      img: "/Images/drink-mojito.png",
-    },
-    {
-      title: "Iced Matcha Latte",
-      text: "Earthy green tea with creamy milk & ice.",
-      img: "/Images/drink-matcha.png",
-    },
-    {
-      title: "Strawberry Smoothie",
-      text: "A fruity blend of strawberries & yogurt.",
-      img: "/Images/drink-smoothie.png",
-    },
-    {
-      title: "Peach Iced Tea",
-      text: "Sweet tea & juicy peach.",
-      img: "/Images/drink-peach-tea.png",
-    },
-  ];
+  const trending = [ 
+  {
+    title: "Classic Mojito",
+    text: "Fresh lime, mint, soda water — simple & refreshing.",
+    img: "/Images/drink-mojito.png",
+    path: "/classic-mojito"
+  },
+  {
+    title: "Iced Matcha Latte",
+    text: "Earthy green tea with creamy milk & ice.",
+    img: "/Images/drink-matcha.png",
+    path: "/iced-matcha-latte"
+  },
+  {
+    title: "Strawberry Smoothie",
+    text: "A fruity blend of strawberries & yogurt.",
+    img: "/Images/drink-smoothie.png",
+    path: "/strawberry-smoothie"
+  },
+  {
+    title: "Peach Iced Tea",
+    text: "Sweet tea & juicy peach.",
+    img: "/Images/drink-peach-tea.png",
+    path: "/peach-iced-tea"
+  },
+];
+
 
   const seasonalPicks = [
     { id: "sp1", title: "Cocktails", img: "/Images/limon.png", key: "cocktails" },
@@ -169,21 +174,29 @@ function Drinks() {
         </div>
       </section>
 
-      {/* TOP RATED */}
-      <section className="trending-container section-gap aboutus-page" id="top-rated">
-        <h2 className="heading">TOP RATED DRINKS</h2>
-        <div className="ct-row">
-          {trending.map((d, i) => (
-            <div key={i} className="drink-card">
-              <img src={d.img} alt={d.title} className="ct-card-img drink-card-img" />
-              <div className="drink-card-body">
-                <h5 className="drink-card-title">{d.title}</h5>
-                <p className="drink-card-text">{d.text}</p>
-              </div>
-            </div>
-          ))}
+   {/* TOP RATED */}
+<section className="trending-container section-gap aboutus-page" id="top-rated">
+  <h2 className="heading">TOP RATED DRINKS</h2>
+  <div className="ct-row">
+    {trending.map((d, i) => (
+      <Link
+        to={d.path}
+        key={i}
+        className="ct-card-link"
+      >
+        <div className="drink-card">
+          <img src={d.img} alt={d.title} className="ct-card-img drink-card-img" />
+          <div className="drink-card-body">
+            <h5 className="drink-card-title">{d.title}</h5>
+            <p className="drink-card-text">{d.text}</p>
+          </div>
         </div>
-      </section>
+      </Link>
+    ))}
+  </div>
+</section>
+
+
 
       {/* PROMO BANNER */}
       <section className="promo has-video">

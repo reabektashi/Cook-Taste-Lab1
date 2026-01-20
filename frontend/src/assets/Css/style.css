@@ -2983,3 +2983,152 @@ box-sizing: border-box;
   height: 260px;
   object-fit: cover;
 }
+
+
+/* recipePages*/
+/* PAGE BACKGROUND */
+.recipe-page {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  background: #fff8f5;
+  color: #333;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+}
+
+/* TITLE */
+.recipe-title {
+  font-size: 2.2em;
+  margin-top: 15px;
+  margin-bottom: 25px;
+  color: #d35400;
+  text-align: center;
+  
+}
+
+/* INFO BOXES */
+.recipe-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+
+
+.info-box {
+  flex: 1;
+  min-width: 160px;
+  background: #f9d6b1;
+  padding: 12px 15px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+   font-family: 'Arial', sans-serif;
+}
+
+.info-box h3 {
+  margin-bottom: 5px;
+  color: #d35400;
+  font-size: 25px;
+}
+.info-box p{
+  margin-bottom: 5px;
+  color: #0b0b0b;
+  font-size: 17px;
+  font-weight: bolder;
+
+}
+
+/* HERO IMAGE */
+.hero-image {
+  text-align: center;
+  margin-bottom: 40px; /* me hapsire me te madhe poshte fotos */
+}
+
+.hero-image img {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* INTRO */
+.recipe-intro p {
+  font-size: 17px;
+  margin-bottom: 30px; /* hapsire pak me te madhe */
+  line-height: 1.6;
+}
+
+/* SECTIONS */
+.recipe-section {
+  margin-bottom: 35px; /* me hapsire me te madhe nder seksione */
+}
+
+.recipe-section h2 {
+  font-size: 1.6em;
+  color: #e67e22;
+  margin-bottom: 15px; /* me hapsire nga lista */
+  border-bottom: 2px solid #f39c12;
+  display: inline-block;
+  padding-bottom: 3px;
+  
+}
+.recipe-section p {
+  margin-left: 0; /* siguron që fillon nga fillimi i kolonës */
+  padding-left: 0; /* hiq indent */
+  font-size: 15px;
+  line-height: 1.5;
+  text-align:start;
+}
+
+.recipe-section ul,
+.recipe-section ol {
+  padding-left: 25px;
+}
+
+.recipe-section li {
+  margin-bottom: 10px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+
+/*Per te trenings*/
+/* LINK pa underline */
+.cook-spotlight-link {
+  text-decoration: none !important;
+  color: inherit;
+  display: block;
+}
+
+/* titulli normal */
+.cook-h3 {
+  text-decoration: none !important;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+/* hover: vetëm pak hint */
+.cook-spotlight-link:hover .cook-h3 {
+  opacity: 0.75;       /* pak fade */
+  color: #393939;     /* ose hiqe nese s'don ngjyrë */
+  text-decoration: none !important;
+}
+
+/*Per modalet e trendingNow mu bo te klikueshme*/
+
+.ct-card-link,
+.ct-card-link:link,
+.ct-card-link:visited,
+.ct-card-link:hover,
+.ct-card-link:active,
+.ct-card-link:focus {
+  color: inherit;       /* mbaje ngjyrën e card-it */
+  text-decoration: none; /* hiq underline */
+  outline: none;        /* hiq outline blu kur fokus */
+   display: contents;
+}

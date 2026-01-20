@@ -36,6 +36,25 @@ import Healthy from "./pages/Healthy";
 import InstantPot from "./pages/InstantPot";
 import Vegan from "./pages/Vegan";
 import MealPrep from "./pages/MealPrep";
+import GrillChicken from "./pages/recipePages/GrilledChicken";
+import BuffaloChickenTacos from "./pages/recipePages/BuffaloChickenTacos";
+import AntipastoSalad from "./pages/recipePages/AntipastoSalad";
+import TiramisuCake from "./pages/recipePages/TiramisuCake";
+import BananaMuffins from "./pages/recipePages/BananaMuffins";
+import SheetPanSalmonMiso from "./pages/recipePages/SheetPanSalmonMiso";
+import QuickBeefStirFry from "./pages/recipePages/QuickBeefStirFry";
+import PartyPie from "./pages/recipePages/PartyPie";
+import FourIngredientChicken from "./pages/recipePages/FourIngredientChicken";
+import VegetarianLasagna from "./pages/recipePages/VegetarianLasagna";
+import BananaBread from "./pages/recipePages/BananaBread";
+import BoozyHotChocolate from "./pages/recipePages/BoozyHotChocolate";
+import StrawberryLemonade from "./pages/recipePages/StrawberryLemonade";
+import BlueberrySmoothie from "./pages/recipePages/BlueberrySmoothie";
+import ClassicMojito from "./pages/drinksRecipePages/ClassicMojito";
+import IcedMatchaLatte from "./pages/drinksRecipePages/IcedMatchaLatte";
+import StrawberrySmoothie from "./pages/drinksRecipePages/StrawberrySmoothie";
+import PeachIcedTea from "./pages/drinksRecipePages/PeachIcedTea";
+
 
 // ⭐ Protected Admin Route
 import ProtectedRoutes from "./utils/ProtectedRoutes";
@@ -70,9 +89,27 @@ export default function App() {
           <Route path="/quick-easy" element={<QuickEasy />} />
           <Route path="/vegetarian" element={<Vegetarian />} />
           <Route path="/healthy" element={<Healthy />} />
-           <Route path="/instantpot" element={<InstantPot />} />
-            <Route path="/vegan" element={<Vegan />} />
-             <Route path="/mealprep" element={<MealPrep />} />
+          <Route path="/instantpot" element={<InstantPot />} />
+          <Route path="/vegan" element={<Vegan />} />
+          <Route path="/mealprep" element={<MealPrep />} />
+          <Route path="/grilled-chicken" element={<GrillChicken />} />
+          <Route path="/buffalo-tacos" element={<BuffaloChickenTacos />} />
+          <Route path="/antipasto-salad" element={<AntipastoSalad />} />
+        <Route path="/tiramisu-cake" element={<TiramisuCake />} />
+        <Route path="/banana-muffins" element={<BananaMuffins />} />
+        <Route path="/sheet-pan-salmon-miso" element={<SheetPanSalmonMiso />} />
+        <Route path="/quick-beef-stir-fry" element={<QuickBeefStirFry />} />
+        <Route path="/party-pie" element={<PartyPie />} />
+        <Route path="/4-ingredient-chicken" element={<FourIngredientChicken />} />
+       <Route path="/vegetarian-lasagna" element={<VegetarianLasagna />} />
+       <Route path="/banana-bread" element={<BananaBread />} />
+        <Route path="/boozy-hot-chocolate" element={<BoozyHotChocolate />} />
+<Route path="/strawberry-lemonade" element={<StrawberryLemonade />} />
+<Route path="/blueberry-smoothie" element={<BlueberrySmoothie />} />
+<Route path="/classic-mojito" element={<ClassicMojito />} />
+<Route path="/iced-matcha-latte" element={<IcedMatchaLatte />} />
+<Route path="/strawberry-smoothie" element={<StrawberrySmoothie />} />
+<Route path="/peach-iced-tea" element={<PeachIcedTea />} />
 
           {/* ================================
               🔐 ADMIN PROTECTED ROUTES

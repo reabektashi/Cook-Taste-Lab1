@@ -27,7 +27,7 @@ const mealPrepRecipes = [
     tag: "MEAL PREP",
     title: "Salmon & Veggie Meal Prep",
     time: "45 mins",
-    img: "/Images/salmon-meal-prep.jpg",
+    img: "/Images/salmon-meal-prep.webp",
     href: "/recipes/salmon-meal-prep",
     rating: 4.9,
   },

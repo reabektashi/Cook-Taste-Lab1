@@ -9,7 +9,7 @@ const instantPotRecipes = [
     tag: "INSTANT POT",
     title: "Instant Pot Butter Chicken",
     time: "30 mins",
-    img: "/Images/instant-pot-butter-chicken.jpg",
+    img: "/Images/instant-pot-butter-chicken.avif",
     href: "/recipes/instant-pot-butter-chicken",
     rating: 4.8,
   },

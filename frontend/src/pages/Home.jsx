@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+
 import { FaUtensils } from "react-icons/fa";
 import {
   FaFacebookF,
@@ -63,7 +64,7 @@ function Home() {
       title: "Sheet Pan Salmon and Broccoli with Miso Butter",
       time: "45 mins",
       img: "/Images/Sheet Pan Salmon and Broccoli .webp",
-      href: "/recipes/sheet-pan-salmon",
+      href: "/sheet-pan-salmon-miso",
       rating: 4.5,
     },
     {
@@ -72,7 +73,7 @@ function Home() {
       title: " Quick Beef Stir Fry with Bell Peppers",
       time: "40 mins",
       img: "/Images/Quick Beef Stir Fry with Bell Peppers.webp",
-      href: "/recipes/sausage-potato-soup",
+      href: "/quick-beef-stir-fry",
       rating: 4.7,
     },
     {
@@ -82,7 +83,7 @@ function Home() {
         "My Granny's 5-Ingredient Party Pie Is My Favorite Retro Dessert",
       time: "20 mins",
       img: "/Images/Party Pie.webp",
-      href: "/recipes/Party Pie",
+      href: "/party-pie",
       rating: 4.6,
     },
     {
@@ -91,7 +92,7 @@ function Home() {
       title: "4-Ingredient Chicken Dinner",
       time: "30 mins",
       img: "/Images/4-Ingredient Chicken Dinner.webp",
-      href: "/recipes/4-Ingredient Chicken Dinner",
+      href: "/4-ingredient-chicken",
       rating: 4.8,
     },
     {
@@ -100,7 +101,7 @@ function Home() {
       title: "Vegetarian Spinach and Mushroom Lasagna",
       time: "30 mins",
       img: "/Images/Vegetarian Spinach and Mushroom Lasagna.webp",
-      href: "/recipes/Vegetarian Spinach and Mushroom Lasagna",
+      href: "/vegetarian-lasagna",
       rating: 4.4,
     },
     {
@@ -109,7 +110,7 @@ function Home() {
       title: "Peanut Butter Chocolate Chip Banana Bread",
       time: "22 mins",
       img: "/Images/Peanut Butter Chocolate Chip Banana Bread.webp",
-      href: "/recipes/Peanut Butter Chocolate Chip Banana Bread",
+      href: "/banana-bread",
       rating: 4.6,
     },
     {
@@ -118,7 +119,7 @@ function Home() {
       title: "Boozy Hot Chocolate",
       time: "15 mins",
       img: "/Images/Boozy Hot Chocolate.webp",
-      href: "/recipes/Boozy Hot Chocolate",
+      href: "/boozy-hot-chocolate",
       rating: 4.8,
     },
     {
@@ -127,7 +128,7 @@ function Home() {
       title: "Strawberry Lemonade",
       time: "5 mins",
       img: "/Images/Strawberry Lemonade.webp",
-      href: "/recipes/Strawberry Lemonade",
+      href: "/strawberry-lemonade",
       rating: 4.4,
     },
     {
@@ -136,7 +137,7 @@ function Home() {
       title: "Blueberry Smoothie",
       time: "5 mins",
       img: "/Images/Blueberry Smoothie.webp",
-      href: "/recipes/Blueberry Smoothie",
+      href: "/blueberry-smoothie",
       rating: 4.6,
     },
   ];
@@ -321,28 +322,30 @@ function Home() {
             <img src="/Images/Homemade Sabich.webp" alt="Homemade Sabich" />
           </div>
 
-          {/* Djathtas: spotlight me tekst brenda fotos */}
-          <article className="cook-spotlight">
-            <img
-              src="/Images/GrilledChicken.webp"
-              className="cook-spotlight-img"
-              alt="Grilled Chicken"
-            />
+     {/* Djathtas: spotlight me tekst brenda fotos */}
+<Link to="/grilled-chicken" className="cook-spotlight-link">
+  <article className="cook-spotlight">
+    <img
+      src="/Images/GrilledChicken.webp"
+      className="cook-spotlight-img"
+      alt="Grilled Chicken"
+    />
 
-            {/* Teksti mbi imazh */}
-            <div className="cook-cap">
-              <span className="cook-kicker">COOKING</span>
-              <h3 className="cook-h3">
-                An Unexpected Rub for Exceptional Grilled Chicken
-              </h3>
-              <div className="cook-underline" />
-              <p className="cook-subdek">
-                Buttermilk powder swoops in when you don't have time for an
-                all-day marinade.
-              </p>
-            </div>
-          </article>
-        </div>
+    {/* Teksti mbi imazh */}
+    <div className="cook-cap">
+      <span className="cook-kicker">COOKING</span>
+      <h3 className="cook-h3">
+        An Unexpected Rub for Exceptional Grilled Chicken
+      </h3>
+      <div className="cook-underline" />
+      <p className="cook-subdek">
+        Buttermilk powder swoops in when you don't have time for an
+        all-day marinade.
+      </p>
+    </div>
+  </article>
+</Link>
+</div>
 
         {/* Categories bubbles row */}
         <CategoriesRow />
@@ -351,42 +354,48 @@ function Home() {
         <h2 className="heading">Trending Now</h2>
         <div className="ct-row">
           {[
-            {
-              title: "Buffalo Chicken Tacos",
-              text:
-                "This weeknight winner is ready in under 20 minutes and is topped with a creamy, crunchy slaw and blue cheese.",
-              img: "BuffaloChickenTacos.jpg",
-            },
-            {
-              title: "Antipasto Salad",
-              text:
-                "Combine all of the best antipasti with crisp lettuce and savory dressing for a satisfying antipasto salad.",
-              img: "AntipastoSalad.jpg",
-            },
-            {
-              title: "Tiramisu Cake",
-              text:
-                "This gorgeous two-layer cake is a tiramisu lover's dream. The fluffy mascarpone and Marsala filling uses instant vanilla pudding.",
-              img: "TiramisuCake.jpg",
-            },
-            {
-              title: "Banana Chocolate Chip Muffins",
-              text:
-                "Turn overripe bananas into crowd-pleasing muffins tender, moist and chocolate-studded.",
-              img: "BananaChocolateMuffins.jpg",
+        {
+      title: "Buffalo Chicken Tacos",
+      text:
+        "This weeknight winner is ready in under 20 minutes and is topped with a creamy, crunchy slaw and blue cheese.",
+      img: "BuffaloChickenTacos.jpg",
+      path: "/buffalo-tacos",
+    },
+    {
+      title: "Antipasto Salad",
+      text:
+        "Combine all of the best antipasti with crisp lettuce and savory dressing for a satisfying antipasto salad.",
+      img: "AntipastoSalad.jpg",
+      path: "/antipasto-salad",
+    },
+    {
+      title: "Tiramisu Cake",
+      text:
+        "This gorgeous two-layer cake is a tiramisu lover's dream. The fluffy mascarpone and Marsala filling uses instant vanilla pudding.",
+      img: "TiramisuCake.jpg",
+      path: "/tiramisu-cake",
+    },
+    {
+      title: "Banana Chocolate Chip Muffins",
+      text:
+        "Turn overripe bananas into crowd-pleasing muffins tender, moist and chocolate-studded.",
+      img: "BananaChocolateMuffins.jpg",
+      path: "/banana-muffins",
             },
           ].map((item, i) => (
-            <div key={i} className="ct-card">
-              <div className="ct-card-body">
-                <h5 className="ct-card-title">{item.title}</h5>
-                <p className="ct-card-text">{item.text}</p>
+            <Link to={item.path} key={i} className="ct-card-link">
+              <div className="ct-card">
+                <div className="ct-card-body">
+                  <h5 className="ct-card-title">{item.title}</h5>
+                  <p className="ct-card-text">{item.text}</p>
+                </div>
+                <img
+                  src={`/Images/${item.img}`}
+                  alt={item.title}
+                  className="ct-card-img"
+                />
               </div>
-              <img
-                src={`/Images/${item.img}`}
-                alt={item.title}
-                className="ct-card-img"
-              />
-            </div>
+            </Link>
           ))}
         </div>
       </div>
