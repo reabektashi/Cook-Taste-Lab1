@@ -11,12 +11,19 @@ node_modules
 # ===============================
 # Certificates & private keys
 # ===============================
-backend/certs/*.pem
-backend/certs/*.key
-backend/certs/*.crt
-backend/certs/*.pfx
-backend/certs/*.p12
+
+*.pem
+*.key
+*.crt
+*.pfx
+*.p12
+
+backend/certs/
+frontend/certs/
 
 # Allow documentation/examples
 !backend/certs/README.md
+!frontend/certs/README.md
 !backend/certs/*.example
+!frontend/certs/*.example
+>>>>>>> 23a6f3e4b9536ca69257c9268308fa1fed56e563
