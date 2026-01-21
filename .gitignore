@@ -6,22 +6,3 @@ node_modules
 .env.production
 
 /generated/prisma
-
-
-# ===============================
-# Certificates & private keys
-# ===============================
-*.pem
-*.key
-*.crt
-*.pfx
-*.p12
-
-backend/certs/
-frontend/certs/
-
-# Allow documentation/examples
-!backend/certs/README.md
-!frontend/certs/README.md
-!backend/certs/*.example
-!frontend/certs/*.example
