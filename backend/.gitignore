@@ -1,12 +1,7 @@
 node_modules
-# Keep environment variables out of version control
 .env
 .env.local
 .env.development
 .env.production
 
 /generated/prisma
-backend/certs/
-frontend/certs/
-*.pem
-*.key
