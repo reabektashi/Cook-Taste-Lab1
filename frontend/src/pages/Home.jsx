@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-
+import API from "../api";
 import { FaUtensils } from "react-icons/fa";
 import {
   FaFacebookF,
@@ -803,26 +803,24 @@ function NewsletterBand() {
 
     setBusy(true);
     try {
-      const url = "/api/subscribe";
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
+  const res = await API.post("/subscribe", { email });
 
-      const data = await res.json().catch(() => ({}));
-
-      if (res.ok) {
-        setMessage("You’re in! Check your inbox.");
-        form.reset();
-      } else {
-        setMessage(data?.error || "Subscription failed.");
-      }
-    } catch (err) {
-      setMessage(`Network error — ${String(err?.message || err)}.`);
-    } finally {
-      setBusy(false);
-    }
+  if (res.data?.ok) {
+    setMessage("You’re in! Check your inbox.");
+    form.reset();
+  } else {
+    setMessage(res.data?.error || "Subscription failed.");
+  }
+} catch (err) {
+  // Axios error handling
+  const msg =
+    err?.response?.data?.error ||
+    err?.message ||
+    "Network error.";
+  setMessage(`Network error — ${msg}.`);
+} finally {
+  setBusy(false);
+}
   };
 
   return (
