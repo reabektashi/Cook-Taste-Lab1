@@ -3,7 +3,7 @@ import { FaHeart, FaRegHeart, FaRegClock, FaStar } from "react-icons/fa";
 import API from "../api";
 import "../assets/Css/style.css";
 
-const healthyRecipes = [
+export const HEALTHY_ITEMS = [
   {
     id: 8001,
     tag: "HEALTHY",
@@ -139,7 +139,7 @@ const Healthy = () => {
       {/* 🔹 Cards */}
       <div className="container px-4 bg-transparent">
         <div className="row g-5 justify-content-center">
-          {healthyRecipes.map((r) => (
+         {HEALTHY_ITEMS.map((r) => (
             <div key={r.id} className="col-md-4 d-flex">
               <article className="wk-card bg-white shadow-sm rounded-4 overflow-hidden">
                 <a className="d-block position-relative" href={r.href}>

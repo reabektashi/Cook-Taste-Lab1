@@ -4,7 +4,7 @@ import API from "../api";
 import { useNavigate } from "react-router-dom";
 
 // ⭐ Mocktail recipes
-const MocktailRecipes = [
+export const MOCKTAIL_ITEMS = [
   {
     id: 301,
     tag: "MOCKTAILS",
@@ -145,7 +145,7 @@ const Mocktails = () => {
 
       <div className="container px-4 bg-transparent">
         <div className="row g-5 justify-content-center">
-          {MocktailRecipes.map((r) => (
+          {MOCKTAIL_ITEMS.map((r) => (
             <div key={r.id} className="col-md-4 d-flex">
               <article
                 className="wk-card bg-white shadow-sm rounded-4 overflow-hidden h-100"

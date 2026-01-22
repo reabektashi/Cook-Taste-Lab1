@@ -3,7 +3,7 @@ import { FaHeart, FaRegHeart, FaRegClock, FaStar } from "react-icons/fa";
 import API from "../api";
 import { useNavigate } from "react-router-dom";
 
-const CoffeeRecipes = [
+export const COFFEE_ITEMS = [
   {
     id: 91,
     tag: "Coffee",
@@ -150,7 +150,7 @@ const Coffee = () => {
 
       <div className="container px-4 bg-transparent">
         <div className="row g-5 justify-content-center">
-          {CoffeeRecipes.map((r) => (
+          {COFFEE_ITEMS.map((r) => (
             <div key={r.id} className="col-md-4 d-flex">
               <article
                 className="wk-card bg-white shadow-sm rounded-4 overflow-hidden h-100"

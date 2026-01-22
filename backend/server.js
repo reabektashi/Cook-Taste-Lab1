@@ -377,6 +377,25 @@ app.get("/api/recipes/search", async (req, res) => {
     res.status(500).json({ error: "server_error" });
   }
 });
+// GET /api/recipes?tag=BREAKFAST
+app.get("/api/recipes", async (req, res) => {
+  const tag = (req.query.tag || "").trim();
+  try {
+    if (!tag) {
+      const [rows] = await pool.query("SELECT * FROM recipes ORDER BY created_at DESC");
+      return res.json({ recipes: rows });
+    }
+
+    const [rows] = await pool.query(
+      `SELECT * FROM recipes WHERE tag = ? ORDER BY id`,
+      [tag]
+    );
+    res.json({ recipes: rows });
+  } catch (err) {
+    console.error("GET /api/recipes error:", err);
+    res.status(500).json({ error: "server_error" });
+  }
+});
 
 
 // ---------- Subscribe (DB insert + optional email) ----------

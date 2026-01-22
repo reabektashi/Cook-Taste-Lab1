@@ -3,119 +3,53 @@ import { FaHeart, FaRegHeart, FaRegClock, FaStar } from "react-icons/fa";
 import API from "../../api";
 import { useNavigate } from "react-router-dom";
 
-const breakfastRecipes = [
-  {
-    id: 1001,
-    tag: "BREAKFAST",
-    title: "The One-Pot Persian Recipe I Make for Breakfast, Lunch, and Dinner",
-    time: "40 mins",
-    img: "/Images/Persian Recipe.webp",
-    href: "/recipes/one-pot-persian",
-    rating: 4.5,
-  },
-  {
-    id: 1002,
-    tag: "BREAKFAST",
-    title: "Forget Tomato Sandwiches—Make This Tomato Ricotta Toast Instead",
-    time: "9 mins",
-    img: "/Images/Tomato.webp",
-    href: "/recipes/tomato-ricotta-toast",
-    rating: 4.7,
-  },
-  {
-    id: 1003,
-    tag: "BREAKFAST",
-    title: "The 4-Ingredient Breakfast I Eat Almost Every Day",
-    time: "10 mins",
-    img: "/Images/HamnCheese.webp",
-    href: "/recipes/ham-cheese",
-    rating: 3.6,
-  },
-  {
-    id: 1004,
-    tag: "BREAKFAST",
-    title: "2-Ingredient Banana Pancakes Recipe",
-    time: "13 mins",
-    img: "/Images/bananapancake.webp",
-    href: "/recipes/banana-pancake",
-    rating: 5.0,
-  },
-  {
-    id: 1005,
-    tag: "BREAKFAST",
-    title: "Bircher Muesli Recipe",
-    time: "15 mins",
-    img: "/Images/BircherMuesli.webp",
-    href: "/recipes/bircher-uesli",
-    rating: 4.6,
-  }, 
-  {
-    id: 1006,
-    tag: "BREAKFAST",
-    title: "Make-Ahead Frittata Squares with Spinach, Tomatoes, and Feta",
-    time: "60 mins",
-    img: "/Images/frittatasquares.webp",
-    href: "/recipes/frittata-squares",
-    rating: 5.0,
-  },
-  {
-    id: 1007,
-    tag: "BREAKFAST",
-    title: "My Dutch Baby Recipe Is Totally Foolproof—I Make It Every Weekend",
-    time: "45 mins",
-    img: "/Images/Dutchbaby.webp",
-    href: "/recipes/Dutchbaby",
-    rating: 5.0,
-  },{
-    id: 1008,
-    tag: "BREAKFAST",
-    title: "Turn Your Leftover Mashed Potatoes Into Irish Boxty",
-    time: "34 mins",
-    img: "/Images/irishbreakfast.webp",
-    href: "/recipes/irishbreakfast",
-    rating: 5.0,
-  },
-  {
-    id: 1009,
-    tag: "BREAKFAST",
-    title: "My New Favorite Dessert Is Just 3 Ingredients and Takes 5 Minutes To Make",
-    time: "15 mins",
-    img: "/Images/koreantoast.webp",
-    href: "/recipes/koreantoast",
-    rating: 4.6,
-  }
-];
-
 const Breakfast = () => {
-  const navigate = useNavigate(); // ✅ hook must be inside component
+  const navigate = useNavigate();
+
+  const [recipes, setRecipes] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [liked, setLiked] = useState({});
   const [showLoginModal, setShowLoginModal] = useState(false);
 
+  // Load recipes from DB
   useEffect(() => {
-  const token = localStorage.getItem("token");
+    (async () => {
+      try {
+        setLoading(true);
+        const res = await API.get("/recipes", { params: { tag: "BREAKFAST" } });
+        setRecipes(res.data.recipes || []);
+      } catch (e) {
+        console.error("Failed to load breakfast recipes:", e);
+        setRecipes([]);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
 
-  // 1) load from localStorage first (fast UI)
-  const stored = localStorage.getItem("liked");
-  if (stored) setLiked(JSON.parse(stored));
+  // Load + sync favorites
+  useEffect(() => {
+    const token = localStorage.getItem("token");
 
-  // 2) then, if logged in, sync from backend (real truth)
-  if (!token) return;
+    const stored = localStorage.getItem("liked");
+    if (stored) setLiked(JSON.parse(stored));
 
-  (async () => {
-    try {
-      const res = await API.get("/favorites", { withCredentials: true });
-      const favs = res.data.favorites || [];
-      const map = {};
-      favs.forEach((r) => (map[r.id] = true));
-      setLiked(map);
-      localStorage.setItem("liked", JSON.stringify(map));
-    } catch (e) {
-      console.error("Failed to sync favorites:", e);
-    }
-  })();
-}, []);
+    if (!token) return;
 
+    (async () => {
+      try {
+        const res = await API.get("/favorites", { withCredentials: true });
+        const favs = res.data.favorites || [];
+        const map = {};
+        favs.forEach((r) => (map[r.id] = true));
+        setLiked(map);
+        localStorage.setItem("liked", JSON.stringify(map));
+      } catch (e) {
+        console.error("Failed to sync favorites:", e);
+      }
+    })();
+  }, []);
 
   const handleToggleFavorite = async (recipe) => {
     const token = localStorage.getItem("token");
@@ -134,10 +68,8 @@ const Breakfast = () => {
 
     try {
       if (wasLiked) {
-        // remove favorite
         await API.delete(`/favorites/${recipe.id}`, { withCredentials: true });
       } else {
-        // add favorite
         await API.post(
           "/favorites",
           {
@@ -145,16 +77,14 @@ const Breakfast = () => {
             recipe: {
               title: recipe.title,
               tag: recipe.tag,
-              time: recipe.time,
-              img: recipe.img,
-              href: recipe.href,
+              time: recipe.time_label, // DB field
+              img: recipe.img,         // DB field
+              href: recipe.href,       // DB field
               rating: recipe.rating,
             },
           },
           { withCredentials: true }
         );
-
-       
       }
     } catch (err) {
       console.error("favorites sync error:", err);
@@ -170,69 +100,74 @@ const Breakfast = () => {
     <section className="breakfast section-gap py-5 aboutus-page">
       <div className="bk-head text-center mb-4">
         <h2 className="bk-title display-5 fw-bold ">Breakfast Recipes</h2>
-        <h3 className="fs-5 fw-normal mt-3 px-2"> Whether it's a grab-and-go or a hearty breakfast to eat while reading the news,
-        get off to a great start with our breakfast recipes and ideas.</h3>
-        <a className="bk-more fs-2 text-decoration-none" href="/recipes?tag=breakfast"></a>
+        <h3 className="fs-5 fw-normal mt-3 px-2">
+          Whether it's a grab-and-go or a hearty breakfast to eat while reading the news,
+          get off to a great start with our breakfast recipes and ideas.
+        </h3>
       </div>
 
       <div className="container px-4 bg-transparent">
-        <div className="row g-5 justify-content-center">
-          {breakfastRecipes.map((r) => (
-            <div key={r.id} className="col-md-4 d-flex">
-              <article
-                className="wk-card bg-white shadow-sm rounded-4 overflow-hidden"
-                style={{ paddingBottom: "15px" }}
-              >
-                <a className="d-block position-relative" href={r.href}>
-                  <img
-                    src={r.img}
-                    alt={r.title}
-                    className="img-fluid w-100"
-                    style={{
-                      borderBottomLeftRadius: "0.5rem",
-                      borderBottomRightRadius: "0.5rem",
-                    }}
-                  />
+        {loading ? (
+          <p>Loading…</p>
+        ) : (
+          <div className="row g-5 justify-content-center">
+            {recipes.map((r) => (
+              <div key={r.id} className="col-md-4 d-flex">
+                <article
+                  className="wk-card bg-white shadow-sm rounded-4 overflow-hidden"
+                  style={{ paddingBottom: "15px" }}
+                >
+                  <a className="d-block position-relative" href={r.href}>
+                    <img
+                      src={r.img}
+                      alt={r.title}
+                      className="img-fluid w-100"
+                      style={{
+                        borderBottomLeftRadius: "0.5rem",
+                        borderBottomRightRadius: "0.5rem",
+                      }}
+                    />
 
-                  <button
-                    type="button"
-                    className={` wk-like position-absolute top-0 end-0 m-3 ${
-                      liked[r.id] ? "is-liked text-danger" : ""
-                    }`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleToggleFavorite(r);
-                    }}
-                  >
-                    {liked[r.id] ? (
-                      <FaHeart size={28} color="red" />
-                    ) : (
-                      <FaRegHeart size={28} color="white" />
-                    )}
-                  </button>
-                </a>
-
-                <div className="p-3">
-                  <span className="text-uppercase fw-semibold small text-muted d-block mb-1">
-                    {r.tag}
-                  </span>
-
-                  <a href={r.href} className="text-decoration-none text-dark">
-                    <h3 className="fw-bold h5 mb-2">{r.title}</h3>
+                    <button
+                      type="button"
+                      className={`wk-like position-absolute top-0 end-0 m-3 ${
+                        liked[r.id] ? "is-liked text-danger" : ""
+                      }`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleToggleFavorite(r);
+                      }}
+                    >
+                      {liked[r.id] ? (
+                        <FaHeart size={28} color="red" />
+                      ) : (
+                        <FaRegHeart size={28} color="white" />
+                      )}
+                    </button>
                   </a>
 
-                  <div className="d-flex justify-content-between align-items-center">
-                    <span className="small text-muted">
-                      <FaRegClock className="me-1" />
-                      {r.time}
+                  <div className="p-3">
+                    <span className="text-uppercase fw-semibold small text-muted d-block mb-1">
+                      {r.tag}
                     </span>
-                    <span className="text-warning">{renderStars(r.rating)}</span>
+
+                    <a href={r.href} className="text-decoration-none text-dark">
+                      <h3 className="fw-bold h5 mb-2">{r.title}</h3>
+                    </a>
+
+                    <div className="d-flex justify-content-between align-items-center">
+                      <span className="small text-muted">
+                        <FaRegClock className="me-1" />
+                        {r.time_label}
+                      </span>
+                      <span className="text-warning">{renderStars(r.rating)}</span>
+                    </div>
                   </div>
-                </div>
-              </article>
-            </div>
-          ))}
-        </div>
+                </article>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Login modal */}

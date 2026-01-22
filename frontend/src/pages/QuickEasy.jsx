@@ -5,7 +5,7 @@ import "../assets/Css/style.css";
 
 const quickEasyRecipes = [
   {
-    id: 6001,
+    id: 60011,
     tag: "QUICK & EASY",
     title: "The Cheap, Nutritious Breakfast I Make All the Time (It Takes 5 Minutes)",
     time: "5 mins",
@@ -14,7 +14,7 @@ const quickEasyRecipes = [
     rating: 4.8,
   },
   {
-    id: 6002,
+    id: 60022,
     tag: "QUICK & EASY",
     title: "Creamy Lemon Pasta",
     time: "20 mins",
@@ -23,7 +23,7 @@ const quickEasyRecipes = [
     rating: 4.6,
   },
   {
-    id: 6003,
+    id: 60031,
     tag: "QUICK & EASY",
     title: "Egg & Veggie Wrap",
     time: "15 mins",
@@ -32,7 +32,7 @@ const quickEasyRecipes = [
     rating: 4.5,
   },
   {
-  id: 6004,
+  id: 60041,
   tag: "QUICK & EASY",
   title: "The 3-Ingredient Garlic Butter Chicken Bites I Can't Stop Making",
   time: "25 mins",
@@ -41,7 +41,7 @@ const quickEasyRecipes = [
   rating: 4.7,
 },
 {
-  id: 6005,
+  id: 60051,
   tag: "QUICK & EASY",
   title: "10-Minute Greek Yogurt Bowl",
   time: "10 mins",
@@ -50,7 +50,7 @@ const quickEasyRecipes = [
   rating: 4.6,
 },
 {
-  id: 6006,
+  id: 60061,
   tag: "QUICK & EASY",
   title: "Easy Veggie Fried Rice",
   time: "20 mins",
