@@ -6,7 +6,9 @@ import API from "../api";
 export default function SearchResults() {
   const { search } = useLocation();
   const params = new URLSearchParams(search);
+
   const q = params.get("q") || "";
+  const ingredients = params.get("ingredients") || ""; // ✅ NEW
 
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -78,9 +80,9 @@ export default function SearchResults() {
     }
   };
 
-  // DB search
+  // ✅ DB search (q OR ingredients)
   useEffect(() => {
-    if (!q.trim()) {
+    if (!q.trim() && !ingredients.trim()) {
       setResults([]);
       setLoading(false);
       return;
@@ -89,9 +91,16 @@ export default function SearchResults() {
     (async () => {
       try {
         setLoading(true);
-        const { data } = await API.get("/recipes/search", {
-          params: { q },
-        });
+
+        // Ingredient search takes priority if present
+        const { data } = ingredients.trim()
+          ? await API.get("/recipes/by-ingredients", {
+              params: { ingredients },
+            })
+          : await API.get("/recipes/search", {
+              params: { q },
+            });
+
         setResults(data.recipes || []);
       } catch (err) {
         console.error("Search error:", err);
@@ -100,7 +109,7 @@ export default function SearchResults() {
         setLoading(false);
       }
     })();
-  }, [q]);
+  }, [q, ingredients]);
 
   return (
     <section className="weeknights section-gap">
@@ -108,8 +117,8 @@ export default function SearchResults() {
         <h2 className="wk-title">Search results</h2>
       </div>
 
-      {!q.trim() ? (
-        <p style={{ padding: "1rem" }}>Type something in the search bar.</p>
+      {!q.trim() && !ingredients.trim() ? (
+        <p style={{ padding: "1rem" }}>Type a search or pick ingredients.</p>
       ) : loading ? (
         <p style={{ padding: "1rem" }}>Searching…</p>
       ) : results.length === 0 ? (
@@ -132,11 +141,7 @@ export default function SearchResults() {
                 }}
                 aria-label="Toggle favorite"
               >
-                {liked[r.id] ? (
-                  <FaHeart size={22} color="red" />
-                ) : (
-                  <FaRegHeart size={22} />
-                )}
+                {liked[r.id] ? <FaHeart size={22} color="red" /> : <FaRegHeart size={22} />}
               </button>
 
               <div className="wk-body">

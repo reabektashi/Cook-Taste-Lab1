@@ -686,3 +686,98 @@ https.createServer(
 ).listen(5174, () => {
   console.log("✅ Backend running at https://localhost:5174");
 });
+
+
+// INGREDIENTS PICKER
+app.get("/api/recipes/by-ingredients", async (req, res) => {
+  const raw = (req.query.ingredients || "").trim();
+  const list = raw
+    .split(",")
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean);
+
+  if (!list.length) return res.json({ recipes: [] });
+
+  try {
+    // IMPORTANT: this assumes recipes.ingredients is a JSON array of LOWERCASE strings
+    // e.g. ["chicken","garlic","rice"]
+    const where = list.map(() => "JSON_CONTAINS(ingredients, ?)").join(" OR ");
+    const params = list.map((ing) => JSON.stringify(ing)); // '"chicken"'
+
+    const [rows] = await pool.query(
+      `SELECT id, title, tag, time_label, img, href, rating
+       FROM recipes
+       WHERE ingredients IS NOT NULL
+         AND (${where})
+       ORDER BY tag, CAST(id AS UNSIGNED), id`,
+      params
+    );
+
+    res.json({ recipes: rows });
+  } catch (err) {
+    console.error("GET /api/recipes/by-ingredients error:", err);
+    res.status(500).json({ error: "server_error" });
+  }
+});
+// GET /api/recipes/by-ingredients?ingredients=chicken,garlic
+app.get("/api/recipes/by-ingredients", async (req, res) => {
+  const raw = (req.query.ingredients || "").trim();
+  const list = raw
+    .split(",")
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean);
+
+  if (!list.length) return res.json({ recipes: [] });
+
+  try {
+    // Requires recipes.ingredients to be a JSON array of lowercase strings
+    const where = list.map(() => "JSON_CONTAINS(ingredients, ?)").join(" OR ");
+    const params = list.map((ing) => JSON.stringify(ing)); // '"chicken"'
+
+    const [rows] = await pool.query(
+      `SELECT id, title, tag, time_label, img, href, rating
+       FROM recipes
+       WHERE ingredients IS NOT NULL
+         AND (${where})
+       ORDER BY tag, CAST(id AS UNSIGNED), id`,
+      params
+    );
+
+    res.json({ recipes: rows });
+  } catch (err) {
+    console.error("GET /api/recipes/by-ingredients error:", err);
+    res.status(500).json({ error: "server_error" });
+  }
+});
+// GET /api/ingredients  -> returns unique ingredient strings from recipes.ingredients JSON
+app.get("/api/ingredients", async (_req, res) => {
+  try {
+    const [rows] = await pool.query(
+      `SELECT ingredients
+       FROM recipes
+       WHERE ingredients IS NOT NULL`
+    );
+
+    const set = new Set();
+
+    for (const r of rows) {
+      let arr = r.ingredients;
+
+      // mysql2 may return JSON as string or object depending on config
+      if (typeof arr === "string") {
+        try { arr = JSON.parse(arr); } catch { arr = null; }
+      }
+
+      if (Array.isArray(arr)) {
+        arr.forEach((x) => {
+          if (typeof x === "string" && x.trim()) set.add(x.trim().toLowerCase());
+        });
+      }
+    }
+
+    res.json({ ingredients: Array.from(set).sort() });
+  } catch (err) {
+    console.error("GET /api/ingredients error:", err);
+    res.status(500).json({ error: "server_error" });
+  }
+});
