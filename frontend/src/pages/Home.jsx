@@ -193,14 +193,9 @@ function Home() {
   const [index, setIndex] = useState(0);
   const timer = useRef(null);
 
-  const goTo = (i) => setIndex((i + slides.length) % slides.length);
-  const next = () => goTo(index + 1);
-  const prev = () => goTo(index - 1);
-
-  useEffect(() => {
-    startAuto();
-    return stopAuto;
-  }, [index]);
+   const goTo = (i) => setIndex((i + slides.length) % slides.length);
+  const next = () => setIndex((i) => (i + 1) % slides.length);
+  const prev = () => setIndex((i) => (i - 1 + slides.length) % slides.length);
 
   const startAuto = () => {
     stopAuto();
@@ -209,6 +204,13 @@ function Home() {
   const stopAuto = () => {
     if (timer.current) clearInterval(timer.current);
   };
+
+  useEffect(() => {
+    startAuto();
+    return stopAuto;
+    // run once on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -238,7 +240,12 @@ function Home() {
               className={`ct-carousel-item ${i === index ? "active" : ""}`}
               aria-hidden={i === index ? "false" : "true"}
             >
-              <img src={s.img} alt={`Food ${i + 1}`} />
+              <img
+  src={s.img}
+  alt={`Food ${i + 1}`}
+  loading={i === 0 ? "eager" : "lazy"}
+  fetchPriority={i === 0 ? "high" : "auto"}
+/>
               <div
                 className={`ct-carousel-caption ${s.align} ${s.customClass || ""}`}
                 style={{
@@ -317,9 +324,9 @@ function Home() {
         <div className="cook-feature">
           {/* Majtas: mozaik me 3 imazhe */}
           <div className="cook-mosaic">
-            <img src="/Images/Tomato.webp" alt="Heirloom tomato" />
-            <img src="/Images/nectarine.webp" alt="Nectarine" />
-            <img src="/Images/Homemade Sabich.webp" alt="Homemade Sabich" />
+            <img src="/Images/Tomato.webp" alt="Heirloom tomato" loading="lazy" />  
+            <img src="/Images/nectarine.webp" alt="Nectarine" loading="lazy" />
+            <img src="/Images/Homemade Sabich.webp" alt="Homemade Sabich" loading="lazy" />
           </div>
 
      {/* Djathtas: spotlight me tekst brenda fotos */}
@@ -329,6 +336,7 @@ function Home() {
       src="/Images/GrilledChicken.webp"
       className="cook-spotlight-img"
       alt="Grilled Chicken"
+      loading="lazy"
     />
 
     {/* Teksti mbi imazh */}
@@ -393,6 +401,7 @@ function Home() {
                   src={`/Images/${item.img}`}
                   alt={item.title}
                   className="ct-card-img"
+                  loading="lazy"
                 />
               </div>
             </Link>
@@ -430,6 +439,8 @@ function Home() {
               <img
                 src="/Images/Chicken-Alfredo-Pizza-HomePage.jpg"
                 alt="Delicious Food"
+                loading="lazy"
+                fetchPriority="high"
               />
             </div>
           </div>
@@ -461,7 +472,7 @@ function Home() {
             {weeknights.map((r) => (
               <article key={r.id} className="wk-card">
                 <a className="wk-thumb" href={r.href}>
-                  <img src={r.img} alt={r.title} />
+                  <img src={r.img} alt={r.title} loading="lazy"/>
                   <button
                     type="button"
                     className={`wk-like ${liked[r.id] ? "is-liked" : ""}`}
@@ -717,7 +728,7 @@ function TasteTestsRow() {
       <div className="cook-scroll" ref={scrollerRef}>
         {items.map((it, i) => (
           <article key={i} className="cook-card">
-            <img src={it.img} alt={it.title} className="cook-card-img" />
+            <img src={it.img} alt={it.title} className="cook-card-img" loading="lazy" />
             <span className="cook-kicker">{it.kicker}</span>
             <h4 className="cook-card-title">{it.title}</h4>
             <div className="cook-underline small" />
@@ -898,7 +909,7 @@ function EditorsPicks() {
     <div className="ed-grid">
       {picks.map((p, i) => (
         <a key={i} className="ed-card" href={p.href}>
-          <img className="ed-card-img" src={p.img} alt={p.title} />
+          <img className="ed-card-img" src={p.img} alt={p.title} loading="lazy" />
           <span className="ed-card-badge">{p.badge}</span>
           <h4 className="ed-card-title">{p.title}</h4>
         </a>
@@ -911,7 +922,7 @@ function StoryWithSidebar() {
   return (
     <div className="story-grid">
       <a className="story-media" href="/Images/toast.jpg">
-        <img src="/Images/toast.jpg" alt="Instant Pot  Toast" />
+        <img src="/Images/toast.jpg" alt="Instant Pot  Toast" loading="lazy" />
       </a>
 
       <article className="story-body">
@@ -947,6 +958,7 @@ function StoryWithSidebar() {
             className="about-photo"
             src="/Images/about-image-new.png"
             alt="About me"
+            loading="lazy"
           />
           <h4 className="about-title">Hey, I'm Sarah Baker!</h4>
           <p className="about-text">
