@@ -10,7 +10,7 @@ const healthyRecipes = [
     title: "Cobb Salad",
     time: "15 mins",
     img: "/Images/Cobb Salad.webp",
-    href: "/recipes/Cobb Salad",
+    href: "/recipes/Cobb-Salad",
     rating: 4.7,
   },
   {
@@ -41,7 +41,7 @@ const healthyRecipes = [
     rating: 4.9,
   },
   {
-    id: 8004,
+    id: 8005,
     tag: "HEALTHY",
     title: " Sweet Potato Waffles with Fried Egg, Bacon, and Scallions",
     time: "30 mins",

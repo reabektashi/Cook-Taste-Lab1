@@ -3,9 +3,8 @@ import { FaHeart, FaRegHeart, FaRegClock, FaStar } from "react-icons/fa";
 import API from "../api";
 import { useNavigate } from "react-router-dom";
 
-
-// ⭐ Your cocktail recipes
-const CocktailRecipes = [
+// ✅ Exported so ALL_ITEMS can import it for global search
+export const COCKTAIL_ITEMS = [
   {
     id: 201,
     tag: "COCKTAILS",
@@ -63,7 +62,7 @@ const CocktailRecipes = [
 ];
 
 const Cocktails = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // (kept in case you use it later)
   const [liked, setLiked] = useState({});
   const [showLoginModal, setShowLoginModal] = useState(false);
 
@@ -146,7 +145,7 @@ const Cocktails = () => {
 
       <div className="container px-4 bg-transparent">
         <div className="row g-5 justify-content-center">
-          {CocktailRecipes.map((r) => (
+          {COCKTAIL_ITEMS.map((r) => (
             <div key={r.id} className="col-md-4 d-flex">
               <article
                 className="wk-card bg-white shadow-sm rounded-4 overflow-hidden h-100"
