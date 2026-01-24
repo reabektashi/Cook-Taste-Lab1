@@ -1,4 +1,3 @@
-
 * {
   margin: 0;
   padding: 0;
@@ -14,7 +13,6 @@ body {
 .hide {
   display: none !important;
 }
-
 
 /* Navbar Styling */
 .ct-navbar {
@@ -81,6 +79,12 @@ body {
   border-radius: 0;
  
 }
+.ct-navbar,
+footer {
+width: 1520px;
+margin: 0 auto;
+box-sizing: border-box;
+}
 
 /* ---------------------------
    DROPDOWN (Clean + Updated)
@@ -121,8 +125,6 @@ body {
   background-color: #e9ecef;
 }
 
-
-
 /* Search Bar and Icons on the Right */
 .search-container {
   position: relative;
@@ -132,17 +134,20 @@ body {
 #searchInput {
   width: 200px;
   padding: 8px 12px;
-  border: 1px solid #d4d2d2;;
+  height: 32px;
+
+  border: 1px solid #d4d2d2;
   border-radius: 20px;
   outline: none;
+
   background-color: #f9f9f9;
-  transition: width 0.4s ease;
+  transition: width 0.4s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 #searchInput:focus {
-  height: 32px;
-  padding: 6px 12px;
-  border-radius: 20px;
+  width: 260px;                  /* now the transition makes sense */
+  border-color: #111;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.08);
 }
 
 #searchIcon {
@@ -151,12 +156,13 @@ body {
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  color: #000000;
+  color: #000;
 }
 
 #searchIcon:hover {
   opacity: 0.8;
 }
+
 
 /* Icons Section */
 .icons {
@@ -176,98 +182,6 @@ body {
 
 .icons a:hover {
   opacity: 0.8;
-}
-/* General Carousel Styling (ct- names, no Bootstrap clash) */
-.ct-carousel {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  z-index: 1;
-}
-
-/* slides */
-.ct-carousel-inner {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
-}
-
-.ct-carousel-item {
-  min-width: 100%;
-  position: relative;
-  display: none;
-  opacity: 0;
-  transition: opacity 0.8s ease-in-out;
-}
-
-/* active slide (you still add class "active" in JSX) */
-.ct-carousel-item.active {
-  display: block;
-  opacity: 1;
-}
-
-/* slide image */
-.ct-carousel-item img {
-  width: 100%;
-  height: 400px;
-  object-fit: cover;
-}
-
-/* Only for the salad slide */
-.salad-caption {
-  left: 10% !important;
-}
-
-/* Make title + text aligned nicely */
-.salad-caption .caption-title,
-.salad-caption .caption-text {
-  margin-left: 0 !important;
-  padding-left: 0 !important;
-  text-align: left !important;
-}
-.salad-caption .ct-btn.read-more-btn {
-  margin-left: 40px;
-}
-
-/* Dots */
-.ct-carousel-indicators {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 10px;
-  z-index: 10;
-}
-
-.ct-carousel-indicators button {
-  all: unset;
-  width: 36px;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 2px;
-  cursor: pointer;
-  transition: background 0.2s ease, width 0.2s ease;
-}
-
-.ct-carousel-indicators button.active {
-  background: #fff;
-  width: 48px;
-}
-
-/* Caption */
-.ct-carousel-caption {
-  position: absolute;
-  color: white;
-}
-
-.ct-carousel-caption h3 {
-  font-size: 36px;
-  font-weight: bold;
-}
-
-.ct-carousel-caption p {
-  font-size: 28px;
-  margin-top: 10px;
 }
 
 .ct-btn.read-more-btn {
@@ -291,197 +205,6 @@ body {
   border-color: rgb(7, 7, 7);
   color: rgb(10, 10, 10);
 }
-
-/* Prev / next arrows */
-.ct-carousel-control-prev,
-.ct-carousel-control-next {
-  all: unset;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  color: white;
-  font-size: 40px;
-  font-weight: 50;
-  cursor: pointer;
-  z-index: 10;
-  padding: 0 5px;
-  transition: transform 0.3s ease, color 0.3s ease, opacity 0.3s ease;
-  opacity: 0.6;
-}
-
-.ct-carousel-control-prev {
-  left: 15px;
-}
-
-.ct-carousel-control-next {
-  right: 15px;
-}
-
-.ct-carousel-control-prev:hover,
-.ct-carousel-control-next:hover {
-  color: #b5b5b3;
-  transform: translateY(-50%) scale(1.2);
-  opacity: 1;
-}
-
-.ct-carousel-control-prev:focus,
-.ct-carousel-control-next:focus {
-  outline: none;
-}
-
-
-
-
-/* ---------------- CHOCO DRIP ---------------- */
-.choco-drip {
-  position: relative;   /* JO absolute */
-  width: 100%;
-  height: 100px;
-  margin-top: -9px;     /* e ngjit te fundi i fotos */
-  z-index: 2;
-}
-
-.choco-drip svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-/*trending now */
-.trending-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.heading {
-font-size:clamp(22px,2.5vw,32px); font-weight:900; letter-spacing:.6px;
-  line-height:1.05;
-text-align: center;
-
-margin-bottom: 40px;
-
-}
-
-.ct-row {
-display: flex;
-flex-wrap: wrap;
-gap: 20px;
-justify-content: center;
-}
-
-.ct-card {
-  background-color: #fff;
-  border-radius: 15px;
-  border: 2px solid #00b3ff;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1), 0px -5px 10px rgba(0, 0, 0, 0.1);
-  width: 260px;
-  text-align: center;
-  overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
-  display: flex; 
-  flex-direction: column; 
-  justify-content: space-between; 
-  height: 100%; 
-  min-height: 350px; 
-}
-
-.ct-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
-}
-
-.ct-card-body {
-    padding: 15px;
-    flex-grow: 1;
-    margin-bottom: 20px;
-    justify-content: flex-end; 
-}
-
-
-.ct-card-title {
-  font-weight: bold;
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.ct-card-text {
-  font-size: 14px;
-  color: #555;
-  flex-grow: 1; 
-}
-
-
-
-.ct-card-img {
-width: 100%;
-height: 180px;
-object-fit: cover;
-border-radius: 0 0 15px 15px;
-}
-.hero-container{
-  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-  border-radius: 15px;
-  padding: 40px;
-  width: 1170px;          /* ose max-width:1420px nëse do responsive */
-  margin: 20px -3px;         /* ISHTE: 20px auto  -> tani MAJTAS */
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-}
-
-
-.hero-content {
-display: flex;
-flex-wrap: wrap;
-align-items: center;
-gap: 20px;
-}
-
-.hero-text {
-flex: 1;
-text-align: center;
-}
-
-.hero-title {
-font-size: 2.5rem;
-font-weight: bold;
-color: #000;
-margin-bottom: 20px;
-}
-
-.hero-description {
-font-size: 1.2rem;
-color: #444;
-margin-bottom: 20px;
-}
-
-.hero-button {
-background-color: #ff7f50;
-color: white;
-font-size: 1.2rem;
-padding: 15px 30px;
-border: none;
-border-radius: 50px;
-cursor: pointer;
-transition: all 0.3s ease;
-}
-
-.hero-button:hover {
-background-color: #ff6347;
-transform: scale(1.1);
-}
-
-.hero-image {
-flex: 1;
-text-align: center;
-}
-
-.hero-image img {
-max-width: 100%;
-border-radius: 20px;
-box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-transform: scale(1.05);
-}
-/* food,desserts,sidesdishes page*/
 
 /* Header Styling */
 header, .header {
@@ -549,20 +272,7 @@ border-top-right-radius: 5px;
 }
 
 /* Card Body Styles */
-.ct-card-body {
-padding: 15px;
-}
 
-.ct-card-title {
-font-size: 1.25rem;
-margin: 0 0 10px;
-}
-
-.ct-card-text{
-font-size: 0.9rem;
-margin: 0 0 15px;
-color: #555;
-}
 
 .recipe-button {
 display: inline-block;
@@ -674,36 +384,6 @@ box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   color:#bdbdbd;
   font-size: 13px;
 }
-
-
-/* responsive */
-@media (max-width: 900px){
-  .footer-top{ grid-template-columns: 1fr 1fr; }
-  .footer-col--right{ text-align: left; justify-self: start; }
-}
-@media (max-width: 560px){
-  .footer-top{ grid-template-columns: 1fr; }
-  .footer-social{ justify-content: flex-start; }
-}
-
-/* --- RESPONSIVE --- */
-@media (max-width: 768px) {
-  footer .footer-top {
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-  }
-
-  footer .footer-column {
-    min-width: auto;
-  }
-
-  footer .social-icon {
-    justify-content: center;
-  }
-}
-
-
 /* AboutUs page*/
 
 .page-container {
@@ -723,548 +403,166 @@ p {
 }
 
 
-/* Grid Layout */
-.ct-row {
-  display: flex;
-  gap: 20px;
-}
-
 .col {
   flex: 1;
   min-width: 300px;
 }
-
-/* Card Styles */
-.ct-card {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+/* General Carousel Styling */
+.ct-carousel {
+  position: relative;
   overflow: hidden;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.ct-card-img {
   width: 100%;
-  height: 200px;
-  object-fit: cover;
+  z-index: 1;
 }
 
-.ct-card-body {
-  padding: 15px;
+/* Caption */
+.ct-carousel-caption {
+  position: absolute;
+  left: 10%;
+  bottom: 20%;
+  max-width: 520px;
+  color: #fff;
+  z-index: 2;
 }
 
-.ct-card-title {
-  margin: 10px 0;
-  font-size: 18px;
-  color: #333;
+/* Title */
+.ct-carousel-caption h3 {
+  font-size: clamp(24px, 4vw, 36px);
+  font-weight: 900;
+  margin: 0 0 8px;
+  text-shadow: 0 6px 18px rgba(0,0,0,.45);
 }
 
-.ct-card-text {
-  color: #555;
+/* Text */
+.ct-carousel-caption p {
+  font-size: clamp(16px, 3vw, 22px);
+  margin: 0;
+  text-shadow: 0 4px 14px rgba(0,0,0,.4);
 }
 
-.ct-btn {
-  padding: 10px 15px;
-  background-color: #007bff;
-  color: white;
+
+/* Dots */
+.ct-carousel-indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.ct-carousel-indicators button {
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(255, 255, 255, 0.4);
   border: none;
-  border-radius: 5px;
+
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+
   cursor: pointer;
+  transition: background 0.2s ease, width 0.2s ease;
+  padding: 0;
+  display: block;
 }
 
-.ct-btn:hover {
-  background-color: #0056b3;
+.ct-carousel-indicators button.active {
+  background: #fff;
+  width: 48px;
 }
 
-/* Modal Styles */
-.ct-modal {
+/* Keyboard focus */
+.ct-carousel-indicators button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+/* slides */
+.ct-carousel-inner {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+.ct-carousel-item {
+  min-width: 100%;
+  position: relative;
   display: none;
-  position: fixed;
-  top: 0;
-  left: 50px;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+}
+
+/* active slide (you still add class "active" in JSX) */
+.ct-carousel-item.active {
+  display: block;
+  opacity: 1;
+}
+
+/* slide image */
+.ct-carousel-item img {
   width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.ct-modal-dialog {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  text-align: center;
-  width: 90%;
-  max-width: 500px;
-}
-
-.ct-modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 10px;
-}
-
-.ct-modal-header h5 {
-  margin: 0;
-  font-size: 20px;
-  color: #333;
-}
-
-.close {
-  font-size: 24px;
-  color: #333;
-  cursor: pointer;
-}
-
-.ct-modal-body {
-  padding: 20px;
-}
-
-.ct-modal-img {
-  height: 200px;
+  height: 400px;
   object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 15px;
+}
+
+/* Only for the salad slide */
+.salad-caption {
+  left: 10%;
+}
+
+/* Keep the button aligned without hard pushing too much */
+.salad-caption .ct-btn.read-more-btn {
+  margin-left: 40px;
+}
+
+/* Align title + text */
+.salad-caption .caption-title,
+.salad-caption .caption-text {
+  margin-left: 0;
+  padding-left: 0;
+  text-align: left;
+}
+.ct-btn,
+.hero-btn {
+  text-decoration: none !important;
+  border: 2px solid white;
+  background: transparent;
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: white;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  cursor: pointer;
+  transition: opacity 0.2s ease, background-color 0.2s ease;
 }
 
 
-
-/* Responsive Layout */
-/* Tablet View (max-width: 1024px) */
-@media only screen and (max-width: 1024px) {
-.ct-navbar-container {
-  display: flex;
-  align-items: center;
+/* Prev / next arrows */
+.ct-carousel-control-prev,
+.ct-carousel-control-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   
-}
+  background: none;
+  border: none;
 
-.ct-navbar-brand {
-  display: flex;
-  align-items: center;
-  margin-right: 10px;
-}
+  color: #fff;
+  font-size: 40px;
+  font-weight: 400;
 
-.ct-navbar-brand img {
-  height: 60px;
-  width: auto;
-}
-
-.ct-navbar-links {
-  display: flex;
-  align-items: start;
-  gap: 15px;
-  font-size: 0.9rem;
-  margin-top: 2px;
-}
-
-.ct-navbar-nav {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-
-.search-container {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  margin-right: 5px;
-  margin-top: 4px;
-}
-
-#searchInput {
-  height: 32px;     /* NEW → keeps the navbar balanced */
-  padding: 6px 12px;
-  border-radius: 18px;
-}
-
-.icons {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-top: 4px;
-  margin-right: 30px;
-}
-
-#searchIcon,
-#favoriteIcon,
-#profileIcon {
-  font-size: 1rem;
   cursor: pointer;
-}
-
-.ct-card {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  height: 320px;
-  margin-left: 40px;
-  margin-right: 40px;
-}
-
-.ct-container1 h1 {
-  margin-bottom: 30px;
-}
-
-.ct-container1 p {
-  font-size: large;
-  margin-top: 40px;
-}
-
-.ct-container1 {
-  margin-top: 40px;
-  margin-bottom: 30px;
-}
-
-h2 {
-  margin-bottom: 30px;
-  font-size: 30px;
-}
-
-.ct-container2 {
-  margin-left: 5px;
-  margin-top: 60px;
-  margin-bottom: 220px;
-}
-
-.col {
-  margin-left: 1px;
-  margin-right: 5px;
-}
-
-.ct-card-img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.ct-card-body {
-  padding: 0;
-}
-
-.ct-card-title {
-  margin-bottom: 10px;
-}
-
-.ct-container {
-  margin-bottom: 57px;
-}
-
-.footer {
-  margin-top: 20px;
-}
-}
-/* Mobile Screens (max-width: 500px) */
-@media only screen and (max-width: 500px) {
-.ct-navbar {
-  padding: 0.5rem 1rem;
-}
-
-.ct-navbar-brand img {
-  height: 40px;
-}
-
-.recipe-card {
-  width: 100%;
-}
-
-.header-title {
-  font-size: 1.5rem;
-}
-
-.search-container {
-  width: 100%;
-  text-align: center;
-}
-
-#searchInput {
-  width: 90%;
-}
-
-.hero-title {
-  font-size: 1.5rem;
-}
-
-.search-container {
-  display: none;
-}
-}
-
-@media (max-width: 768px) {
-.ct-navbar-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 10px;
-}
-
-.ct-navbar-brand {
-  display: flex;
-  align-items: center;
-  margin-right: 10px;
-}
-
-.ct-navbar-brand img {
-  height: 60px;
-  width: auto;
-}
-
-.ct-navbar-links {
-  display: flex;
-  align-items: start;
-  gap: 15px;
-  font-size: 0.9rem;
-  margin-top: 2px;
-}
-
-.ct-navbar-nav {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.search-container {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  margin-left: 9px;
-  margin-top: 4px;
-  width: 30px;
-  left: 1px;
-}
-
-#searchInput {
-  width: 150px;
-  padding: 5px;
-  font-size: 0.9rem;
-  border-radius: 15px;
-}
-
-.icons {
-  display: flex;
-  gap: 5px;
-  margin-top: 4px;
-}
-
-#searchIcon {
-  right: -110px;
-}
-
-#searchIcon,
-#favoriteIcon,
-#profileIcon {
-  font-size: 1rem;
-}
-
-.ct-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  height: 320px;
-}
-
-.ct-card-img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  margin-bottom: 600px;
-}
-
-.ct-card-body {
-  padding: 0;
-}
-
-.recipe-card {
-  width: calc(50% - 30px);
-}
-
-.ct-card {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  height: 320px;
-  margin-left: 40px;
-  margin-right: 40px;
-}
-
-.ct-container1 h1 {
-  margin-bottom: 30px;
-}
-
-.ct-container1 p {
-  font-size: large;
-  margin-top: 40px;
-}
-
-.ct-container1 {
-  margin-top: 40px;
-  margin-bottom: 30px;
-}
-
-h2 {
-  margin-bottom: 30px;
-  font-size: 30px;
-}
-
-.ct-container2 {
-  margin-left: 5px;
-  margin-top: 60px;
-  margin-bottom: 220px;
-}
-
-.col {
-  margin-left: 1px;
-  margin-right: 5px;
-}
-
-.ct-card-img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  margin-bottom: 10px;
-}
-
-.ct-card-body {
-  padding: 0;
-}
-
-.ct-card-title {
-  margin-bottom: 10px;
-}
-
-.ct-container {
-  margin-bottom: 57px;
-}
-}
-/*Iphone 14 pro max*/
-@media (max-width: 430px) {
-.ct-navbar-links {
-  display: none;
-}
-
-.search-container {
-  display: none;
-}
-
-.ct-navbar-links {
-  display: contents;
-}
-
-.icons {
-  display: none;
-}
+  z-index: 10;
+  padding: 0 6px;
 
-#searchIcon {
-  display: contents;
+  opacity: 0.6;
+  transition: transform 0.3s ease, color 0.3s ease, opacity 0.3s ease;
 }
-}
-
-@media (max-width: 600px) {
-.ct-navbar {
-  padding: 0.5rem 1rem;
-}
-
-.ct-navbar-brand img {
-  height: 40px;
-}
-
-.recipe-card {
-  width: 100%;
-}
-
-.header-title {
-  font-size: 1.5rem;
-}
-
-.search-container {
-  width: 100%;
-  text-align: center;
-}
-
-#searchInput {
-  width: 90%;
-}
-
-.hero-title {
-  font-size: 1.5rem;
-}
-
-.search-container {
-  display: none;
-}
-}
-/* Search Results Page */
-.search-results-page {
-width: 100%;
-min-height: 100vh;
-padding: 40px 60px;
-background-color: #f5f5f5;
-box-sizing: border-box;
-}
-
-.search-results-heading {
-text-align: center;
-font-size: 36px;
-font-weight: bold;
-margin-bottom: 40px;
-color: #000;
-}
-
-.search-error {
-color: red;
-text-align: center;
-margin-bottom: 20px;
-}
-
-.search-loading {
-text-align: center;
-font-style: italic;
-color: #777;
-margin-bottom: 20px;
-}
-
-.main-wrapper {
-width: 100%;
-max-width: 100%;
-margin: 0 auto;
-box-sizing: border-box;
-}
-
-.ct-navbar,
-footer {
-width: 1520px;
-margin: 0 auto;
-box-sizing: border-box;
-}
-
-
-
-/* ===== Cooking (Bon Appétit-style) ===== */
-.cook {
-  max-width: 1200px;
-  margin: 40px auto 16px;
-  padding: 0 16px;
-}
-
 /* Head */
 .cook-head {
   text-align: center;
@@ -1292,13 +590,6 @@ box-sizing: border-box;
   align-items: end; /* rreshton fundet */
   margin-bottom: 36px;
 }
-
-@media (max-width: 920px) {
-  .cook-feature {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* Mozaiku majtas */
 .cook-mosaic {
   display: grid;
@@ -1306,24 +597,21 @@ box-sizing: border-box;
   grid-template-rows: clamp(220px, 20vw, 320px) clamp(220px, 20vw, 320px);
   gap: 16px;
 }
-
 .cook-mosaic img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 8px;
+  display: block;
 }
-
 .cook-mosaic img:nth-child(1) {
   grid-column: 1;
   grid-row: 1 / span 2;
 }
-
 .cook-mosaic img:nth-child(2) {
   grid-column: 2;
   grid-row: 1;
 }
-
 .cook-mosaic img:nth-child(3) {
   grid-column: 2;
   grid-row: 2;
@@ -1336,7 +624,12 @@ box-sizing: border-box;
   overflow: hidden;
   align-self: end; /* barazon me mozaikun */
 }
-
+/* LINK pa underline */
+.cook-spotlight-link {
+  text-decoration: none !important;
+  color: inherit;
+  display: block;
+}
 /* ↓↓↓ KJO është pjesa që e rregullon gjatësinë e fotos ↓↓↓ */
 .cook-spotlight-img {
   width: 100%;
@@ -1345,9 +638,11 @@ box-sizing: border-box;
   display: block;
   border-radius: 10px;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+   transition: transform 0.3s ease;
 }
-/* ↑↑↑ ↑↑↑ */
-
+.cook-spotlight:hover .cook-spotlight-img {
+  transform: scale(1.02);
+}
 /* Teksti poshtë fotos */
 .cook-kicker {
   display: inline-block;
@@ -1365,8 +660,16 @@ box-sizing: border-box;
   font-size: clamp(20px, 2.6vw, 32px);
   font-weight: 800;
   margin: 10px 0 6px;
+  text-decoration: none !important;
+  transition: opacity 0.2s ease, color 0.2s ease;
 }
 
+/* hover: vetëm pak hint */
+.cook-spotlight-link:hover .cook-h3 {
+  opacity: 0.75;       /* pak fade */
+  color: #393939;     /* ose hiqe nese s'don ngjyrë */
+  text-decoration: none !important;
+}
 .cook-underline {
   width: 64px;
   height: 3px;
@@ -1374,18 +677,455 @@ box-sizing: border-box;
   border-radius: 3px;
   margin: 8px 0 10px;
 }
-
 .cook-subdek {
   color: #444;
   line-height: 1.5;
 }
-
-/* Hover opsional */
-.cook-spotlight:hover .cook-spotlight-img {
-  transform: scale(1.02);
-  transition: transform 0.3s ease;
+/*trending now */
+.trending-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.heading {
+font-size:clamp(22px,2.5vw,32px); font-weight:900; letter-spacing:.6px;
+line-height:1.05;
+text-align: center;
+margin-bottom: 40px;
+}
+.ct-row {
+display: flex;
+flex-wrap: wrap;
+gap: 20px;
+justify-content: center;
+}
+/* Card Styles */
+.ct-card-link {
+  display: block;            /* IMPORTANT: stable layout */
+  text-decoration: none;
+  color: inherit;
 }
 
+.ct-card {
+  background-color: #fff;
+  border-radius: 15px;
+  border: 2px solid #efecec;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1), 0px -5px 10px rgba(0, 0, 0, 0.1);
+  width: 260px;
+  text-align: center;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex; 
+  flex-direction: column;  
+  min-height: 350px; 
+}
+
+.ct-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.ct-card-body {
+    padding: 15px;
+    flex-grow: 1;
+    margin-bottom: 20px;
+    justify-content: flex-end; 
+}
+
+.ct-card-img {
+  width: 100%;
+  height: 205px;
+  object-fit: cover;
+  border-radius: 0 0 15px 15px;
+}
+
+.ct-card-title {
+  margin: 10px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.ct-card-text {
+  font-size: 0.9rem;
+  margin: 0 0 15px;
+  color: #555;
+}
+/*hero*/
+.hero-container{
+  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  border-radius: 15px;
+  padding: 40px;
+  width: 1170px;          /* ose max-width:1420px nëse do responsive */
+  margin: 20px -3px;         /* ISHTE: 20px auto  -> tani MAJTAS */
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+.hero-content {
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+gap: 20px;
+}
+.hero-text {
+flex: 1;
+text-align: center;
+}
+.hero-title {
+font-size: 2.5rem;
+font-weight: bold;
+color: #000;
+margin-bottom: 20px;
+}
+
+.hero-description {
+font-size: 1.2rem;
+color: #444;
+margin-bottom: 20px;
+}
+
+.hero-button {
+background-color: #ff7f50;
+color: white;
+font-size: 1.2rem;
+padding: 15px 30px;
+border: none;
+border-radius: 50px;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+
+.hero-image {
+flex: 1;
+text-align: center;
+margin-bottom: 20px;
+}
+/* HERO IMAGE */
+
+.hero-image img {
+  width: 100%;
+  border-radius: 20px; 
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); 
+  transform: scale(1.05);
+}
+
+/* Simply Recipes / Weeknights */
+.weeknights {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+/* Vetëm për linkat brenda seksionit .weeknights */
+.weeknights a {
+  color: #000;            /* ngjyrë e zezë */
+  text-decoration: none; /* pa underline */
+}
+
+.weeknights a:hover {
+  color: #222;            /* pak më e errët kur kalon miu */
+}
+/* ===== Weeknight Cards ===== */
+
+.wk-head{
+  display:flex; align-items:center; justify-content:flex-start; gap:10px;
+  margin-bottom:14px;
+}
+.wk-title{
+  font-size: clamp(22px, 4vw, 38px);
+  font-weight: 900;
+  letter-spacing: .2px;
+  line-height: 1.06;
+}
+.wk-title-link{ text-decoration:none; color:inherit; }
+
+.wk-more{
+  margin-top: .25rem;
+  text-decoration: none; font-weight: 900; font-size: 28px; line-height: 1;
+  color: #b45f06; /* ngjyrë “arrow” si shembulli */
+}
+
+/* grid 3 kolonash në desktop, 2 tablet, 1 mobile */
+.wk-grid{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 22px;
+}
+
+.wk-card {
+  background: #fff;
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: 0 10px 24px rgba(0,0,0,.08);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.wk-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(0,0,0,.12);
+}
+
+
+/* thumb + heart */
+.wk-thumb{
+  position: relative;
+  display:block;
+  line-height: 0;
+}
+.wk-thumb img{
+  width:100%; height: clamp(200px, 22vw, 260px);
+  object-fit: cover; display:block;
+}
+
+
+/* Heart button – zero default UI, zero highlight */
+.wk-like,
+.wk-like--bare{
+  position:absolute;
+  top:10px; right:12px;
+  padding:0;
+  border:none;
+  background:transparent !important;
+  appearance:none;
+  -webkit-appearance:none;
+  box-shadow:none;
+  -webkit-tap-highlight-color: transparent;
+  cursor:pointer;
+  display:grid; place-items:center;
+  font-size:26px;
+  color: rgba(255,255,255,.95);
+  text-shadow: 0 2px 8px rgba(0,0,0,.45);
+  transition: transform .15s ease, opacity .15s ease, color .15s ease;
+}
+
+/* keep transparent on press */
+.wk-like:active{
+  background:transparent !important;
+  box-shadow:none;
+}
+
+/* keyboard focus (visible but no ugly square bg) */
+.wk-like:focus-visible{
+  outline: 2px solid rgba(255,255,255,.9);
+  outline-offset: 3px;
+  border-radius: 999px;
+}
+
+/* Remove inner focus border on Firefox */
+.wk-like::-moz-focus-inner{ border:0; }
+
+/* Liked state */
+.wk-like.is-liked{ color:#ff3b5c; }
+
+/* body */
+.wk-body{ padding: 14px 14px 16px; }
+
+.wk-tag{
+  display:inline-block;
+  font-size:.7rem; font-weight:800; letter-spacing:.08em;
+  color:#656666; /* teal-ish */
+  text-transform:uppercase;
+  margin-bottom: 8px;
+}
+
+.wk-h3{
+  margin:0 0 8px;
+  font-size: clamp(18px, 2vw, 24px);
+  line-height:1.18; font-weight:800;
+}
+.wk-h3:hover{ text-decoration: underline; text-decoration-thickness: 2px; }
+
+/* meta: time + stars */
+.wk-meta{
+  display:flex; align-items:center; justify-content:flex-start;
+  gap: 14px; margin-top: 8px;
+}
+.wk-time{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:.95rem;
+  color: rgba(73, 81, 55, 0.75); /* replaces svg opacity */
+}
+.wk-stars{
+  display:inline-flex;
+  gap:4px;
+}
+
+.wk-stars svg{
+  font-size:16px;
+  color:#d1d5db;   /* off */
+}
+
+.wk-stars svg.on{
+  color:#ffe431;   /* on */
+}
+
+
+/* Title in the bottom-left over the image */
+.ft-title{
+  position: absolute;
+  left: 16px; right: 16px; bottom: 14px;
+  margin: 0;
+  color: #fff;
+  font-weight: 900;
+  line-height: 1.1;
+  font-size: clamp(18px, 2.4vw, 28px);
+  text-shadow: 0 2px 16px rgba(0,0,0,.55);
+  z-index: 2;
+}
+/* ===== FUN COOKING FACTS ===== */
+.fun-facts {
+  background: linear-gradient(180deg, #fffaf5 0%, #fff 100%);
+  padding: 70px 20px;
+  text-align: center;
+}
+.fun-title {
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+  color: #222;
+}
+.fun-dek {
+  color: #666;
+  font-size: 17px;
+  margin-bottom: 40px;
+}
+.fun-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.fun-card {
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px 20px;
+  overflow: hidden;
+
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+/* Hover lift */
+.fun-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.12);
+}
+.fun-emoji {
+  font-size: 38px;
+  margin-bottom: 10px;
+}
+.fun-text {
+  font-size: 15.5px;
+  color: #333;
+  line-height: 1.55;
+  font-weight: 500;
+}
+
+/* Subtle hover glow */
+.fun-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at top left,
+    rgba(255,180,120,0.2),
+    transparent 70%
+  );
+  opacity: 0;
+  pointer-events: none;   /* IMPORTANT */
+  transition: opacity 0.3s ease;
+}
+
+.fun-card:hover::after {
+  opacity: 1;
+}
+
+/* ===== THE ART OF COOKING ===== */
+.art-cooking {
+  background: radial-gradient(120% 160% at 50% 0%, #111 0%, #050505 100%);
+  padding: clamp(28px, 4vw, 50px) 20px;
+  margin-top: -25px;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+
+  transition: transform 0.4s ease, box-shadow 0.4s ease, opacity 0.4s ease;
+
+  animation: fadeInUp 0.8s ease both;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.art-inner {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(28px, 4vw, 50px);
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: center;
+  padding: clamp(20px, 3vw, 40px);
+  border-radius: 24px;
+  background: rgba(20, 20, 20, 0.7);
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0 0 40px rgba(255, 255, 255, 0.03);
+}
+
+/* ===== Video Styling ===== */
+.art-video {
+  width: 100%;
+  height: 480px;
+  max-width: 560px;
+  border-radius: 20px;
+  object-fit: cover;
+  display: block;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform 0.5s ease, box-shadow 0.4s ease;
+}
+.art-video:hover {
+  transform: scale(1.04);
+  box-shadow: 0 22px 50px rgba(255, 255, 255, 0.08);
+}
+
+/* ===== Text Styling ===== */
+.art-text h2 {
+  font-size: clamp(30px, 3.4vw, 46px);
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 20px;
+  position: relative;
+  letter-spacing: -0.02em;
+}
+
+.art-text h2::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  margin-top: 10px;
+  background: linear-gradient(90deg, #f9c74f, #f9844a);
+  border-radius: 999px;
+  box-shadow: 0 0 10px rgba(249, 199, 79, 0.6);
+}
+
+.art-text p {
+  font-size: 17px;
+  line-height: 1.7;
+  color: #eaeaea;
+  margin-bottom: 16px;
+  text-align: justify;
+  text-justify: inter-word;
+  transition: color 0.3s ease;
+}
+.art-text p:hover {
+  color: #fff;
+}
 
 /* TASTE TESTS */
 .cook-tt{ margin-top:30px; }
@@ -1410,18 +1150,31 @@ box-sizing: border-box;
 .cook-scroll::-webkit-scrollbar-thumb{ background:#ddd; border-radius:999px; }
 
 .cook-card{
-  scroll-snap-align:start; background:#fff; border:1px solid rgba(0,0,0,.06);
-  border-radius:12px; overflow:hidden; transition:transform .22s ease, box-shadow .22s ease;
+  scroll-snap-align:start;
+  background:#fff;
+  border:1px solid rgba(0,0,0,.06);
+  border-radius:12px;
+  overflow:hidden;
+  transition:transform .22s ease, box-shadow .22s ease;
   box-shadow:0 8px 22px rgba(0,0,0,.06);
 }
-.cook-card:hover{ transform:translateY(-4px); box-shadow:0 12px 28px rgba(0,0,0,.10); }
-.cook-card-img{ width:100%; height:220px; object-fit:cover; display:block; }
+
+.cook-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 28px rgba(0,0,0,.10);
+}
+
+.cook-card-img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  display:block;
+}
+
 .cook-card .cook-kicker{ margin:12px 14px 0; }
 .cook-card-title{ font-size:15px; font-weight:300; margin:6px 14px 0; }
 .cook-card .cook-underline{ margin:10px 14px 8px; }
 .cook-card-dek{ color:#444; font-size:14px; line-height:1.45; margin:0 14px 16px; }
-
-
 
 /* Categories bubbles */
 .cats {
@@ -1436,7 +1189,6 @@ box-sizing: border-box;
   gap: 34px;
   justify-items: center;
 }
-
 .cat {
   text-decoration: none;
   display: flex;
@@ -1444,7 +1196,6 @@ box-sizing: border-box;
   align-items: center;
   gap: 12px;
 }
-
 .cat-img {
   width: 120px;
   height: 120px;
@@ -1455,13 +1206,11 @@ box-sizing: border-box;
   box-shadow: 0 6px 16px rgba(0,0,0,.12);
   transition: transform .2s ease, outline-color .2s ease, box-shadow .2s ease;
 }
-
 .cat:hover .cat-img {
   transform: translateY(-2px) scale(1.04);
   outline-color: #111;                   /* theksoje në hover */
   box-shadow: 0 12px 22px rgba(0,0,0,.18);
 }
-
 .cat-label {
   font-size: 14px;
   font-weight: 800;                      /* e zezë si në screenshot */
@@ -1470,21 +1219,6 @@ box-sizing: border-box;
   letter-spacing: .02em;
   line-height: 1.2;
   max-width: 140px;
-}
-
-/* Mobile: bëje horizontal-scroll si story bar */
-@media (max-width: 640px) {
-  .cats-track {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 120px;
-    overflow-x: auto;
-    gap: 20px;
-    padding-bottom: 10px;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-  }
-  .cat { scroll-snap-align: start; }
 }
 
 /* ===== Newsletter ===== */
@@ -1506,11 +1240,6 @@ box-sizing: border-box;
   gap: 18px;
 }
 
-@media (max-width: 860px) {
-  .newsletter-inner {
-    grid-template-columns: 1fr;
-  }
-}
 
 .newsletter-title {
   margin: 0 0 6px;
@@ -1530,11 +1259,6 @@ box-sizing: border-box;
   justify-content: flex-end;
 }
 
-@media (max-width: 860px) {
-  .newsletter-form {
-    justify-content: flex-start;
-  }
-}
 
 .newsletter-input {
   flex: 1 1 280px;
@@ -1591,12 +1315,10 @@ box-sizing: border-box;
 }
 
 /* heq outline/box-shadow kur fokusohet */
-.newsletter-btn:focus,
-.newsletter-btn:focus-visible,
-.newsletter-btn:active {
-  outline: none;
-  box-shadow: none;
-  border-color: #111;
+.newsletter-btn:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 3px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
 }
 
 /* efekt i lehtë klikimi */
@@ -1606,24 +1328,193 @@ box-sizing: border-box;
   box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
+.ed-grid{
+  display:grid;
+  gap: clamp(14px, 2.2vw, 24px);
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  grid-template-rows: auto auto;
+  align-items:stretch;
+}
 
 
+/* LEFT feature layout (feature spans left column; images on right) */
+.ed-grid.left-feature{
+  grid-template-areas:
+    "d a c"
+    "d b c";
+}
+
+/* Make the right-most tile tall like the reference */
+.ed-grid.left-feature .ed-c > video{
+  aspect-ratio: 4 / 5;
+}
+
+.ed-grid.left-feature .ed-c img{
+  aspect-ratio: 4 / 5;
+}
+
+/* about card */
+.about-card{
+  background:#0f0f0f; color:#fff;
+  border-radius:14px; padding:18px; overflow:hidden;
+
+  /* Centro të gjitha elementet tekst/inline brenda kartës */
+  text-align:center;
+}
+
+.about-photo{
+  display:block;                /* që ta respektojë text-align pa “lëvizje” */
+  width:100%; height:220px;
+  object-fit:cover; border-radius:10px;
+  margin:0 0 12px;
+}
+
+.about-title{
+  margin:8px 0 6px;
+  font-size:1.2rem; font-weight:900;
+  /* (opsionale) siguron qendrim */
+  text-align:center;
+}
+.about-text{
+  opacity:.9; line-height:1.6; font-size:.95rem;
+  margin:0 auto;                /* nëse kufizon gjerësinë më vonë */
+}
+
+.about-btn{
+  display:inline-block;         /* mbaje sa përmbajtja */
+  margin:12px auto 0;           /* AUTO majtas/djathtas => në mes */
+  background:#fff; color:#111; font-weight:800;
+  padding:10px 14px; border-radius:10px; text-decoration:none;
+  text-align:center;
+}
+/* Kur preket ose klikohet (active/focus) */
+.about-btn:active,
+.about-btn:focus {
+   color: #929090;           
+  outline: none;
+}
+/* Kur kalon miu sipër */
+.about-btn:hover {
+  color: #747373;               
+}
+
+.about-socials a:focus-visible{
+  outline: 2px solid #111;
+  outline-offset: 3px;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Modal Styles */
+.ct-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 50px;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.ct-modal-dialog {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  width: 90%;
+  max-width: 500px;
+}
+
+.ct-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.ct-modal-header h5 {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.close {
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+}
+
+.ct-modal-body {
+  padding: 20px;
+}
+
+.ct-modal-img {
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+/* Search Results Page */
+.search-results-page {
+width: 100%;
+min-height: 100vh;
+padding: 40px 60px;
+background-color: #f5f5f5;
+box-sizing: border-box;
+}
+
+.search-results-heading {
+text-align: center;
+font-size: 36px;
+font-weight: bold;
+margin-bottom: 40px;
+color: #000;
+}
+
+.search-error {
+color: red;
+text-align: center;
+margin-bottom: 20px;
+}
+
+.search-loading {
+text-align: center;
+font-style: italic;
+color: #777;
+margin-bottom: 20px;
+}
+
+.main-wrapper {
+width: 100%;
+max-width: 100%;
+margin: 0 auto;
+box-sizing: border-box;
+}
+
+/* ===== Cooking (Bon Appétit-style) ===== */
+.cook {
+  max-width: 1200px;
+  margin: 40px auto 16px;
+  padding: 0 16px;
+}
 /* ===== Editor's Picks ===== */
 .editors{
   max-width:1200px;
   margin:0 auto;
   padding:0 16px;
 }
-
-.ed-grid{
-  display:grid;
-  grid-template-columns: repeat(3, minmax(0,1fr));
-  gap:18px;
-  align-items:stretch;
-}
-@media (max-width:1000px){ .ed-grid{ grid-template-columns: repeat(2,1fr); } }
-@media (max-width:560px){  .ed-grid{ grid-template-columns: 1fr; } }
-
 /* kartat */
 .ed-card{
   position:relative;
@@ -1781,14 +1672,6 @@ box-sizing: border-box;
   font-weight:900;
   letter-spacing:-.02em;
 }
-
-@media (max-width: 980px){
-  .magz-grid{
-    grid-template-columns: 1fr;
-  }
-  .magz-col{ grid-template-columns: 1fr 1fr; }
-}
-
 /* ===================== STORY + SIDEBAR ===================== */
 .story-grid{
   display:grid;
@@ -1861,67 +1744,6 @@ box-sizing: border-box;
 }
 
 .story-aside{ position:relative; }
-@media (min-width: 1100px){
-  .story-aside{ position: static ; top: 96px; }
-}
-
-/* about card */
-.about-card{
-  background:#0f0f0f; color:#fff;
-  border-radius:14px; padding:18px; overflow:hidden;
-
-  /* Centro të gjitha elementet tekst/inline brenda kartës */
-  text-align:center;
-}
-
-.about-photo{
-  display:block;                /* që ta respektojë text-align pa “lëvizje” */
-  width:100%; height:220px;
-  object-fit:cover; border-radius:10px;
-  margin:0 0 12px;
-}
-
-.about-title{
-  margin:8px 0 6px;
-  font-size:1.2rem; font-weight:900;
-  /* (opsionale) siguron qendrim */
-  text-align:center;
-}
-
-.about-text{
-  opacity:.9; line-height:1.6; font-size:.95rem;
-  margin:0 auto;                /* nëse kufizon gjerësinë më vonë */
-}
-
-.about-btn{
-  display:inline-block;         /* mbaje sa përmbajtja */
-  margin:12px auto 0;           /* AUTO majtas/djathtas => në mes */
-  background:#fff; color:#111; font-weight:800;
-  padding:10px 14px; border-radius:10px; text-decoration:none;
-  text-align:center;
-}
-/* Kur preket ose klikohet (active/focus) */
-.about-btn:active,
-.about-btn:focus {
-   color: #929090;           
-  outline: none;
-}
-/* Kur kalon miu sipër */
-.about-btn:hover {
-  color: #747373;               
-}
-
-.about-socials{
-  display:flex; gap:10px; margin-top:14px;
-  justify-content:center;       /* ikonat në mes */
-}
-
-.about-socials a{
-  width:36px; height:36px; display:grid; place-items:center;
-  border-radius:8px; background:#fff; color:#111; text-decoration:none;
-}
-
-
 /* courses */
 .courses-card{
   margin-top:18px; background:#f5f7f5; border-radius:12px; padding:16px;
@@ -1940,12 +1762,6 @@ box-sizing: border-box;
   width:26px; height:26px; border-radius:50%;
   display:grid; place-items:center;
   background:#22d3ee; color:#fff; font-size:.85rem; font-weight:800;
-}
-
-/* responsive */
-@media (max-width: 1050px){
-  .story-grid{ grid-template-columns: 1fr; }
-  .story-aside{ position:static; }
 }
 /* === Drinks Hero === */
 
@@ -1971,31 +1787,7 @@ box-sizing: border-box;
   background-position: var(--hero-x) var(--hero-y);
 }
 
-/* soft gradient for readability on the left */
-.drinks-hero{
-  /* knobs */
-  --hero-h: clamp(380px, 55vh, 600px);
-  --hero-x: 72%;
-  --hero-y: 42%;
 
-  position: relative;
-  min-height: var(--hero-h);
-  border-radius: 12px;
-  overflow: hidden;
-
-  /* layout */
-  display: flex;
-  align-items: center;               /* center the text block vertically */
-  justify-content: flex-start;       /* keep content on the LEFT */
-  padding: 0 clamp(16px, 6vw, 64px);
-
-  color: #fff;
-
-  /* background */
-  background: url('/Images/drinks.png') no-repeat;
-  background-size: cover;
-  background-position: var(--hero-x) var(--hero-y);
-}
 
 /* soft gradient for readability on the left */
 .drinks-hero::before{
@@ -2075,30 +1867,7 @@ box-sizing: border-box;
 
 /* Bigger button text + a touch more padding */
 
-/* Remove underline from ALL custom buttons */
-.hero-btn,
-.ct-btn {
-  text-decoration: none !important;
-  border: 2px solid white;
-  padding: 12px 28px;         /* match home read-more button */
-  border-radius: 30px;        /* match home style */
-  font-size: 1.05rem;         /* same text size */
-  font-weight: 600;           
-  color: white;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;                   /* spacing between text and » */
-  cursor: pointer;
-}
-.hero-btn .btn-icon,
-.ct-btn .btn-icon {
-  text-decoration: none !important;
-}
-.hero-btn:hover,
-.ct-btn:hover {
-  text-decoration: none !important;
-  opacity: 0.85;
-}
+
 
 
 .drinks-hero p{
@@ -2120,10 +1889,6 @@ box-sizing: border-box;
   outline-offset: 2px;
 }
 
-/* responsive tweak */
-@media (max-width: 768px){
-  .drinks-hero{ --hero-h: clamp(320px, 50vh, 520px); }
-}
 
 
 /* === Drinks Categories === */
@@ -2224,28 +1989,15 @@ box-sizing: border-box;
 /* === Editorial block === */
 
 .editorial{
-  max-width: none;        /* or: max-width: 100%;  or increase to 1400px */
-  width: 100%;
-  margin: 0;
-  padding: clamp(12px, 2vw, 20px) ;
-}
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 0;
 
+  background:#0b0b0b;
+  border-radius: 20px;
 
-
-/* Base grid */
-.ed-grid{
-  display: grid;
-  gap: clamp(14px, 2.2vw, 24px);
-  grid-template-columns: 1.1fr 1.1fr 1fr;
-  grid-template-rows: auto auto;
-  
-}
-
-/* LEFT feature layout (feature spans left column; images on right) */
-.ed-grid.left-feature{
-  grid-template-areas:
-    "d a c"
-    "d b c";
+  padding: clamp(24px, 4vw, 64px) clamp(16px, 4vw, 24px);
 }
 
 /* Area assignment */
@@ -2258,14 +2010,6 @@ box-sizing: border-box;
   position: relative;
 }
 
-/* Your existing editorial container */
-.editorial{
-  max-width: 1200px;            /* keep your grid width */
-  margin: 0 auto;
-  padding: clamp(32px, 6vw, 64px) clamp(16px, 4vw, 24px);
-  position: relative;
-  z-index: 0;
-}
 
 /* Wider black background behind the editorial content */
 .ed-dark .editorial::before{
@@ -2294,10 +2038,6 @@ box-sizing: border-box;
   aspect-ratio: 16 / 11;
 }
 
-.ed-grid.left-feature .ed-c > video{
-  aspect-ratio: 4 / 5;          /* tall right tile */
-}
-
 /* Image tiles */
 .ed-img{
   display: block;
@@ -2317,9 +2057,6 @@ box-sizing: border-box;
   transform: translateY(-2px);
   box-shadow: 0 16px 36px rgba(0,0,0,.16);
 }
-
-/* Make the right-most tile tall like the reference */
-.ed-grid.left-feature .ed-c img{ aspect-ratio: 4 / 5; } /* tall tile */
 
 /* Feature card on the LEFT */
 .ed-feature{
@@ -2393,42 +2130,12 @@ box-sizing: border-box;
   flex-direction: column;
   justify-content: center;
 }
-.editorial{
-  background:#0b0b0b;                /* black just behind the grid */
-  border-radius: 20px;                /* optional */
-  padding: clamp(24px, 4vw, 40px); 
-     /* keep some inner space */
-}
+
 .editorial .ed-link{
   color:#fff;
   border-bottom-color: rgba(255,255,255,.4);
 }
 .editorial .ed-link:hover{ border-bottom-color:#fff; }
-
-/* On wider screens, image left + text right inside the card */
-@media (min-width: 900px){
-  .ed-feature.has-image{
-    grid-template-columns: 1.1fr 1.4fr; /* image | text */
-    grid-template-rows: 1fr;
-  }
-  .ed-feature-media img{
-    height: 100%;
-    aspect-ratio: auto;
-  }
-}
-.ed-img > video,
-.ed-img > img{
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  aspect-ratio: 16 / 11;           /* default tile size */
-}
-
-/* If this is the tall right tile in your left-feature layout */
-.ed-grid.left-feature .ed-c > video{
-  aspect-ratio: 4 / 5;
-}
 
 /* === Promo (video banner) — single source of truth === */
 .promo.has-video{
@@ -2460,16 +2167,6 @@ box-sizing: border-box;
   display: block;
 }
 
-/* Text on top of the video */
-.promo-text{
-  position: absolute;
-  left: 28px;
-  bottom: 26px;
-  max-width: min(520px, 70vw);
-  color: #fff;
-  z-index: 2;                  /* above overlay */
-}
-
 /* Subtle left-to-right gradient for readability */
 .promo.has-video::after{
   content: "";
@@ -2480,12 +2177,6 @@ box-sizing: border-box;
   z-index: 1;                  /* between video (0) and text (2) */
 }
 
-/* Optional: slightly smaller on phones */
-@media (max-width: 768px){
-  .promo-media{
-    height: clamp(200px, 30vw, 200px);
-  }
-}
 
 .promo-text{
   right: calc(clamp(10px, 4vw, 60px) + 24px);
@@ -2503,11 +2194,6 @@ box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-}
-
-/* Optional: flip the overlay so it fades from the RIGHT */
-.promo.has-video::after{
-  background: linear-gradient(270deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,0) 45%);
 }
 
 /* Keep your heading & paragraph as-is... */
@@ -2549,17 +2235,7 @@ box-sizing: border-box;
   color: #0a0a0a;
   transform: scale(1.05);
 }
-@media (max-width: 700px){
-  .promo-text{
-    right: auto;
-    left: 16px;
-    text-align: left;
-    align-items: flex-start;
-  }
-  .promo.has-video::after{
-    background: linear-gradient(90deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,0) 45%);
-  }
-}
+
 /* ===== Feature Tiles (6) ===== */
 .ft { max-width: 1200px; margin: 0 auto; }
 .ft .section-title{
@@ -2575,12 +2251,7 @@ box-sizing: border-box;
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-@media (max-width: 1000px){
-  .ft-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 640px){
-  .ft-grid{ grid-template-columns: 1fr; }
-}
+
 
 .ft-card{
   position: relative;
@@ -2636,327 +2307,6 @@ box-sizing: border-box;
   box-shadow: 0 10px 22px rgba(0,0,0,.15);
   z-index: 2;
 }
-
-/* Title in the bottom-left over the image */
-.ft-title{
-  position: absolute;
-  left: 16px; right: 16px; bottom: 14px;
-  margin: 0;
-  color: #fff;
-  font-weight: 900;
-  line-height: 1.1;
-  font-size: clamp(18px, 2.4vw, 28px);
-  text-shadow: 0 2px 16px rgba(0,0,0,.55);
-  z-index: 2;
-}
-
-/* ===== Weeknight Cards ===== */
-.weeknights{ max-width:1200px; margin:0 auto; padding:0 16px; }
-.wk-head{
-  display:flex; align-items:center; justify-content:flex-start; gap:10px;
-  margin-bottom:14px;
-}
-.wk-title{
-  font-size: clamp(22px, 4vw, 38px);
-  font-weight: 900;
-  letter-spacing: .2px;
-  line-height: 1.06;
-}
-.wk-more{
-  margin-top: .25rem;
-  text-decoration: none; font-weight: 900; font-size: 28px; line-height: 1;
-  color: #b45f06; /* ngjyrë “arrow” si shembulli */
-}
-
-/* grid 3 kolonash në desktop, 2 tablet, 1 mobile */
-.wk-grid{
-  display:grid;
-  grid-template-columns: repeat(3, minmax(0,1fr));
-  gap: 22px;
-}
-@media (max-width: 980px){ .wk-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
-@media (max-width: 600px){ .wk-grid{ grid-template-columns: 1fr; } }
-
-.wk-card{
-  background:#fff;
-  border-radius: 14px;
-  overflow:hidden;
-  box-shadow: 0 10px 24px rgba(0,0,0,.08);
-  transition: transform .25s ease, box-shadow .25s ease;
-  border: 1px solid rgba(0,0,0,.06);
-}
-.wk-card:hover{
-  transform: translateY(-4px);
-  box-shadow: 0 16px 32px rgba(0,0,0,.12);
-}
-
-.wk-card img {
-  height: 250px;       /* fixed height */
-  object-fit: cover;   /* crop without stretching */
-}
-/* thumb + heart */
-
-.wk-thumb{
-  position: relative;
-  display:block;
-  line-height: 0;
-}
-.wk-thumb img{
-  width:100%; height: clamp(200px, 22vw, 260px);
-  object-fit: cover; display:block;
-}
-/* Heart button – zero default UI, zero highlight */
-.wk-like,
-.wk-like--bare{
-  position:absolute;
-  top:10px; right:12px;
-  padding:0;
-  border:none;
-  background:transparent !important;
-  appearance:none;                 /* Firefox/Chrome */
-  -webkit-appearance:none;         /* Safari */
-  outline:none;
-  box-shadow:none;
-  -webkit-tap-highlight-color: transparent; /* iOS gray square */
-  cursor:pointer;
-  display:grid; place-items:center;
-  font-size:26px;
-  color: rgba(255,255,255,.95);
-  text-shadow: 0 2px 8px rgba(0,0,0,.45);
-  transition: transform .15s ease, opacity .15s ease, color .15s ease;
-}
-
-/* ensure ALL states stay transparent */
-.wk-like:focus,
-.wk-like:focus-visible,
-.wk-like:active{
-  outline:none;
-  box-shadow:none;
-  background:transparent !important;
-}
-
-/* Remove inner focus border on Firefox */
-.wk-like::-moz-focus-inner{ border:0; }
-
-/* Liked state = red icon only, still no bg */
-.wk-like.is-liked{ color:#ff3b5c; }
-
-/* Optional: slightly bigger on phones */
-@media (max-width: 560px){
-  .wk-like{ font-size:24px; top:8px; right:10px; }
-}
-
-/* body */
-.wk-body{ padding: 14px 14px 16px; }
-.wk-tag{
-  display:inline-block;
-  font-size:.7rem; font-weight:800; letter-spacing:.08em;
-  color:#656666; /* teal-ish */
-  text-transform:uppercase;
-  margin-bottom: 8px;
-}
-.wk-title-link{ text-decoration:none; color:inherit; }
-.wk-h3{
-  margin:0 0 8px;
-  font-size: clamp(18px, 2vw, 24px);
-  line-height:1.18; font-weight:800;
-}
-.wk-h3:hover{ text-decoration: underline; text-decoration-thickness: 2px; }
-
-/* meta: time + stars */
-.wk-meta{
-  display:flex; align-items:center; justify-content:flex-start;
-  gap: 14px; margin-top: 8px;
-}
-.wk-time{ display:inline-flex; align-items:center; gap:6px; color:#374151; font-size:.95rem; }
-.wk-time svg{ opacity:.75; }
-.wk-stars{ display:inline-flex; gap:4px; }
-.wk-stars svg{ font-size: 16px; color:#d1d5db; }          /* off */
-.wk-stars svg.on{ color:#ffe431; }                        /* on (blu/teal) */
-
-/* Vetëm për linkat brenda seksionit .weeknights */
-.weeknights a,
-.weeknights a:link,
-.weeknights a:visited,
-.weeknights a:hover,
-.weeknights a:active,
-.weeknights a:focus {
-  color: #000; /* ngjyrë e zezë */
-  text-decoration: none;
-}
-
-.weeknights a:hover {
-  color: #222; /* pak më e errët kur kalon miu */
-}
-
-/* ===== FUN COOKING FACTS ===== */
-.fun-facts {
-  background: linear-gradient(180deg, #fffaf5 0%, #fff 100%);
-  padding: 70px 20px;
-  text-align: center;
-}
-.fun-title {
-  font-size: clamp(26px, 3vw, 36px);
-  font-weight: 900;
-  letter-spacing: 0.5px;
-  margin-bottom: 6px;
-  color: #222;
-}
-.fun-dek {
-  color: #666;
-  font-size: 17px;
-  margin-bottom: 40px;
-}
-.fun-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-.fun-card {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
-  padding: 28px 20px;
-  position: relative;
-  overflow: hidden;
-  transition: transform .3s ease, box-shadow .3s ease;
-}
-.fun-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 14px 36px rgba(0,0,0,0.12);
-}
-.fun-emoji {
-  font-size: 38px;
-  margin-bottom: 10px;
-}
-.fun-text {
-  font-size: 15.5px;
-  color: #333;
-  line-height: 1.55;
-  font-weight: 500;
-}
-
-/* Subtle hover glow */
-.fun-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at top left, rgba(255,180,120,0.2), transparent 70%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.fun-card:hover::after { opacity: 1; }
-
-
-/* ===== THE ART OF COOKING ===== */
-.art-cooking {
-  background: radial-gradient(120% 160% at 50% 0%, #111 0%, #050505 100%);
- padding: clamp(28px, 4vw, 50px) 20px;
-  margin-top: -25px;
-  border-radius: 28px;
-  overflow: hidden;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
-  transition: all 0.4s ease;
-}
-
-.art-inner {
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: clamp(28px, 4vw, 50px);
-  max-width: 1200px;
-  margin: 0 auto;
-  align-items: center;
-  padding: clamp(20px, 3vw, 40px);
-  border-radius: 24px;
-  background: rgba(20, 20, 20, 0.7);
-  backdrop-filter: blur(10px);
-  box-shadow: inset 0 0 40px rgba(255, 255, 255, 0.03);
-}
-
-/* ===== Video Styling ===== */
-.art-video {
-  width: 100%;
-  height: 480px;
-  max-width: 560px;
-  border-radius: 20px;
-  object-fit: cover;
-  display: block;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: transform 0.5s ease, box-shadow 0.4s ease;
-}
-.art-video:hover {
-  transform: scale(1.04);
-  box-shadow: 0 22px 50px rgba(255, 255, 255, 0.08);
-}
-
-/* ===== Text Styling ===== */
-.art-text h2 {
-  font-size: clamp(30px, 3.4vw, 46px);
-  font-weight: 900;
-  color: #fff;
-  margin-bottom: 20px;
-  position: relative;
-  letter-spacing: -0.02em;
-}
-
-.art-text h2::after {
-  content: "";
-  display: block;
-  width: 80px;
-  height: 4px;
-  margin-top: 10px;
-  background: linear-gradient(90deg, #f9c74f, #f9844a);
-  border-radius: 999px;
-  box-shadow: 0 0 10px rgba(249, 199, 79, 0.6);
-}
-
-.art-text p {
-  font-size: 17px;
-  line-height: 1.7;
-  color: #eaeaea;
-  margin-bottom: 16px;
-  text-align: justify;
-  text-justify: inter-word;
-  transition: color 0.3s ease;
-}
-.art-text p:hover {
-  color: #fff;
-}
-
-/* ===== Animation when appearing ===== */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.art-cooking {
-  animation: fadeInUp 0.8s ease both;
-}
-
-/* ===== Responsive ===== */
-@media (max-width: 950px) {
-  .art-inner {
-    grid-template-columns: 1fr;
-    text-align: center;
-    padding: 24px;
-  }
-  .art-video {
-    height: auto;
-    max-width: 100%;
-  }
-  .art-text h2::after {
-    margin: 12px auto;
-  }
-}
-
 /* ABOUT US PAGE FONTS */
 .aboutus-page h1,
 .aboutus-page h2{
@@ -2978,14 +2328,6 @@ box-sizing: border-box;
   font-family: "Inter", sans-serif;
   line-height: 1.7;
 }
-
-.wk-card img {
-  height: 260px;
-  object-fit: cover;
-}
-
-
-/* recipePages*/
 /* PAGE BACKGROUND */
 .recipe-page {
   max-width: 800px;
@@ -3042,21 +2384,6 @@ box-sizing: border-box;
   font-weight: bolder;
 
 }
-
-/* HERO IMAGE */
-.hero-image {
-  text-align: center;
-  margin-bottom: 40px; /* me hapsire me te madhe poshte fotos */
-}
-
-.hero-image img {
-  width: 100%;
-  max-width: 600px;
-  height: auto;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
 /* INTRO */
 .recipe-intro p {
   font-size: 17px;
@@ -3095,40 +2422,4 @@ box-sizing: border-box;
   margin-bottom: 10px;
   font-size: 15px;
   line-height: 1.5;
-}
-
-
-/*Per te trenings*/
-/* LINK pa underline */
-.cook-spotlight-link {
-  text-decoration: none !important;
-  color: inherit;
-  display: block;
-}
-
-/* titulli normal */
-.cook-h3 {
-  text-decoration: none !important;
-  transition: opacity 0.2s ease, color 0.2s ease;
-}
-
-/* hover: vetëm pak hint */
-.cook-spotlight-link:hover .cook-h3 {
-  opacity: 0.75;       /* pak fade */
-  color: #393939;     /* ose hiqe nese s'don ngjyrë */
-  text-decoration: none !important;
-}
-
-/*Per modalet e trendingNow mu bo te klikueshme*/
-
-.ct-card-link,
-.ct-card-link:link,
-.ct-card-link:visited,
-.ct-card-link:hover,
-.ct-card-link:active,
-.ct-card-link:focus {
-  color: inherit;       /* mbaje ngjyrën e card-it */
-  text-decoration: none; /* hiq underline */
-  outline: none;        /* hiq outline blu kur fokus */
-   display: contents;
 }
