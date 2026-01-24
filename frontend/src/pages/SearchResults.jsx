@@ -2,83 +2,20 @@ import { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { FaRegClock, FaStar, FaHeart, FaRegHeart } from "react-icons/fa";
 import API from "../api";
+import useFavorites from "../hooks/useFavorites";
 
 export default function SearchResults() {
   const { search } = useLocation();
   const params = new URLSearchParams(search);
 
   const q = params.get("q") || "";
-  const ingredients = params.get("ingredients") || ""; // ✅ NEW
+  const ingredients = params.get("ingredients") || "";
 
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // favorites (same logic as your pages)
-  const [liked, setLiked] = useState({});
+  const { liked, toggleFavorite } = useFavorites();
   const [showLoginModal, setShowLoginModal] = useState(false);
-
-  // load + sync favorites
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    const stored = localStorage.getItem("liked");
-    if (stored) setLiked(JSON.parse(stored));
-
-    if (!token) return;
-
-    (async () => {
-      try {
-        const res = await API.get("/favorites", { withCredentials: true });
-        const favs = res.data.favorites || [];
-        const map = {};
-        favs.forEach((r) => (map[r.id] = true));
-        setLiked(map);
-        localStorage.setItem("liked", JSON.stringify(map));
-      } catch (e) {
-        console.error("Failed to sync favorites:", e);
-      }
-    })();
-  }, []);
-
-  const handleToggleFavorite = async (recipe) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setShowLoginModal(true);
-      return;
-    }
-
-    const wasLiked = !!liked[recipe.id];
-
-    setLiked((prev) => {
-      const updated = { ...prev, [recipe.id]: !prev[recipe.id] };
-      localStorage.setItem("liked", JSON.stringify(updated));
-      return updated;
-    });
-
-    try {
-      if (wasLiked) {
-        await API.delete(`/favorites/${recipe.id}`, { withCredentials: true });
-      } else {
-        await API.post(
-          "/favorites",
-          {
-            recipeId: recipe.id,
-            recipe: {
-              title: recipe.title,
-              tag: recipe.tag,
-              time: recipe.time_label, // IMPORTANT: DB uses time_label
-              img: recipe.img,
-              href: recipe.href,
-              rating: recipe.rating,
-            },
-          },
-          { withCredentials: true }
-        );
-      }
-    } catch (err) {
-      console.error("favorites sync error:", err);
-    }
-  };
 
   // ✅ DB search (q OR ingredients)
   useEffect(() => {
@@ -92,14 +29,9 @@ export default function SearchResults() {
       try {
         setLoading(true);
 
-        // Ingredient search takes priority if present
         const { data } = ingredients.trim()
-          ? await API.get("/recipes/by-ingredients", {
-              params: { ingredients },
-            })
-          : await API.get("/recipes/search", {
-              params: { q },
-            });
+          ? await API.get("/recipes/by-ingredients", { params: { ingredients } })
+          : await API.get("/recipes/search", { params: { q } });
 
         setResults(data.recipes || []);
       } catch (err) {
@@ -137,11 +69,17 @@ export default function SearchResults() {
                 className={`wk-like ${liked[r.id] ? "is-liked" : ""}`}
                 onClick={(e) => {
                   e.preventDefault();
-                  handleToggleFavorite(r);
+                  toggleFavorite(r, {
+                    onLoginRequired: () => setShowLoginModal(true),
+                  });
                 }}
                 aria-label="Toggle favorite"
               >
-                {liked[r.id] ? <FaHeart size={22} color="red" /> : <FaRegHeart size={22} />}
+                {liked[r.id] ? (
+                  <FaHeart size={22} color="red" />
+                ) : (
+                  <FaRegHeart size={22} />
+                )}
               </button>
 
               <div className="wk-body">
@@ -171,7 +109,7 @@ export default function SearchResults() {
         </div>
       )}
 
-      {/* Login modal (same as your pages) */}
+      {/* Login modal */}
       <div
         className={`modal fade ${showLoginModal ? "show d-block" : ""}`}
         tabIndex="-1"

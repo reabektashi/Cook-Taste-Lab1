@@ -63,7 +63,7 @@ if (process.env.DATABASE_URL) {
 // ---------- Helpers ----------
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const ACCESS_TOKEN_EXP = "15m";    // short-lived access token
+const ACCESS_TOKEN_EXP = "1h";    // short-lived access token
 const REFRESH_TOKEN_DAYS = 7;      // refresh token lifetime in days
 
 // create access token (JWT)

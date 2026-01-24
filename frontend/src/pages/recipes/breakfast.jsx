@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaHeart, FaRegHeart, FaRegClock, FaStar } from "react-icons/fa";
 import API from "../../api";
 import { useNavigate } from "react-router-dom";
+import useFavorites from "../../hooks/useFavorites";
 
 const Breakfast = () => {
   const navigate = useNavigate();
@@ -9,7 +10,7 @@ const Breakfast = () => {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [liked, setLiked] = useState({});
+  const { liked, toggleFavorite } = useFavorites();
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   // Load recipes from DB
@@ -27,69 +28,6 @@ const Breakfast = () => {
       }
     })();
   }, []);
-
-  // Load + sync favorites
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    const stored = localStorage.getItem("liked");
-    if (stored) setLiked(JSON.parse(stored));
-
-    if (!token) return;
-
-    (async () => {
-      try {
-        const res = await API.get("/favorites", { withCredentials: true });
-        const favs = res.data.favorites || [];
-        const map = {};
-        favs.forEach((r) => (map[r.id] = true));
-        setLiked(map);
-        localStorage.setItem("liked", JSON.stringify(map));
-      } catch (e) {
-        console.error("Failed to sync favorites:", e);
-      }
-    })();
-  }, []);
-
-  const handleToggleFavorite = async (recipe) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setShowLoginModal(true);
-      return;
-    }
-
-    const wasLiked = !!liked[recipe.id];
-
-    setLiked((prev) => {
-      const updated = { ...prev, [recipe.id]: !prev[recipe.id] };
-      localStorage.setItem("liked", JSON.stringify(updated));
-      return updated;
-    });
-
-    try {
-      if (wasLiked) {
-        await API.delete(`/favorites/${recipe.id}`, { withCredentials: true });
-      } else {
-        await API.post(
-          "/favorites",
-          {
-            recipeId: recipe.id,
-            recipe: {
-              title: recipe.title,
-              tag: recipe.tag,
-              time: recipe.time_label, // DB field
-              img: recipe.img,         // DB field
-              href: recipe.href,       // DB field
-              rating: recipe.rating,
-            },
-          },
-          { withCredentials: true }
-        );
-      }
-    } catch (err) {
-      console.error("favorites sync error:", err);
-    }
-  };
 
   const renderStars = (rating) =>
     Array.from({ length: 5 }).map((_, i) => (
@@ -135,7 +73,9 @@ const Breakfast = () => {
                       }`}
                       onClick={(e) => {
                         e.preventDefault();
-                        handleToggleFavorite(r);
+                        toggleFavorite(r, {
+                          onLoginRequired: () => setShowLoginModal(true),
+                        });
                       }}
                     >
                       {liked[r.id] ? (

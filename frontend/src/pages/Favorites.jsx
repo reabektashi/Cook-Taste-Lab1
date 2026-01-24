@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaRegClock, FaStar, FaHeart } from "react-icons/fa";
-import { fetchFavorites, removeFavorite } from "../utils/favoritesApi";
+import useFavorites from "../hooks/useFavorites";
+import API from "../api";
 
 export default function Favorites() {
   const [items, setItems] = useState([]);
@@ -8,6 +9,10 @@ export default function Favorites() {
 
   const hasToken = !!localStorage.getItem("token");
 
+  // we use fetchFavorites to keep global liked map synced too
+  const { fetchFavorites } = useFavorites();
+
+  // Load favorites from DB
   useEffect(() => {
     if (!hasToken) {
       setLoading(false);
@@ -16,10 +21,12 @@ export default function Favorites() {
 
     (async () => {
       try {
-        const favs = await fetchFavorites();
-        setItems(favs);
+        setLoading(true);
+        const res = await API.get("/favorites", { withCredentials: true });
+        setItems(res.data.favorites || []);
       } catch (err) {
         console.error("Failed to load favorites", err);
+        setItems([]);
       } finally {
         setLoading(false);
       }
@@ -28,24 +35,24 @@ export default function Favorites() {
 
   const handleRemove = async (recipeId) => {
     // ✅ instant UI update
-    setItems((prev) => prev.filter((x) => x.id !== recipeId));
+    setItems((prev) => prev.filter((x) => String(x.id) !== String(recipeId)));
 
-    // ✅ keep localStorage liked map in sync (optional but recommended)
     try {
-      const stored = JSON.parse(localStorage.getItem("liked") || "{}");
-      delete stored[recipeId];
-      localStorage.setItem("liked", JSON.stringify(stored));
-    } catch {
-      // ignore
-    }
+      // ✅ backend delete
+      await API.delete(`/favorites/${recipeId}`, { withCredentials: true });
 
-    // ✅ backend delete
-    try {
-      await removeFavorite(recipeId);
+      // ✅ re-sync liked map from DB (important for cross-device + other pages)
+      await fetchFavorites();
     } catch (err) {
       console.error("Failed to remove favorite", err);
-      // optional: refetch to restore UI if you want
-      // const favs = await fetchFavorites(); setItems(favs);
+
+      // safest: refetch favorites list if delete failed
+      try {
+        const res = await API.get("/favorites", { withCredentials: true });
+        setItems(res.data.favorites || []);
+      } catch (e) {
+        // ignore
+      }
     }
   };
 
@@ -66,7 +73,7 @@ export default function Favorites() {
     return (
       <div style={{ padding: "2rem" }}>
         <h2>Your Favorites</h2>
-        <p>You haven't saved any favorites yet. Tap the hearts on the Home page.</p>
+        <p>You haven't saved any favorites yet. Tap the hearts on the pages.</p>
       </div>
     );
   }
@@ -106,14 +113,14 @@ export default function Favorites() {
 
               <div className="wk-meta">
                 <span className="wk-time">
-                  <FaRegClock /> {r.time_label || r.time}
+                  <FaRegClock /> {r.time_label || r.time || "—"}
                 </span>
 
                 <span className="wk-stars">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <FaStar
                       key={i}
-                      className={i < Math.round(r.rating || 0) ? "on" : ""}
+                      className={i < Math.round(Number(r.rating) || 0) ? "on" : ""}
                     />
                   ))}
                 </span>
