@@ -563,6 +563,22 @@ p {
   opacity: 0.6;
   transition: transform 0.3s ease, color 0.3s ease, opacity 0.3s ease;
 }
+
+/* PREV – ana e majtë */
+.ct-carousel-control-prev {
+  left: 10px;
+}
+
+/* NEXT – ana e djathtë */
+.ct-carousel-control-next {
+  right: 10px;
+}
+.ct-carousel-control-prev:hover,
+.ct-carousel-control-next:hover {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.1);
+}
+
 /* Head */
 .cook-head {
   text-align: center;
