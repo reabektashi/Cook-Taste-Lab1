@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../assets/Css/dashboard.css";
-
-const API_BASE = "https://localhost:5174";
+import API from "../api";
 
 const FILTERS = [
   { key: "all", label: "ALL" },
@@ -14,23 +13,56 @@ function Users() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // modal + edit mode
   const [openModal, setOpenModal] = useState(false);
   const [editId, setEditId] = useState(null);
 
-  const emptyForm = { email: "", user_role: "user", status: "active" };
+  // ✅ status e mbajmë (ti po e shton në DB)
+  const emptyForm = { email: "", user_role: "user", status: "active", password: "" };
   const [form, setForm] = useState(emptyForm);
 
-  // ---------------- FETCH USERS ----------------
+  // ✅ helper: Authorization header nga localStorage token
+  const authHeader = () => {
+    const token = localStorage.getItem("token");
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  };
+
+  // ✅ Dynamic labels based on filter
+  const addLabel =
+    selectedFilter === "all"
+      ? "ADD"
+      : selectedFilter === "admin"
+      ? "ADD ADMIN"
+      : "ADD USER";
+
+  const modalTitle =
+    editId !== null
+      ? "Edit User"
+      : selectedFilter === "all"
+      ? "Add"
+      : selectedFilter === "admin"
+      ? "Add Admin"
+      : "Add User";
+
+  const listTitle =
+    selectedFilter === "all" ? "All" : selectedFilter === "admin" ? "Admins" : "Users";
+
   const fetchUsers = async (role) => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/users?role=${role}`);
-      const data = await res.json();
-      setUsers(data.users || []);
+      const res = await API.get("/users", {
+        params: { role },
+        headers: { ...authHeader() },
+      });
+
+      setUsers(Array.isArray(res.data?.users) ? res.data.users : []);
     } catch (err) {
       console.error("Fetch users error:", err);
       setUsers([]);
+
+      const status = err?.response?.status;
+      if (status === 401) alert("401: Not logged in (token missing/expired).");
+      else if (status === 403) alert("403: Admin only.");
+      else alert(err?.response?.data?.error || "Fetch failed (login/admin?)");
     } finally {
       setLoading(false);
     }
@@ -38,12 +70,20 @@ function Users() {
 
   useEffect(() => {
     fetchUsers(selectedFilter);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFilter]);
 
-  // ---------------- MODAL HELPERS ----------------
   const openAddModal = () => {
     setEditId(null);
-    setForm(emptyForm);
+
+    const roleFromFilter = selectedFilter === "admin" ? "admin" : "user"; // all -> user default
+
+    setForm({
+      ...emptyForm,
+      user_role: roleFromFilter,
+      status: "active",
+    });
+
     setOpenModal(true);
   };
 
@@ -53,6 +93,7 @@ function Users() {
       email: user.email || "",
       user_role: user.user_role || "user",
       status: user.status || "active",
+      password: "", // ✅ s’po e ndryshojmë password në edit këtu
     });
     setOpenModal(true);
   };
@@ -63,72 +104,81 @@ function Users() {
     setForm(emptyForm);
   };
 
-  // ---------------- SAVE ----------------
   const handleSave = async () => {
-    if (!form.email.trim()) {
-      return alert("Email is required.");
-    }
-
-    const payload = { ...form };
+    if (!form.email.trim()) return alert("Email is required.");
 
     try {
       if (editId !== null) {
-        // EDIT
-        await fetch(`${API_BASE}/api/users/${editId}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
+        // ✅ EDIT (PUT)
+        await API.put(
+          `/users/${editId}`,
+          {
+            email: form.email,
+            user_role: form.user_role,
+            status: form.status,
+          },
+          { headers: { ...authHeader() } }
+        );
       } else {
-        // ADD
-        await fetch(`${API_BASE}/api/users`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
+        // ✅ ADD (POST) - password optional
+        const payload = {
+          email: form.email,
+          user_role: form.user_role,
+          status: form.status,
+        };
+        if (form.password?.trim()) payload.password = form.password.trim();
+
+        const res = await API.post(`/users`, payload, {
+          headers: { ...authHeader() },
         });
+
+        if (res?.data?.note) alert(res.data.note);
       }
 
       closeModal();
       fetchUsers(selectedFilter);
     } catch (err) {
       console.error(err);
-      alert("Save failed");
+      alert(err?.response?.data?.error || "Save failed");
     }
   };
 
-  // ---------------- DELETE ----------------
-  const handleDelete = async (user) => {
-    const ok = window.confirm(`Delete "${user.email}"?`);
+  const handleDelete = async (u) => {
+    const ok = window.confirm(`Delete "${u.email}"?`);
     if (!ok) return;
 
     try {
-      await fetch(`${API_BASE}/api/users/${user.id}`, { method: "DELETE" });
+      await API.delete(`/users/${u.id}`, {
+        headers: { ...authHeader() },
+      });
       fetchUsers(selectedFilter);
     } catch (err) {
       console.error(err);
-      alert("Delete failed");
+      alert(err?.response?.data?.error || "Delete failed");
     }
   };
 
   return (
     <div className="categories-page">
-      {/* HEADER */}
       <div className="admin-header">
         <div>
           <h1 className="admin-title">Users</h1>
           <p className="admin-subtitle">Manage users and admins access & status.</p>
         </div>
 
-        <button className="btn-add" onClick={openAddModal}>+ ADD USER</button>
+        <button className="btn-add" onClick={openAddModal} type="button">
+          + {addLabel}
+        </button>
       </div>
 
-      {/* MODAL */}
       {openModal && (
-        <div className="modal-backdrop">
-          <div className="modal-card">
+        <div className="modal-backdrop" onMouseDown={closeModal}>
+          <div className="modal-card" onMouseDown={(e) => e.stopPropagation()}>
             <div className="modal-head">
-              <h2 className="modal-title">{editId !== null ? "Edit User" : "Add User"}</h2>
-              <button className="modal-close" onClick={closeModal}>✕</button>
+              <h2 className="modal-title">{modalTitle}</h2>
+              <button className="modal-close" onClick={closeModal} type="button">
+                ✕
+              </button>
             </div>
 
             <div className="modal-grid">
@@ -146,6 +196,8 @@ function Users() {
                 <select
                   value={form.user_role}
                   onChange={(e) => setForm((p) => ({ ...p, user_role: e.target.value }))}
+                  // ✅ optional: lock role when adding under ADMINS filter
+                  disabled={editId === null && selectedFilter === "admin"}
                 >
                   <option value="user">User</option>
                   <option value="admin">Admin</option>
@@ -159,36 +211,50 @@ function Users() {
                   onChange={(e) => setForm((p) => ({ ...p, status: e.target.value }))}
                 >
                   <option value="active">Active</option>
-                  <option value="blocked">Blocked</option>
+                  <option value="inactive">Inactive</option>
                 </select>
               </label>
+
+              {/* ✅ vetëm për ADD (opsionale) */}
+              {editId === null && (
+                <label style={{ gridColumn: "1 / -1" }}>
+                  Password (optional)
+                  <input
+                    type="password"
+                    value={form.password}
+                    onChange={(e) => setForm((p) => ({ ...p, password: e.target.value }))}
+                    placeholder="Leave empty for default"
+                  />
+                </label>
+              )}
             </div>
 
             <div className="modal-actions">
-              <button className="btn-delete" onClick={closeModal}>Cancel</button>
-              <button className="btn-edit" onClick={handleSave}>Save</button>
+              <button className="btn-delete" onClick={closeModal} type="button">
+                Cancel
+              </button>
+              <button className="btn-edit" onClick={handleSave} type="button">
+                Save
+              </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* FILTER BUTTONS */}
       <div className="category-buttons-full">
         {FILTERS.map((f) => (
           <button
             key={f.key}
             className={"category-btn-full" + (selectedFilter === f.key ? " active" : "")}
             onClick={() => setSelectedFilter(f.key)}
+            type="button"
           >
             {f.label}
           </button>
         ))}
       </div>
 
-      {/* TABLE */}
-      <h2 className="existing-title">
-        {selectedFilter === "all" ? "All users" : selectedFilter === "admin" ? "Admins" : "Users"}
-      </h2>
+      <h2 className="existing-title">{listTitle}</h2>
 
       {loading ? (
         <p style={{ padding: "12px 0" }}>Loading...</p>
@@ -226,10 +292,14 @@ function Users() {
                   </td>
                   <td>{new Date(u.created_at).toLocaleString()}</td>
                   <td>
-                    <button className="btn-edit" onClick={() => openEditModal(u)}>EDIT</button>
+                    <button className="btn-edit" onClick={() => openEditModal(u)} type="button">
+                      EDIT
+                    </button>
                   </td>
                   <td>
-                    <button className="btn-delete" onClick={() => handleDelete(u)}>DELETE</button>
+                    <button className="btn-delete" onClick={() => handleDelete(u)} type="button">
+                      DELETE
+                    </button>
                   </td>
                 </tr>
               ))
