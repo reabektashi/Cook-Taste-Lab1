@@ -1,3 +1,4 @@
+// src/pages/Categories.jsx
 import React, { useEffect, useMemo, useState } from "react";
 import "../assets/Css/dashboard.css";
 import { FaHeart } from "react-icons/fa";
@@ -8,11 +9,10 @@ import {
   MdCake,
   MdFastfood,
 } from "react-icons/md";
-import API from "../api"; // ✅ your axios instance
+import API from "../api";
 
 const CATEGORIES = ["Breakfast", "Lunch", "Dinner", "Desserts", "Appetizers"];
 
-// UI cards (count becomes dynamic)
 const CATEGORY_CARDS = [
   {
     key: "Breakfast",
@@ -52,12 +52,13 @@ export default function Categories() {
   const [items, setItems] = useState([]);
   const [loadingItems, setLoadingItems] = useState(false);
 
-  // ✅ dynamic counts
   const [counts, setCounts] = useState({});
   const [loadingCounts, setLoadingCounts] = useState(true);
 
-  // ✅ modal (kept like your style)
   const [openModal, setOpenModal] = useState(false);
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingId, setEditingId] = useState(null);
 
   const emptyForm = useMemo(
     () => ({
@@ -74,29 +75,21 @@ export default function Categories() {
 
   const [form, setForm] = useState(emptyForm);
 
-  // ---------------------------
-  // ✅ fetch counts for cards
-  // ---------------------------
+  // ✅ image validation helper (same as DrinksDash)
+  const isValidImageUrl = (value) => {
+    if (!value) return true; // allow empty
+    return /\.(jpe?g|png|webp|gif|svg)(\?.*)?$/i.test(String(value).trim());
+  };
+
+  // ✅ fetch counts (admin route -> needs cookies)
   const fetchCounts = async () => {
     setLoadingCounts(true);
     try {
-      const results = await Promise.all(
-        CATEGORIES.map(async (cat) => {
-          try {
-            const res = await API.get("/category-items", {
-              params: { category: cat },
-            });
-            const rows = res.data?.items || [];
-            return [cat, rows.length];
-          } catch {
-            return [cat, 0];
-          }
-        })
-      );
-
-      const map = {};
-      results.forEach(([cat, count]) => (map[cat] = count));
-      setCounts(map);
+      const res = await API.get("/category-items/counts", { withCredentials: true });
+      setCounts(res.data?.counts || {});
+    } catch (err) {
+      console.error("Fetch counts error:", err);
+      setCounts({});
     } finally {
       setLoadingCounts(false);
     }
@@ -104,12 +97,9 @@ export default function Categories() {
 
   useEffect(() => {
     fetchCounts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // ---------------------------
-  // ✅ fetch table rows by category
-  // ---------------------------
+  // fetch table rows by category (public)
   useEffect(() => {
     if (!selectedCategory) return;
 
@@ -129,51 +119,104 @@ export default function Categories() {
     })();
   }, [selectedCategory]);
 
-  // ---------------------------
-  // MODAL helpers (optional)
-  // ---------------------------
+  const refreshItems = async () => {
+    if (!selectedCategory) return;
+    const res = await API.get("/category-items", {
+      params: { category: selectedCategory },
+    });
+    setItems(Array.isArray(res.data?.items) ? res.data.items : []);
+  };
+
+  // MODAL helpers
   const openAddModal = () => {
+    setIsEditing(false);
+    setEditingId(null);
     setForm({ ...emptyForm, category: selectedCategory || "" });
+    setOpenModal(true);
+  };
+
+  const openEditModal = (item) => {
+    setIsEditing(true);
+    setEditingId(item.id);
+
+    setForm({
+      category: item.category || selectedCategory || "",
+      card_id: item.card_id ?? "",
+      title: item.title ?? "",
+      tag: item.tag ?? "",
+      time_label: item.time_label ?? "",
+      img_url: item.img_url ?? "",
+      href: item.href ?? "",
+    });
+
     setOpenModal(true);
   };
 
   const closeModal = () => {
     setOpenModal(false);
     setForm(emptyForm);
+    setIsEditing(false);
+    setEditingId(null);
   };
 
-  // (Optional) Save handler if you want “Add Recipe” to really insert
+  // ✅ add OR edit (admin routes -> needs cookies + validations)
   const handleSave = async () => {
     if (!form.category || !form.title.trim()) return;
 
+    // ✅ validate time_label (digits only)
+    if (form.time_label && !/^\d+$/.test(form.time_label)) {
+      alert("Time must be a number (minutes only).");
+      return;
+    }
+
+    // ✅ validate image url extension
+    if (!isValidImageUrl(form.img_url)) {
+      alert("Image URL must end with an image extension (.jpg, .jpeg, .png, .webp, .gif, .svg).");
+      return;
+    }
+
+    const payload = {
+      category: form.category,
+      card_id: form.card_id || null,
+      tag: form.tag || null,
+      title: form.title,
+      time_label: form.time_label || null,
+      img_url: form.img_url || null,
+      href: form.href || null,
+    };
+
     try {
-      await API.post(
-        "/category-items",
-        {
-          category: form.category,
-          card_id: form.card_id || null,
-          tag: form.tag || null,
-          title: form.title,
-          time_label: form.time_label || null,
-          img_url: form.img_url || null,
-          href: form.href || null,
-        },
-        { withCredentials: true }
-      );
+      if (isEditing && editingId) {
+        await API.put(`/category-items/${editingId}`, payload, { withCredentials: true });
+      } else {
+        await API.post("/category-items", payload, { withCredentials: true });
+      }
 
       closeModal();
-
-      // refresh table + counts
-      if (selectedCategory) {
-        const res = await API.get("/category-items", {
-          params: { category: selectedCategory },
-        });
-        setItems(Array.isArray(res.data?.items) ? res.data.items : []);
-      }
+      await refreshItems();
       fetchCounts();
     } catch (err) {
-      console.error("Save category item error:", err);
-      alert("Save failed (check admin login / API).");
+      console.error(isEditing ? "Edit recipe error:" : "Save recipe error:", err);
+      console.log("STATUS:", err?.response?.status);
+      console.log("DATA:", err?.response?.data);
+      alert("Operation failed (check admin login / cookies).");
+    }
+  };
+
+  // ✅ delete (admin route -> needs cookies)
+  const handleDelete = async (item) => {
+    const ok = window.confirm(`Delete "${item.title}"?`);
+    if (!ok) return;
+
+    try {
+      await API.delete(`/category-items/${item.id}`, { withCredentials: true });
+      await refreshItems();
+      fetchCounts();
+    } catch (err) {
+      console.error("Delete recipe error:", err);
+      console.log("STATUS:", err?.response?.status);
+      console.log("DATA:", err?.response?.data);
+      alert("Delete failed (check admin login / cookies).");
     }
   };
 
@@ -193,13 +236,13 @@ export default function Categories() {
         </button>
       </div>
 
-      {/* ✅ ADD MODAL */}
+      {/* ✅ ADD / EDIT MODAL */}
       {openModal && (
-        <div className="modal-backdrop">
-          <div className="modal-card">
+        <div className="modal-backdrop" onMouseDown={closeModal}>
+          <div className="modal-card" onMouseDown={(e) => e.stopPropagation()}>
             <div className="modal-head">
-              <h2 className="modal-title">Add Recipe</h2>
-              <button className="modal-close" onClick={closeModal}>
+              <h2 className="modal-title">{isEditing ? "Edit Recipe" : "Add Recipe"}</h2>
+              <button className="modal-close" type="button" onClick={closeModal}>
                 ✕
               </button>
             </div>
@@ -250,9 +293,16 @@ export default function Categories() {
               <label>
                 Time Label
                 <input
+                  type="number"
+                  inputMode="numeric"
+                  min="0"
+                  step="1"
                   value={form.time_label}
-                  onChange={(e) => setForm((p) => ({ ...p, time_label: e.target.value }))}
-                  placeholder="ex: 30 mins"
+                  onChange={(e) => {
+                    const digitsOnly = String(e.target.value).replace(/[^\d]/g, "");
+                    setForm((p) => ({ ...p, time_label: digitsOnly }));
+                  }}
+                  placeholder="ex: 30"
                 />
               </label>
 
@@ -276,11 +326,11 @@ export default function Categories() {
             </div>
 
             <div className="modal-actions">
-              <button className="btn-delete" onClick={closeModal}>
+              <button className="btn-delete" type="button" onClick={closeModal}>
                 Cancel
               </button>
-              <button className="btn-edit" onClick={handleSave}>
-                Save
+              <button className="btn-edit" type="button" onClick={handleSave}>
+                {isEditing ? "Update" : "Save"}
               </button>
             </div>
           </div>
@@ -292,6 +342,7 @@ export default function Categories() {
         {CATEGORIES.map((cat) => (
           <button
             key={cat}
+            type="button"
             className={"category-btn-full" + (selectedCategory === cat ? " active" : "")}
             onClick={() => setSelectedCategory(cat)}
           >
@@ -309,6 +360,11 @@ export default function Categories() {
               className="category-card"
               onClick={() => setSelectedCategory(card.key)}
               style={{ cursor: "pointer" }}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") setSelectedCategory(card.key);
+              }}
             >
               <div className="cat-icon-wrapper">{card.icon}</div>
               <div className="cat-title">{card.label}</div>
@@ -374,10 +430,22 @@ export default function Categories() {
                       <td>{item.time_label}</td>
                       <td className="favorites-cell">{item.favorites ?? 0}</td>
                       <td>
-                        <button className="btn-edit">EDIT</button>
+                        <button
+                          type="button"
+                          className="btn-edit"
+                          onClick={() => openEditModal(item)}
+                        >
+                          EDIT
+                        </button>
                       </td>
                       <td>
-                        <button className="btn-delete">DELETE</button>
+                        <button
+                          type="button"
+                          className="btn-delete"
+                          onClick={() => handleDelete(item)}
+                        >
+                          DELETE
+                        </button>
                       </td>
                     </tr>
                   ))
