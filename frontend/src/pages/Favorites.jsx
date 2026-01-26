@@ -9,7 +9,7 @@ export default function Favorites() {
 
   const hasToken = !!localStorage.getItem("token");
 
-  // we use fetchFavorites to keep global liked map synced too
+  // keep global liked map in sync
   const { fetchFavorites } = useFavorites();
 
   // Load favorites from DB
@@ -34,25 +34,20 @@ export default function Favorites() {
   }, [hasToken]);
 
   const handleRemove = async (recipeId) => {
-    // ✅ instant UI update
+    // instant UI update
     setItems((prev) => prev.filter((x) => String(x.id) !== String(recipeId)));
 
     try {
-      // ✅ backend delete
       await API.delete(`/favorites/${recipeId}`, { withCredentials: true });
-
-      // ✅ re-sync liked map from DB (important for cross-device + other pages)
-      await fetchFavorites();
+      await fetchFavorites(); // resync liked map everywhere
     } catch (err) {
       console.error("Failed to remove favorite", err);
 
-      // safest: refetch favorites list if delete failed
+      // fallback: refetch
       try {
         const res = await API.get("/favorites", { withCredentials: true });
         setItems(res.data.favorites || []);
-      } catch (e) {
-        // ignore
-      }
+      } catch (_) {}
     }
   };
 
@@ -90,7 +85,7 @@ export default function Favorites() {
             <a className="wk-thumb" href={r.href}>
               <img src={r.img} alt={r.title} />
 
-              {/* ❤️ heart overlay */}
+              {/* ❤️ remove favorite */}
               <button
                 type="button"
                 className="wk-like is-liked"
@@ -107,6 +102,7 @@ export default function Favorites() {
 
             <div className="wk-body">
               <span className="wk-tag">{r.tag}</span>
+
               <a className="wk-title-link" href={r.href}>
                 <h3 className="wk-h3">{r.title}</h3>
               </a>
@@ -116,11 +112,14 @@ export default function Favorites() {
                   <FaRegClock /> {r.time_label || r.time || "—"}
                 </span>
 
-                <span className="wk-stars">
+                {/* ⭐ FIX: yellow stars */}
+                <span className="wk-stars text-warning">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <FaStar
                       key={i}
-                      className={i < Math.round(Number(r.rating) || 0) ? "on" : ""}
+                      className={
+                        i < Math.round(Number(r.rating) || 0) ? "on" : ""
+                      }
                     />
                   ))}
                 </span>

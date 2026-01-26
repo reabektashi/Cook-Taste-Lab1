@@ -1,46 +1,36 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { FaHeart, FaRegHeart, FaRegClock, FaStar } from "react-icons/fa";
 import API from "../api";
-import { FaRegClock, FaStar, FaHeart, FaRegHeart } from "react-icons/fa";
+import useFavorites from "../hooks/useFavorites";
 
-export default function CategoryItemsPage({ category, title, subtitle }) {
+export default function CategoryItemsPage({
+  category,          // e.g. "Breakfast"
+  title,             // page title
+  subtitle,          // page subtitle
+  wrapperClass = "breakfast section-gap py-5 aboutus-page", // keep same look
+}) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // favorites
-  const [liked, setLiked] = useState({});
+  const { liked, toggleFavorite } = useFavorites();
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-  // load favorites on mount
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const stored = localStorage.getItem("liked");
-    if (stored) setLiked(JSON.parse(stored));
-    if (!token) return;
+  // IMPORTANT: favorites join in your backend is by card_id
+  const getRecipeId = (item) => {
+    const cid = item?.card_id;
+    if (cid !== null && cid !== undefined && String(cid).trim() !== "") return String(cid);
+    return String(item?.id);
+  };
 
-    (async () => {
-      try {
-        const res = await API.get("/favorites", { withCredentials: true });
-        const favs = res.data.favorites || [];
-        const map = {};
-        favs.forEach((r) => (map[r.id] = true));
-        setLiked(map);
-        localStorage.setItem("liked", JSON.stringify(map));
-      } catch (e) {
-        console.error("Failed to sync favorites:", e);
-      }
-    })();
-  }, []);
-
-  // fetch category items from DB
+  // Load items from category_items table
   useEffect(() => {
     (async () => {
       try {
         setLoading(true);
         const res = await API.get("/category-items", { params: { category } });
-        setItems(res.data.items || []);
+        setItems(Array.isArray(res.data?.items) ? res.data.items : []);
       } catch (e) {
-        console.error("Category fetch error:", e);
+        console.error("Failed to load category items:", e);
         setItems([]);
       } finally {
         setLoading(false);
@@ -48,111 +38,99 @@ export default function CategoryItemsPage({ category, title, subtitle }) {
     })();
   }, [category]);
 
-  const handleToggleFavorite = async (item) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setShowLoginModal(true);
-      return;
-    }
-
-    // IMPORTANT:
-    // For DB items, we use item.id as recipeId
-    const recipeId = item.id;
-    const wasLiked = !!liked[recipeId];
-
-    setLiked((prev) => {
-      const updated = { ...prev, [recipeId]: !wasLiked };
-      localStorage.setItem("liked", JSON.stringify(updated));
-      return updated;
-    });
-
-    try {
-      if (wasLiked) {
-        await API.delete(`/favorites/${recipeId}`, { withCredentials: true });
-      } else {
-        await API.post(
-          "/favorites",
-          {
-            recipeId,
-            recipe: {
-              title: item.title,
-              tag: item.tag,
-              time: item.time_label,
-              img: item.img_url,
-              href: item.href,
-              rating: item.rating || 0,
-            },
-          },
-          { withCredentials: true }
-        );
-      }
-    } catch (err) {
-      console.error("favorites sync error:", err);
-      // revert
-      setLiked((prev) => {
-        const updated = { ...prev, [recipeId]: wasLiked };
-        localStorage.setItem("liked", JSON.stringify(updated));
-        return updated;
-      });
-    }
-  };
-
   const renderStars = (rating) =>
     Array.from({ length: 5 }).map((_, i) => (
       <FaStar key={i} className={i < Math.round(rating || 0) ? "on" : ""} />
     ));
 
   return (
-    <section className="weeknights section-gap">
-      <div className="wk-head" style={{ padding: "0 1rem" }}>
-        <div>
-          <h2 className="wk-title">{title || category}</h2>
-          {subtitle ? <p style={{ marginTop: 6, opacity: 0.8 }}>{subtitle}</p> : null}
-        </div>
+    <section className={wrapperClass}>
+      <div className="bk-head text-center mb-4">
+        <h2 className="bk-title display-5 fw-bold ">{title || `${category} Recipes`}</h2>
+        {subtitle ? <h3 className="fs-5 fw-normal mt-3 px-2">{subtitle}</h3> : null}
       </div>
 
-      {loading ? (
-        <p style={{ padding: "1rem" }}>Loading…</p>
-      ) : items.length === 0 ? (
-        <p style={{ padding: "1rem" }}>No recipes yet.</p>
-      ) : (
-        <div className="wk-grid">
-          {items.map((r) => (
-            <article key={r.id} className="wk-card">
-              <Link className="wk-thumb" to={r.href || "#"}>
-                <img src={r.img_url} alt={r.title} />
+      <div className="container px-4 bg-transparent">
+        {loading ? (
+          <p>Loading…</p>
+        ) : (
+          <div className="row g-5 justify-content-center">
+            {items.map((r) => {
+              const recipeId = getRecipeId(r);
 
-                <button
-                  type="button"
-                  className={`wk-like ${liked[r.id] ? "is-liked" : ""}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleToggleFavorite(r);
-                  }}
-                  aria-label={liked[r.id] ? "Remove from favorites" : "Add to favorites"}
-                >
-                  {liked[r.id] ? <FaHeart /> : <FaRegHeart />}
-                </button>
-              </Link>
+              // map DB fields -> what your favorites hook expects
+              const favRecipeShape = {
+                id: recipeId,                 // IMPORTANT
+                title: r.title,
+                tag: r.tag || category,
+                time_label: r.time_label,
+                img: r.img_url,
+                href: r.href,
+                rating: r.rating || 0,
+              };
 
-              <div className="wk-body">
-                <span className="wk-tag">{r.tag || category}</span>
+              return (
+                <div key={r.id} className="col-md-4 d-flex">
+                  <article
+                    className="wk-card bg-white shadow-sm rounded-4 overflow-hidden"
+                    style={{ paddingBottom: "15px" }}
+                  >
+                    <a className="d-block position-relative" href={r.href || "#"}>
+                      <img
+                        src={r.img_url || "/Images/fallback.jpg"}
+                        alt={r.title}
+                        className="img-fluid w-100"
+                        style={{
+                          borderBottomLeftRadius: "0.5rem",
+                          borderBottomRightRadius: "0.5rem",
+                        }}
+                        onError={(e) => (e.currentTarget.src = "/Images/fallback.jpg")}
+                      />
 
-                <Link className="wk-title-link" to={r.href || "#"}>
-                  <h3 className="wk-h3">{r.title}</h3>
-                </Link>
+                      <button
+                        type="button"
+                        className={`wk-like position-absolute top-0 end-0 m-3 ${
+                          liked[recipeId] ? "is-liked text-danger" : ""
+                        }`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          toggleFavorite(favRecipeShape, {
+                            onLoginRequired: () => setShowLoginModal(true),
+                          });
+                        }}
+                      >
+                        {liked[recipeId] ? (
+                          <FaHeart size={28} color="red" />
+                        ) : (
+                          <FaRegHeart size={28} color="white" />
+                        )}
+                      </button>
+                    </a>
 
-                <div className="wk-meta">
-                  <span className="wk-time">
-                    <FaRegClock /> {r.time_label || "—"}
-                  </span>
-                  <span className="wk-stars">{renderStars(r.rating)}</span>
+                    <div className="p-3">
+                      <span className="text-uppercase fw-semibold small text-muted d-block mb-1">
+                        {r.tag || category}
+                      </span>
+
+                      <a href={r.href || "#"} className="text-decoration-none text-dark">
+                        <h3 className="fw-bold h5 mb-2">{r.title}</h3>
+                      </a>
+
+                      <div className="d-flex justify-content-between align-items-center">
+                        <span className="small text-muted">
+                          <FaRegClock className="me-1" />
+                        {r.time_label || "—"}
+                        </span>
+                        <span className="text-warning">{renderStars(r.rating)}</span>
+                      </div>
+                    </div>
+                  </article>
                 </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      )}
+              );
+            })}
+          </div>
+        )}
+      </div>
 
       {/* Login modal */}
       <div
@@ -165,13 +143,21 @@ export default function CategoryItemsPage({ category, title, subtitle }) {
           <div className="modal-content">
             <div className="modal-header border-0">
               <h5 className="modal-title">Sign in required</h5>
-              <button type="button" className="btn-close" onClick={() => setShowLoginModal(false)} />
+              <button
+                type="button"
+                className="btn-close"
+                onClick={() => setShowLoginModal(false)}
+              ></button>
             </div>
             <div className="modal-body">
               <p className="mb-0">Please log in to save favorites.</p>
             </div>
             <div className="modal-footer border-0">
-              <button type="button" className="btn btn-outline-secondary" onClick={() => setShowLoginModal(false)}>
+              <button
+                type="button"
+                className="btn btn-outline-secondary"
+                onClick={() => setShowLoginModal(false)}
+              >
                 Close
               </button>
               <a href="/login" className="btn btn-primary">
