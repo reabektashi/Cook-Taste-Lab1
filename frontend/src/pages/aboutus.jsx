@@ -1,4 +1,3 @@
-// src/pages/AboutUs.jsx
 import React, { useState } from "react";
 
 const TEAM = [
@@ -31,22 +30,9 @@ function AboutUs() {
 
   return (
     <div className="main-wrapper bg-light aboutus-page">
-      <section
-        className="py-5"
-        style={{
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <div
-          className="container"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            flex: 1,
-          }}
-        >
+      <section className="py-5">
+        <div className="container">
+
           {/* === ABOUT TEXT === */}
           <div className="text-center mb-5">
             <h1 className="display-5 fw-bold mb-3">WHO WE ARE?</h1>
@@ -65,12 +51,12 @@ function AboutUs() {
           </div>
 
           {/* === TEAM TITLE === */}
-          <div className="text-center my-4">
+          <div className="text-center mb-4">
             <h2 className="h3 fw-bold">Meet Our Team</h2>
           </div>
 
-          {/* === TEAM GRID (NE FUND, NE NJE RRESHT) === */}
-          <div className="row row-cols-1 row-cols-md-3 g-4" style={{ marginTop: "auto" }}>
+          {/* === TEAM GRID === */}
+          <div className="row row-cols-1 row-cols-md-3 g-4">
             {TEAM.map((member) => (
               <div className="col" key={member.id}>
                 <div
@@ -80,11 +66,13 @@ function AboutUs() {
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = "translateY(-8px)";
-                    e.currentTarget.style.boxShadow = "0 1rem 2rem rgba(0,0,0,0.15)";
+                    e.currentTarget.style.boxShadow =
+                      "0 1rem 2rem rgba(0,0,0,0.15)";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.boxShadow = "0 .5rem 1rem rgba(0,0,0,0.1)";
+                    e.currentTarget.style.boxShadow =
+                      "0 .5rem 1rem rgba(0,0,0,0.1)";
                   }}
                 >
                   <img
@@ -93,9 +81,12 @@ function AboutUs() {
                     alt={member.name}
                     style={{ height: 270, objectFit: "cover" }}
                   />
+
                   <div className="card-body d-flex flex-column text-center">
                     <h5 className="card-title fw-semibold">{member.name}</h5>
-                    <p className="card-text text-muted mb-4">{member.role}</p>
+                    <p className="card-text text-muted mb-4">
+                      {member.role}
+                    </p>
 
                     <button
                       type="button"
@@ -148,14 +139,19 @@ function AboutUs() {
                     />
                   </div>
                   <div className="col-12 col-md-7">
-                    <h6 className="text-muted mb-2">{activeMember.role}</h6>
+                    <h6 className="text-muted mb-2">
+                      {activeMember.role}
+                    </h6>
                     <p className="mb-0">{activeMember.desc}</p>
                   </div>
                 </div>
               </div>
 
               <div className="modal-footer border-0">
-                <button className="btn btn-secondary" onClick={closeModal}>
+                <button
+                  className="btn btn-secondary"
+                  onClick={closeModal}
+                >
                   Close
                 </button>
               </div>

@@ -41,6 +41,7 @@ function Home() {
           Explore our cake recipes and impress <br /> your family and friends!
         </>
       ),
+      customClass: "dessert-caption"
     },
     {
       img: "/Images/plate-with-paleo-diet-food-boiled-eggs-avocado-cucumber-nuts-cherry-strawberries-paleo-breakfast-top-view.jpg",

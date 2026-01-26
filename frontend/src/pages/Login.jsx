@@ -6,9 +6,12 @@ import "../assets/Css/login.css";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [serverError, setServerError] = useState("");
+
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -23,6 +26,7 @@ function Login() {
       setEmailError("Please enter a valid email!");
       valid = false;
     }
+
     if (!password) {
       setPasswordError("Please enter a password!");
       valid = false;
@@ -37,10 +41,12 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setServerError("");
+
     if (!validateForm()) return;
 
     try {
       const { data } = await API.post("/login", { email, password });
+
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
       localStorage.setItem("role", data.user.user_role);
@@ -56,27 +62,59 @@ function Login() {
     <div className="container">
       <div className="form-box">
         <h1>Log In</h1>
+
         {serverError && <p className="error-message">{serverError}</p>}
+
         <form onSubmit={handleSubmit}>
+          {/* Email */}
           <div className="form-group">
             <label htmlFor="email">Email address</label>
-            <input type="email" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
             <div className="error-message">{emailError}</div>
           </div>
 
+          {/* Password */}
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+
+              <span
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+                title={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? "🙈" : "🐵"}
+              </span>
+            </div>
+
             <div className="error-message">{passwordError}</div>
           </div>
 
-          <div className="form-group">
-            <input type="checkbox" id="rememberMe" name="rememberMe" />
+          {/* Remember me */}
+          <div className="form-group remember-me">
+            <input type="checkbox" id="rememberMe" />
             <label htmlFor="rememberMe">Remember me</label>
           </div>
 
-          <button type="submit" className="btn">Login</button>
-          <p>Don't have an account? <Link to="/register">Register here</Link></p>
+          <button type="submit" className="btn">
+            Login
+          </button>
+
+          <p>
+            Don't have an account? <Link to="/register">Register here</Link>
+          </p>
         </form>
       </div>
     </div>
