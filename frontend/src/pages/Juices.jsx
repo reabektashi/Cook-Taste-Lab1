@@ -50,14 +50,14 @@ export const JUICE_ITEMS = [
     rating: 4.6,
   }, 
   {
-    id: 4496,
-    tag: "Juices",
-    title: " Pinneapple Juice",
-    time: "10 mins",
-    img: "/Images/Pinneapple Juice.jpg",
-    href: "/drinks/Pinneapple Juice",
-    rating: 5.0,
-  }
+  id: 4496,
+  tag: "JUICES",
+  title: "Pineapple Juice",
+  time: "10 mins",
+  img: "/Images/pineapple-juice.jpg",
+  href: "/drinks/pineapple-juice",
+  rating: 5.0,
+}
 ];
 
 const Juices = () => {

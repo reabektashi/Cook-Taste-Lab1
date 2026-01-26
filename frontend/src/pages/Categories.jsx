@@ -1,205 +1,179 @@
-// src/pages/Categories.jsx
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "../assets/Css/dashboard.css";
 import { FaHeart } from "react-icons/fa";
-import API from "../api";
-
-// icons for the cards
 import {
   MdFreeBreakfast,
   MdLunchDining,
   MdDinnerDining,
   MdCake,
+  MdFastfood,
 } from "react-icons/md";
-import { GiForkKnifeSpoon } from "react-icons/gi";
+import API from "../api"; // ✅ your axios instance
 
 const CATEGORIES = ["Breakfast", "Lunch", "Dinner", "Desserts", "Appetizers"];
 
-// static card info – only for display
+// UI cards (count becomes dynamic)
 const CATEGORY_CARDS = [
   {
     key: "Breakfast",
     label: "BREAKFAST",
-    value: 12,
     desc: "Morning recipes & ideas",
     icon: <MdFreeBreakfast className="cat-icon" />,
   },
   {
     key: "Lunch",
     label: "LUNCH",
-    value: 9,
     desc: "Mid-day meals & bowls",
     icon: <MdLunchDining className="cat-icon" />,
   },
   {
     key: "Dinner",
     label: "DINNER",
-    value: 15,
     desc: "Family mains & dinners",
     icon: <MdDinnerDining className="cat-icon" />,
   },
   {
     key: "Desserts",
     label: "DESSERTS",
-    value: 8,
     desc: "Sweet treats & baking",
     icon: <MdCake className="cat-icon" />,
   },
   {
     key: "Appetizers",
     label: "APPETIZERS",
-    value: 6,
     desc: "Small bites & starters",
-    icon: <GiForkKnifeSpoon className="cat-icon" />,
+    icon: <MdFastfood className="cat-icon" />,
   },
 ];
 
-function Categories() {
+export default function Categories() {
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(false);
 
-  // ✅ modal state
+  const [items, setItems] = useState([]);
+  const [loadingItems, setLoadingItems] = useState(false);
+
+  // ✅ dynamic counts
+  const [counts, setCounts] = useState({});
+  const [loadingCounts, setLoadingCounts] = useState(true);
+
+  // ✅ modal (kept like your style)
   const [openModal, setOpenModal] = useState(false);
 
-  // ✅ edit mode: null = add, number = editing that row id
-  const [editId, setEditId] = useState(null);
-
-  // ✅ form state
-  const emptyForm = {
-    category: "",
-    card_id: "",
-    tag: "",
-    title: "",
-    time_label: "",
-    img_url: "",
-    href: "",
-  };
+  const emptyForm = useMemo(
+    () => ({
+      category: "",
+      card_id: "",
+      title: "",
+      tag: "",
+      time_label: "",
+      img_url: "",
+      href: "",
+    }),
+    []
+  );
 
   const [form, setForm] = useState(emptyForm);
 
-  const fetchCategoryItems = async (category) => {
-    const { data } = await API.get("/category-items", {
-      params: { category },
-    });
-    return data.items || [];
+  // ---------------------------
+  // ✅ fetch counts for cards
+  // ---------------------------
+  const fetchCounts = async () => {
+    setLoadingCounts(true);
+    try {
+      const results = await Promise.all(
+        CATEGORIES.map(async (cat) => {
+          try {
+            const res = await API.get("/category-items", {
+              params: { category: cat },
+            });
+            const rows = res.data?.items || [];
+            return [cat, rows.length];
+          } catch {
+            return [cat, 0];
+          }
+        })
+      );
+
+      const map = {};
+      results.forEach(([cat, count]) => (map[cat] = count));
+      setCounts(map);
+    } finally {
+      setLoadingCounts(false);
+    }
   };
 
-  // Fetch items when a category button is clicked
+  useEffect(() => {
+    fetchCounts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ---------------------------
+  // ✅ fetch table rows by category
+  // ---------------------------
   useEffect(() => {
     if (!selectedCategory) return;
 
     (async () => {
-      setLoading(true);
+      setLoadingItems(true);
       try {
-        const newItems = await fetchCategoryItems(selectedCategory);
-        setItems(newItems);
+        const res = await API.get("/category-items", {
+          params: { category: selectedCategory },
+        });
+        setItems(Array.isArray(res.data?.items) ? res.data.items : []);
       } catch (err) {
         console.error("Fetch category items error:", err);
         setItems([]);
       } finally {
-        setLoading(false);
+        setLoadingItems(false);
       }
     })();
   }, [selectedCategory]);
 
-  const refreshSelected = async () => {
-    if (!selectedCategory) return;
-    try {
-      const newItems = await fetchCategoryItems(selectedCategory);
-      setItems(newItems);
-    } catch (e) {
-      console.error("Refresh failed:", e);
-    }
-  };
-
-  // ---------- Modal helpers ----------
+  // ---------------------------
+  // MODAL helpers (optional)
+  // ---------------------------
   const openAddModal = () => {
-    setEditId(null);
-    setForm({
-      ...emptyForm,
-      category: selectedCategory || "",
-    });
-    setOpenModal(true);
-  };
-
-  const openEditModal = (item) => {
-    setEditId(item.id);
-    setForm({
-      category: item.category || selectedCategory || "",
-      card_id: item.card_id || "",
-      tag: item.tag || "",
-      title: item.title || "",
-      time_label: item.time_label || "",
-      img_url: item.img_url || "",
-      href: item.href || "",
-    });
+    setForm({ ...emptyForm, category: selectedCategory || "" });
     setOpenModal(true);
   };
 
   const closeModal = () => {
     setOpenModal(false);
-    setEditId(null);
     setForm(emptyForm);
   };
 
-  // ---------- Save (ADD or EDIT) ----------
+  // (Optional) Save handler if you want “Add Recipe” to really insert
   const handleSave = async () => {
-    if (!form.category) {
-      alert("Please select a category.");
-      return;
-    }
-    if (!form.title.trim()) {
-      alert("Title is required.");
-      return;
-    }
-
-    const payload = {
-      category: form.category,
-      card_id: form.card_id,
-      tag: form.tag,
-      title: form.title,
-      time_label: form.time_label,
-      img_url: form.img_url,
-      href: form.href,
-    };
+    if (!form.category || !form.title.trim()) return;
 
     try {
-      if (editId !== null) {
-        // EDIT (admin only)
-        await API.put(`/category-items/${editId}`, payload);
-      } else {
-        // ADD (admin only)
-        await API.post(`/category-items`, payload);
-      }
+      await API.post(
+        "/category-items",
+        {
+          category: form.category,
+          card_id: form.card_id || null,
+          tag: form.tag || null,
+          title: form.title,
+          time_label: form.time_label || null,
+          img_url: form.img_url || null,
+          href: form.href || null,
+        },
+        { withCredentials: true }
+      );
 
       closeModal();
 
-      // refresh the currently visible category
-      // if user edited into another category, switch to it
-      if (selectedCategory === form.category) {
-        await refreshSelected();
-      } else {
-        setSelectedCategory(form.category);
+      // refresh table + counts
+      if (selectedCategory) {
+        const res = await API.get("/category-items", {
+          params: { category: selectedCategory },
+        });
+        setItems(Array.isArray(res.data?.items) ? res.data.items : []);
       }
+      fetchCounts();
     } catch (err) {
-      console.error("Save error:", err);
-      alert(err?.response?.data?.error || "Save failed.");
-    }
-  };
-
-  // ---------- Delete ----------
-  const handleDelete = async (item) => {
-    const ok = window.confirm(`Delete "${item.title}"?`);
-    if (!ok) return;
-
-    try {
-      // DELETE (admin only)
-      await API.delete(`/category-items/${item.id}`);
-      await refreshSelected();
-    } catch (err) {
-      console.error("Delete error:", err);
-      alert(err?.response?.data?.error || "Failed to delete.");
+      console.error("Save category item error:", err);
+      alert("Save failed (check admin login / API).");
     }
   };
 
@@ -219,27 +193,23 @@ function Categories() {
         </button>
       </div>
 
-      {/* ✅ ADD/EDIT MODAL */}
+      {/* ✅ ADD MODAL */}
       {openModal && (
         <div className="modal-backdrop">
           <div className="modal-card">
             <div className="modal-head">
-              <h2 className="modal-title">
-                {editId !== null ? "Edit Recipe" : "Add Recipe"}
-              </h2>
-              <button type="button" className="modal-close" onClick={closeModal}>
+              <h2 className="modal-title">Add Recipe</h2>
+              <button className="modal-close" onClick={closeModal}>
                 ✕
               </button>
             </div>
 
             <div className="modal-grid">
               <label>
-                Category
+                Category *
                 <select
                   value={form.category}
-                  onChange={(e) =>
-                    setForm((p) => ({ ...p, category: e.target.value }))
-                  }
+                  onChange={(e) => setForm((p) => ({ ...p, category: e.target.value }))}
                 >
                   <option value="">Select…</option>
                   {CATEGORIES.map((c) => (
@@ -254,10 +224,17 @@ function Categories() {
                 Card ID (optional)
                 <input
                   value={form.card_id}
-                  onChange={(e) =>
-                    setForm((p) => ({ ...p, card_id: e.target.value }))
-                  }
-                  placeholder="ex: dn1"
+                  onChange={(e) => setForm((p) => ({ ...p, card_id: e.target.value }))}
+                  placeholder="ex: 1001"
+                />
+              </label>
+
+              <label style={{ gridColumn: "1 / -1" }}>
+                Title *
+                <input
+                  value={form.title}
+                  onChange={(e) => setForm((p) => ({ ...p, title: e.target.value }))}
+                  placeholder="Recipe title"
                 />
               </label>
 
@@ -266,18 +243,7 @@ function Categories() {
                 <input
                   value={form.tag}
                   onChange={(e) => setForm((p) => ({ ...p, tag: e.target.value }))}
-                  placeholder="ex: QUICK DINNERS"
-                />
-              </label>
-
-              <label>
-                Title *
-                <input
-                  value={form.title}
-                  onChange={(e) =>
-                    setForm((p) => ({ ...p, title: e.target.value }))
-                  }
-                  placeholder="Recipe title"
+                  placeholder="ex: HEALTHY"
                 />
               </label>
 
@@ -285,39 +251,35 @@ function Categories() {
                 Time Label
                 <input
                   value={form.time_label}
-                  onChange={(e) =>
-                    setForm((p) => ({ ...p, time_label: e.target.value }))
-                  }
-                  placeholder="ex: 45 mins"
-                />
-              </label>
-
-              <label>
-                Image URL
-                <input
-                  value={form.img_url}
-                  onChange={(e) =>
-                    setForm((p) => ({ ...p, img_url: e.target.value }))
-                  }
-                  placeholder="https://..."
+                  onChange={(e) => setForm((p) => ({ ...p, time_label: e.target.value }))}
+                  placeholder="ex: 30 mins"
                 />
               </label>
 
               <label style={{ gridColumn: "1 / -1" }}>
-                Href (link)
+                Image URL
+                <input
+                  value={form.img_url}
+                  onChange={(e) => setForm((p) => ({ ...p, img_url: e.target.value }))}
+                  placeholder="/Images/something.jpg"
+                />
+              </label>
+
+              <label style={{ gridColumn: "1 / -1" }}>
+                Href
                 <input
                   value={form.href}
                   onChange={(e) => setForm((p) => ({ ...p, href: e.target.value }))}
-                  placeholder="/recipes/my-recipe"
+                  placeholder="/recipes/some-slug"
                 />
               </label>
             </div>
 
             <div className="modal-actions">
-              <button type="button" className="btn-delete" onClick={closeModal}>
+              <button className="btn-delete" onClick={closeModal}>
                 Cancel
               </button>
-              <button type="button" className="btn-edit" onClick={handleSave}>
+              <button className="btn-edit" onClick={handleSave}>
                 Save
               </button>
             </div>
@@ -330,9 +292,7 @@ function Categories() {
         {CATEGORIES.map((cat) => (
           <button
             key={cat}
-            className={
-              "category-btn-full" + (selectedCategory === cat ? " active" : "")
-            }
+            className={"category-btn-full" + (selectedCategory === cat ? " active" : "")}
             onClick={() => setSelectedCategory(cat)}
           >
             {cat}
@@ -340,26 +300,35 @@ function Categories() {
         ))}
       </div>
 
-      {/* STATIC CARDS – show only on first load (no category selected) */}
+      {/* ✅ CARDS (only when no category selected) */}
       {!selectedCategory && (
         <div className="category-stats-grid">
           {CATEGORY_CARDS.map((card) => (
-            <div key={card.key} className="category-card">
+            <div
+              key={card.key}
+              className="category-card"
+              onClick={() => setSelectedCategory(card.key)}
+              style={{ cursor: "pointer" }}
+            >
               <div className="cat-icon-wrapper">{card.icon}</div>
               <div className="cat-title">{card.label}</div>
-              <div className="cat-count">{card.value}</div>
+
+              <div className="cat-count">
+                {loadingCounts ? "…" : counts[card.key] ?? 0}
+              </div>
+
               <div className="cat-desc">{card.desc}</div>
             </div>
           ))}
         </div>
       )}
 
-      {/* TABLE – show after a button is clicked */}
+      {/* TABLE */}
       {selectedCategory && (
         <>
           <h2 className="existing-title">{selectedCategory} recipes</h2>
 
-          {loading ? (
+          {loadingItems ? (
             <p style={{ padding: "12px 0" }}>Loading...</p>
           ) : (
             <table className="admin-data-table">
@@ -377,10 +346,11 @@ function Categories() {
                   <th>DELETE</th>
                 </tr>
               </thead>
+
               <tbody>
                 {items.length === 0 ? (
                   <tr>
-                    <td colSpan={8} style={{ textAlign: "center", padding: "16px" }}>
+                    <td colSpan={8} style={{ textAlign: "center", padding: 16 }}>
                       No recipes for this category yet.
                     </td>
                   </tr>
@@ -403,25 +373,11 @@ function Categories() {
                       <td>{item.tag}</td>
                       <td>{item.time_label}</td>
                       <td className="favorites-cell">{item.favorites ?? 0}</td>
-
                       <td>
-                        <button
-                          className="btn-edit"
-                          type="button"
-                          onClick={() => openEditModal(item)}
-                        >
-                          EDIT
-                        </button>
+                        <button className="btn-edit">EDIT</button>
                       </td>
-
                       <td>
-                        <button
-                          className="btn-delete"
-                          type="button"
-                          onClick={() => handleDelete(item)}
-                        >
-                          DELETE
-                        </button>
+                        <button className="btn-delete">DELETE</button>
                       </td>
                     </tr>
                   ))
@@ -434,5 +390,3 @@ function Categories() {
     </div>
   );
 }
-
-export default Categories;

@@ -452,8 +452,27 @@ app.post("/api/subscribe", async (req, res) => {
     if (!res.headersSent) res.status(500).json({ ok: false, error: "Server error" });
   }
 });
-//Breakfast-Categories Table
-// Get category items with REAL favorites count
+
+// ---------------- DASH COUNTS ----------------
+// returns counts for ALL categories in category_items
+app.get("/api/category-items/counts", auth, requireRole("admin"), async (req, res) => {
+  try {
+    const [rows] = await pool.query(`
+      SELECT category, COUNT(*) AS total
+      FROM category_items
+      GROUP BY category
+    `);
+
+    // convert to map: { Breakfast: 12, Lunch: 9, ... }
+    const counts = {};
+    rows.forEach((r) => (counts[r.category] = Number(r.total) || 0));
+
+    res.json({ counts });
+  } catch (err) {
+    console.error("GET /api/category-items/counts error:", err);
+    res.status(500).json({ error: "server_error" });
+  }
+});
 
 
 
