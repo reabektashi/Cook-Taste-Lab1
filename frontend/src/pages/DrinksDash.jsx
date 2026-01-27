@@ -2,17 +2,18 @@
   import React, { useEffect, useState } from "react";
   import "../assets/Css/dashboard.css";
   import { FaHeart } from "react-icons/fa";
-  import { MdLocalBar, MdNoDrinks, MdCoffee, MdBlender } from "react-icons/md";
+  import { MdLocalBar, MdNoDrinks, MdCoffee, MdBlender, MdOutlineLocalCafe } from "react-icons/md";
   import { GiOrange } from "react-icons/gi";
   import API from "../api";
 
-  const DRINK_CATEGORIES = ["Cocktails", "Mocktails", "Smoothies", "Coffee", "Juices"];
+  const DRINK_CATEGORIES = ["Cocktails", "Mocktails", "Smoothies", "Coffee", "Tea", "Juices"];
 
   const DRINK_CARDS = [
     { key: "Cocktails", label: "COCKTAILS", desc: "Alcoholic mixed drinks", icon: <MdLocalBar className="cat-icon" /> },
     { key: "Mocktails", label: "MOCKTAILS", desc: "Non-alcoholic drinks", icon: <MdNoDrinks className="cat-icon" /> },
     { key: "Smoothies", label: "SMOOTHIES", desc: "Blended fruit drinks", icon: <MdBlender className="cat-icon" /> },
     { key: "Coffee", label: "COFFEE", desc: "Hot & cold coffee", icon: <MdCoffee className="cat-icon" /> },
+    { key: "Tea", label: "TEA", desc: "Hot & iced teas", icon: <MdOutlineLocalCafe className="cat-icon" /> },
     { key: "Juices", label: "JUICES", desc: "Fresh juice drinks", icon: <GiOrange className="cat-icon" /> },
   ];
 

@@ -90,17 +90,17 @@ export default function Settings() {
       <section className="admin-form-card">
         <h2>General</h2>
         <form className="admin-form-grid" onSubmit={handleSaveGeneral}>
-          <div className="form-group">
+          <div className="admin-form-group">
             <label>Site name</label>
             <input type="text" value={siteName} onChange={(e) => setSiteName(e.target.value)} />
           </div>
 
-          <div className="form-group">
+          <div className="admin-form-group">
             <label>Owner email</label>
             <input type="email" value={ownerEmail} onChange={(e) => setOwnerEmail(e.target.value)} />
           </div>
 
-          <div className="form-group">
+          <div className="admin-form-group">
             <label>Newsletter from email</label>
             <input
               type="email"
@@ -109,8 +109,8 @@ export default function Settings() {
             />
           </div>
 
-          <div className="form-actions">
-            <button type="submit" className="btn-primary">
+          <div className="admin-form-actions">
+            <button type="submit" className="admin-btn-primary">
               Save settings
             </button>
           </div>
@@ -120,7 +120,7 @@ export default function Settings() {
       <section className="admin-form-card">
         <h2>Change password</h2>
         <form className="admin-form-grid" onSubmit={handleChangePassword}>
-          <div className="form-group">
+          <div className="admin-form-group">
             <label>Current password</label>
             <input
               type="password"
@@ -129,7 +129,7 @@ export default function Settings() {
             />
           </div>
 
-          <div className="form-group">
+          <div className="admin-form-group">
             <label>New password</label>
             <input
               type="password"
@@ -138,7 +138,7 @@ export default function Settings() {
             />
           </div>
 
-          <div className="form-group">
+          <div className="admin-form-group">
             <label>Confirm new password</label>
             <input
               type="password"
@@ -147,8 +147,8 @@ export default function Settings() {
             />
           </div>
 
-          <div className="form-actions">
-            <button type="submit" className="btn-primary">
+          <div className="admin-form-actions">
+            <button type="submit" className="admin-btn-primary">
               Update password
             </button>
           </div>

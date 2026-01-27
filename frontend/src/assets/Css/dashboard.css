@@ -1187,12 +1187,14 @@
   color: #020617;
 }
 /* ===== PRIMARY ADMIN BUTTON (ADD / SAVE / UPDATE) ===== */
-.btn-primary,
-.btn-update {
-  background-color: #0f172a; /* dark navy */
+/* Dashboard-only buttons */
+.admin-main .btn-primary,
+.admin-main .btn-update,
+.admin-main .btn-add {
+  background-color: #0f172a;
   color: #ffffff;
   border: none;
-  border-radius: 999px;      /* pill shape */
+  border-radius: 999px;
   padding: 8px 18px;
   font-size: 13px;
   font-weight: 600;
@@ -1202,8 +1204,9 @@
   transition: all 0.2s ease;
 }
 
-.btn-primary:hover,
-.btn-update:hover {
+.admin-main .btn-primary:hover,
+.admin-main .btn-update:hover,
+.admin-main .btn-add:hover {
   background-color: #020617;
   transform: translateY(-1px);
 }
@@ -1396,7 +1399,7 @@
 }
 
 /* Button already good, just spacing */
-.form-actions {
+.admin-form-actions {
   margin-top: 12px;
 }
 
