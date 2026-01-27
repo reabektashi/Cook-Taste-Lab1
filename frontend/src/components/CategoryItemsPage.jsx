@@ -17,8 +17,8 @@ export default function CategoryItemsPage({
 
   // IMPORTANT: favorites join in your backend is by card_id
   const getRecipeId = (item) => {
-    const cid = item?.card_id;
-    if (cid !== null && cid !== undefined && String(cid).trim() !== "") return String(cid);
+    const rid = item?.recipe_id;
+    if (rid !== null && rid !== undefined && String(rid).trim() !== "") return String(rid);
     return String(item?.id);
   };
 

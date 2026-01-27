@@ -628,7 +628,7 @@ app.get("/api/category-items", async (req, res) => {
       SELECT
         ci.id,
         ci.category,
-        ci.card_id,
+        ci.recipe_id,
         ci.tag,
         ci.title,
         ci.time_label,
@@ -636,12 +636,10 @@ app.get("/api/category-items", async (req, res) => {
         ci.href,
         COUNT(DISTINCT f.user_id) AS favorites
       FROM category_items ci
-      LEFT JOIN favorites f
-        ON f.recipe_id COLLATE utf8mb4_unicode_ci
-         = ci.card_id COLLATE utf8mb4_unicode_ci
+      LEFT JOIN favorites f ON f.recipe_id = ci.recipe_id
       WHERE ci.category = ?
       GROUP BY
-        ci.id, ci.category, ci.card_id, ci.tag, ci.title, ci.time_label, ci.img_url, ci.href
+        ci.id, ci.category, ci.recipe_id, ci.tag, ci.title, ci.time_label, ci.img_url, ci.href
       ORDER BY ci.id
       `,
       [category]
@@ -659,7 +657,7 @@ app.get("/api/category-items", async (req, res) => {
 // Admin only
 // ----------------------------------------------------
 app.post("/api/category-items", auth, requireRole("admin"), async (req, res) => {
-  const { category, card_id, tag, title, time_label, img_url, href } = req.body || {};
+  const { category, recipe_id, tag, title, time_label, img_url, href } = req.body || {};
 
   if (!category || !title) {
     return res.status(400).json({ error: "category_and_title_required" });
@@ -669,12 +667,12 @@ app.post("/api/category-items", auth, requireRole("admin"), async (req, res) => 
     const [result] = await pool.query(
       `
       INSERT INTO category_items
-        (category, card_id, tag, title, time_label, img_url, href)
+        (category, recipe_id, tag, title, time_label, img_url, href)
       VALUES (?, ?, ?, ?, ?, ?, ?)
       `,
       [
         category,
-        card_id || null,
+        recipe_id || null,
         tag || null,
         title,
         time_label || null,
@@ -696,7 +694,7 @@ app.post("/api/category-items", auth, requireRole("admin"), async (req, res) => 
 // ----------------------------------------------------
 app.put("/api/category-items/:id", auth, requireRole("admin"), async (req, res) => {
   const { id } = req.params;
-  const { category, card_id, tag, title, time_label, img_url, href } = req.body || {};
+  const { category, recipe_id, tag, title, time_label, img_url, href } = req.body || {};
 
   if (!category || !title) {
     return res.status(400).json({ error: "category_and_title_required" });
@@ -708,7 +706,7 @@ app.put("/api/category-items/:id", auth, requireRole("admin"), async (req, res) 
       UPDATE category_items
       SET
         category = ?,
-        card_id = ?,
+        recipe_id = ?,
         tag = ?,
         title = ?,
         time_label = ?,
@@ -718,7 +716,7 @@ app.put("/api/category-items/:id", auth, requireRole("admin"), async (req, res) 
       `,
       [
         category,
-        card_id || null,
+        recipe_id || null,
         tag || null,
         title,
         time_label || null,

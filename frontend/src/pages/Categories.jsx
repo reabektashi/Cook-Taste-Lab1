@@ -63,7 +63,6 @@ export default function Categories() {
   const emptyForm = useMemo(
     () => ({
       category: "",
-      card_id: "",
       title: "",
       tag: "",
       time_label: "",
@@ -141,7 +140,6 @@ export default function Categories() {
 
     setForm({
       category: item.category || selectedCategory || "",
-      card_id: item.card_id ?? "",
       title: item.title ?? "",
       tag: item.tag ?? "",
       time_label: item.time_label ?? "",
@@ -177,7 +175,6 @@ export default function Categories() {
 
     const payload = {
       category: form.category,
-      card_id: form.card_id || null,
       tag: form.tag || null,
       title: form.title,
       time_label: form.time_label || null,
@@ -261,15 +258,6 @@ export default function Categories() {
                     </option>
                   ))}
                 </select>
-              </label>
-
-              <label>
-                Card ID (optional)
-                <input
-                  value={form.card_id}
-                  onChange={(e) => setForm((p) => ({ ...p, card_id: e.target.value }))}
-                  placeholder="ex: 1001"
-                />
               </label>
 
               <label style={{ gridColumn: "1 / -1" }}>
