@@ -112,17 +112,18 @@ export default function Favorites() {
                   <FaRegClock /> {r.time_label || r.time || "—"}
                 </span>
 
-                {/* ⭐ FIX: yellow stars */}
-                <span className="wk-stars text-warning">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <FaStar
-                      key={i}
-                      className={
-                        i < Math.round(Number(r.rating) || 0) ? "on" : ""
-                      }
-                    />
-                  ))}
-                </span>
+              <span className="wk-stars d-flex gap-1">
+  {Array.from({ length: 5 }).map((_, i) => {
+    const filled = Math.round(Number(r.rating) || 0);
+    return (
+      <FaStar
+        key={i}
+        className={i < filled ? "text-warning" : "text-secondary opacity-25"}
+      />
+    );
+  })}
+</span>
+
               </div>
             </div>
           </article>
