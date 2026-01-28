@@ -1122,37 +1122,6 @@
   font-weight: 600;
 }
 
-/* ---------- ADD BUTTON-UsersDashboard ---------- */
-.btn-add {
-  background: #111827;
-  color: #ffffff;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 13px;
-  cursor: pointer;
-}
-
-/* ---------- EDIT / DELETE-UsersDashboard ---------- 
-.btn-edit {
-  padding: 6px 12px;
-  font-size: 12px;
-  border-radius: 6px;
-  border: 1px solid #111827;
-  background: #ffffff;
-  cursor: pointer;
-}
-
-.btn-delete {
-  padding: 6px 12px;
-  font-size: 12px;
-  border-radius: 6px;
-  border: 1px solid #c0392b;
-  background: #ffffff;
-  color: #c0392b;
-  cursor: pointer;
-}
-*/
 /* ---------- TABLE CLEANUP-UsersDashboard ---------- */
 .admin-data-table td,
 .admin-data-table th {
@@ -1285,28 +1254,6 @@
   padding: 18px 22px !important;
   margin: 0 0 16px 0 !important;
   border-radius: 14px !important;
-}
-
-/* ===== PRIMARY ADMIN BUTTON (ADD / SAVE / UPDATE) ===== */
-.btn-primary,
-.btn-update {
-  background-color: #0f172a;
-  color: #ffffff;
-  border: none;
-  border-radius: 999px;
-  padding: 8px 18px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-primary:hover,
-.btn-update:hover {
-  background-color: #020617;
-  transform: translateY(-1px);
 }
 
 /* ===== MODAL SIZE FIX ===== */
@@ -1526,16 +1473,6 @@
   max-width: 34ch !important;
   text-align: left !important;
 }
-
-  /* make ADD button fit nicely */
-  .btn-add{
-    width: 100% !important;          /* full width looks clean on phone */
-    max-width: 220px !important;     /* prevents it becoming huge */
-    padding: 10px 14px !important;
-    font-size: 12px !important;
-    border-radius: 10px !important;
-    align-self: flex-start !important;
-  }
 }
 /* =========================================================
    ✅ CATEGORY PILLS FIX (PHONES)
@@ -1569,3 +1506,110 @@
   }
 }
 
+
+/* =========================
+   SETTINGS PAGE — FINAL LOCK
+   Put at VERY BOTTOM of dashboard.css
+   ========================= */
+
+.settings-page{
+  padding: 0; /* keeps it consistent inside admin-main */
+}
+
+/* header */
+.settings-page .admin-page-header{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 18px 24px;
+  margin: 0 0 16px 0;
+}
+
+.settings-page .settings-title{
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 34px;
+  font-weight: 900;
+  color: #0f172a;
+  text-shadow: none;
+}
+
+.settings-page .admin-page-header p{
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+  text-shadow: none;
+}
+
+/* cards */
+.settings-page .admin-form-card{
+  background: #fff;
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin: 0 24px 20px 24px;
+  box-shadow: 0 12px 28px rgba(15,23,42,.07);
+  border: 1px solid rgba(0,0,0,.04);
+}
+
+.settings-page .admin-form-card h2{
+  margin: 0 0 14px 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+  text-align: left;
+}
+
+/* grid + fields */
+.settings-page .admin-form-grid{
+  display: grid;
+  gap: 16px;
+  max-width: 900px;  /* matches your wide inputs */
+}
+
+.settings-page .admin-form-group label{
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* force inputs to look like screenshot */
+.settings-page .admin-form-group input{
+  width: 100%;
+  height: 42px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  font-size: 14px;
+  outline: none;
+  box-shadow: none !important;
+}
+
+.settings-page .admin-form-group input:focus{
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99,102,241,.15) !important;
+}
+
+/* buttons */
+.settings-page .admin-form-actions{
+  margin-top: 4px;
+}
+
+.settings-page .admin-btn-primary{
+  background: #111827;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.settings-page .admin-btn-primary:hover{
+  background: #020617;
+}

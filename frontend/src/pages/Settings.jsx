@@ -14,7 +14,7 @@ export default function Settings() {
 
   const [loading, setLoading] = useState(true);
 
-  // load settings from backend
+  // Load settings
   useEffect(() => {
     (async () => {
       try {
@@ -42,6 +42,7 @@ export default function Settings() {
 
   async function handleChangePassword(e) {
     e.preventDefault();
+
     if (passwordNew !== passwordConfirm) {
       alert("New passwords do not match.");
       return;
@@ -53,7 +54,7 @@ export default function Settings() {
         newPassword: passwordNew,
       });
 
-      alert("Password updated ✅ (you may need to login again)");
+      alert("Password updated ✅");
       setPasswordCurrent("");
       setPasswordNew("");
       setPasswordConfirm("");
@@ -63,41 +64,51 @@ export default function Settings() {
   }
 
   if (loading) {
+    return (
+      <div className="admin-page settings-page">
+        <header className="admin-page-header">
+          <h1 className="settings-title">
+            <FaCog />
+            Settings
+          </h1>
+          <p>Loading…</p>
+        </header>
+      </div>
+    );
+  }
+
   return (
-    <div className="admin-page">
+    <div className="admin-page settings-page">
+      {/* HEADER */}
       <header className="admin-page-header">
         <h1 className="settings-title">
-          <FaCog style={{ marginRight: 8 }} />
-          Settings
-        </h1>
-        <p>Loading…</p>
-      </header>
-    </div>
-  );
-}
-
-
-  return (
-    <div className="admin-page">
-      <header className="admin-page-header">
-        <h1 className="settings-title">
-          <FaCog style={{ marginRight: 8 }} />
+          <FaCog />
           Settings
         </h1>
         <p>Configure basic settings for your admin account and site.</p>
       </header>
 
+      {/* GENERAL */}
       <section className="admin-form-card">
         <h2>General</h2>
+
         <form className="admin-form-grid" onSubmit={handleSaveGeneral}>
           <div className="admin-form-group">
             <label>Site name</label>
-            <input type="text" value={siteName} onChange={(e) => setSiteName(e.target.value)} />
+            <input
+              type="text"
+              value={siteName}
+              onChange={(e) => setSiteName(e.target.value)}
+            />
           </div>
 
           <div className="admin-form-group">
             <label>Owner email</label>
-            <input type="email" value={ownerEmail} onChange={(e) => setOwnerEmail(e.target.value)} />
+            <input
+              type="email"
+              value={ownerEmail}
+              onChange={(e) => setOwnerEmail(e.target.value)}
+            />
           </div>
 
           <div className="admin-form-group">
@@ -117,8 +128,10 @@ export default function Settings() {
         </form>
       </section>
 
+      {/* PASSWORD */}
       <section className="admin-form-card">
         <h2>Change password</h2>
+
         <form className="admin-form-grid" onSubmit={handleChangePassword}>
           <div className="admin-form-group">
             <label>Current password</label>
