@@ -8,10 +8,31 @@ import {
   MdDinnerDining,
   MdCake,
   MdFastfood,
+
+  // ✅ NEW icons for new categories
+  MdFlashOn,
+  MdSpa,
+  MdFavorite,
+  MdSoupKitchen,
+  MdEco,          // if MdEco doesn't exist in your version, replace with MdEnergySavingsLeaf
+  MdLunchDining as MdMealPrepIcon, // reuse if you want a different one, replace with MdCalendarMonth if preferred
 } from "react-icons/md";
 import API from "../api";
 
-const CATEGORIES = ["Breakfast", "Lunch", "Dinner", "Desserts", "Appetizers"];
+// ✅ Added all categories (old + new)
+const CATEGORIES = [
+  "Breakfast",
+  "Lunch",
+  "Dinner",
+  "Desserts",
+  "Appetizers",
+  "QuickAndEasy",
+  "Vegetarian",
+  "Healthy",
+  "InstantPot",
+  "Vegan",
+  "MealPrep",
+];
 
 const CATEGORY_CARDS = [
   {
@@ -43,6 +64,44 @@ const CATEGORY_CARDS = [
     label: "APPETIZERS",
     desc: "Small bites & starters",
     icon: <MdFastfood className="cat-icon" />,
+  },
+
+  // ✅ NEW CATEGORY CARDS (from your photo)
+  {
+    key: "QuickAndEasy",
+    label: "QUICK AND EASY",
+    desc: "Fast & simple recipes",
+    icon: <MdFlashOn className="cat-icon" />,
+  },
+  {
+    key: "Vegetarian",
+    label: "VEGETARIAN",
+    desc: "Meat-free meals",
+    icon: <MdSpa className="cat-icon" />,
+  },
+  {
+    key: "Healthy",
+    label: "HEALTHY",
+    desc: "Balanced & nutritious",
+    icon: <MdFavorite className="cat-icon" />,
+  },
+  {
+    key: "InstantPot",
+    label: "INSTANT POT",
+    desc: "Pressure cooker recipes",
+    icon: <MdSoupKitchen className="cat-icon" />,
+  },
+  {
+    key: "Vegan",
+    label: "VEGAN",
+    desc: "100% plant-based",
+    icon: <MdEco className="cat-icon" />,
+  },
+  {
+    key: "MealPrep",
+    label: "MEAL PREP",
+    desc: "Plan & prep ahead",
+    icon: <MdMealPrepIcon className="cat-icon" />,
   },
 ];
 
@@ -84,7 +143,9 @@ export default function Categories() {
   const fetchCounts = async () => {
     setLoadingCounts(true);
     try {
-      const res = await API.get("/category-items/counts", { withCredentials: true });
+      const res = await API.get("/category-items/counts", {
+        withCredentials: true,
+      });
       setCounts(res.data?.counts || {});
     } catch (err) {
       console.error("Fetch counts error:", err);
@@ -169,7 +230,9 @@ export default function Categories() {
 
     // ✅ validate image url extension
     if (!isValidImageUrl(form.img_url)) {
-      alert("Image URL must end with an image extension (.jpg, .jpeg, .png, .webp, .gif, .svg).");
+      alert(
+        "Image URL must end with an image extension (.jpg, .jpeg, .png, .webp, .gif, .svg)."
+      );
       return;
     }
 
@@ -184,7 +247,9 @@ export default function Categories() {
 
     try {
       if (isEditing && editingId) {
-        await API.put(`/category-items/${editingId}`, payload, { withCredentials: true });
+        await API.put(`/category-items/${editingId}`, payload, {
+          withCredentials: true,
+        });
       } else {
         await API.post("/category-items", payload, { withCredentials: true });
       }
@@ -238,7 +303,9 @@ export default function Categories() {
         <div className="modal-backdrop" onMouseDown={closeModal}>
           <div className="modal-card" onMouseDown={(e) => e.stopPropagation()}>
             <div className="modal-head">
-              <h2 className="modal-title">{isEditing ? "Edit Recipe" : "Add Recipe"}</h2>
+              <h2 className="modal-title">
+                {isEditing ? "Edit Recipe" : "Add Recipe"}
+              </h2>
               <button className="modal-close" type="button" onClick={closeModal}>
                 ✕
               </button>
@@ -249,7 +316,9 @@ export default function Categories() {
                 Category *
                 <select
                   value={form.category}
-                  onChange={(e) => setForm((p) => ({ ...p, category: e.target.value }))}
+                  onChange={(e) =>
+                    setForm((p) => ({ ...p, category: e.target.value }))
+                  }
                 >
                   <option value="">Select…</option>
                   {CATEGORIES.map((c) => (

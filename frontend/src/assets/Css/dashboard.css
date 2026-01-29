@@ -675,6 +675,7 @@
 /* Row of pill buttons like in your screenshot */
 .category-buttons-full {
   display: flex;
+   flex-wrap: wrap;
   justify-content: space-between;  /* pushes them apart */
   align-items: center;
   max-width: 900px;                /* row width */
@@ -683,7 +684,7 @@
 
 /* Small pill buttons (fixed size, not full-width) */
 .category-btn-full {
-  min-width: 140px;                /* same-ish width for each */
+  min-width: 135px;                /* same-ish width for each */
   padding: 8px 18px;
   border-radius: 999px;
   border: 2px solid #111827;
@@ -1073,6 +1074,7 @@
 
 .category-buttons-full {
   display: flex;
+   flex-wrap: wrap;
   justify-content: flex-start; /* 👈 majtas */
   align-items: center;
   gap: 15px;                    /* 👈 shumë afër */
