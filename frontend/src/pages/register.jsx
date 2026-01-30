@@ -48,7 +48,7 @@ function Register() {
     if (Object.keys(validationErrors).length) return;
 
     try {
-      // For now backend requires only email/password. You can extend later.
+    
       const { data } = await API.post('/register', {
         email: formData.email,
         password: formData.password

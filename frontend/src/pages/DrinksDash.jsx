@@ -1,4 +1,4 @@
-  // src/pages/DrinksDash.jsx
+ 
   import React, { useEffect, useState } from "react";
   import "../assets/Css/dashboard.css";
   import { FaHeart } from "react-icons/fa";
@@ -40,13 +40,13 @@
     };
     const [form, setForm] = useState(emptyForm);
 
-    // ✅ image validation helper
+ 
     const isValidImageUrl = (value) => {
-      if (!value) return true; // allow empty
+      if (!value) return true;
       return /\.(jpe?g|png|webp|gif|svg)(\?.*)?$/i.test(String(value).trim());
     };
 
-    // ✅ fetch counts (admin route -> needs cookies)
+  
     const fetchCounts = async () => {
       setLoadingCounts(true);
       try {
@@ -64,7 +64,7 @@
       fetchCounts();
     }, []);
 
-    // ✅ fetch items for selected category (public)
+   
     useEffect(() => {
       if (!selectedCategory) return;
 
@@ -122,17 +122,16 @@
       setEditingId(null);
     };
 
-    // ✅ add OR edit (admin routes -> needs cookies)
+   
     const handleSave = async () => {
       if (!form.category || !form.title.trim()) return;
 
-      // ✅ validate time_label (digits only)
+     
       if (form.time_label && !/^\d+$/.test(form.time_label)) {
         alert("Time must be a number (minutes only).");
         return;
       }
 
-      // ✅ validate image url extension
       if (!isValidImageUrl(form.img_url)) {
         alert(
           "Image URL must end with an image extension (.jpg, .jpeg, .png, .webp, .gif, .svg)."
@@ -167,7 +166,7 @@
       }
     };
 
-    // ✅ delete (admin route -> needs cookies)
+
     const handleDelete = async (item) => {
       const ok = window.confirm(`Delete "${item.title}"?`);
       if (!ok) return;
@@ -198,7 +197,7 @@
           </button>
         </div>
 
-        {/* ✅ ADD/EDIT MODAL */}
+        {/* ADD/EDIT MODAL */}
         {openModal && (
           <div className="modal-backdrop" onMouseDown={closeModal}>
             <div className="modal-card" onMouseDown={(e) => e.stopPropagation()}>
@@ -305,7 +304,7 @@
           ))}
         </div>
 
-        {/* ✅ CARDS (only when no category selected) */}
+        {/*  CARDS */}
         {!selectedCategory && (
           <div className="category-stats-grid">
             {DRINK_CARDS.map((card) => (

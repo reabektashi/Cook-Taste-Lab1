@@ -14,7 +14,7 @@ export default function Settings() {
 
   const [loading, setLoading] = useState(true);
 
-  // Load settings
+  
   useEffect(() => {
     (async () => {
       try {
@@ -34,7 +34,7 @@ export default function Settings() {
     e.preventDefault();
     try {
       await API.put("/settings", { siteName, ownerEmail, newsletterFrom });
-      alert("Settings saved ✅");
+      alert("Settings saved ");
     } catch (err) {
       alert(err?.response?.data?.error || "Save failed");
     }
@@ -54,7 +54,7 @@ export default function Settings() {
         newPassword: passwordNew,
       });
 
-      alert("Password updated ✅");
+      alert("Password updated ");
       setPasswordCurrent("");
       setPasswordNew("");
       setPasswordConfirm("");

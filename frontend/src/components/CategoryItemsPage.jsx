@@ -6,12 +6,7 @@ import useFavorites from "../hooks/useFavorites";
 function normalizeTime(raw) {
   if (!raw) return "—";
   const t = String(raw).trim();
-
-  // If backend already returns "40 mins" or "2 hours", keep as-is
-  // If it's just a number like 40 -> "40 mins"
   if (/^\d+(\.\d+)?$/.test(t)) return `${t} mins`;
-
-  // Prevent accidental duplicates like "40 mins mins"
   return t.replace(/\bmins\s+mins\b/i, "mins").trim();
 }
 

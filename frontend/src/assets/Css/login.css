@@ -319,9 +319,9 @@ input {
 /* LOCKED password input size */
 .password-wrapper input {
   width: 100%;
-  height: 48px;            /* 🔒 fixed height */
-  line-height: 48px;       /* 🔒 prevents jump */
-  padding: 0 42px 0 12px;  /* space for eye */
+  height: 48px;            
+  line-height: 48px;      
+  padding: 0 42px 0 12px;  
 }
 
 /* Eye toggle */
@@ -350,7 +350,7 @@ input {
    LOGIN RESPONSIVE FIX
    =========================== */
 
-/* Mobile: make form wide + comfortable */
+
 @media (max-width: 480px) {
   .container {
     padding: 16px;
@@ -363,7 +363,7 @@ input {
   }
 }
 
-/* iPad / tablets: make the card larger (not tiny) */
+/* iPad / tablets */
 @media (min-width: 481px) and (max-width: 1366px) {
   .container {
     padding: 24px;

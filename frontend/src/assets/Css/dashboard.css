@@ -118,18 +118,18 @@
   margin: 0;
   font-size: 24px;
   font-weight: 800;
-  text-align: left;      /* jo në qendër */
-  text-shadow: none;     /* hiqe hijen */
+  text-align: left;     
+  text-shadow: none;     
   color: #111827;
 }
 
-/* OVERRIDE për paragrafën poshtë */
+
 .admin-subtitle {
   margin: 2px 0 0;
   font-size: 13px;
   color: #777;
   text-align: left;
-  text-shadow: none;     /* hiqe hijen edhe këtu */
+  text-shadow: none;     
 }
 
 
@@ -652,7 +652,7 @@
   padding: 10px 6px;
 }
 
-/* HEADER FIX – aligned left like Reports */
+/* HEADER FIX */
 .categories-page .admin-header {
   margin-bottom: 20px;
   text-align: left;
@@ -676,15 +676,15 @@
 .category-buttons-full {
   display: flex;
    flex-wrap: wrap;
-  justify-content: space-between;  /* pushes them apart */
+  justify-content: space-between; 
   align-items: center;
-  max-width: 900px;                /* row width */
+  max-width: 900px;                
   margin: 16px 0 24px;
 }
 
-/* Small pill buttons (fixed size, not full-width) */
+/* Small pill buttons  */
 .category-btn-full {
-  min-width: 135px;                /* same-ish width for each */
+  min-width: 135px;              
   padding: 8px 18px;
   border-radius: 999px;
   border: 2px solid #111827;
@@ -727,7 +727,7 @@
   color: #4b5563;
 }
 
-/* zebra stripes like in many admin tables */
+
 .admin-data-table tbody tr:nth-child(even) {
   background: #fdfdfd;
 }
@@ -744,11 +744,11 @@
 }
 
 .btn-edit {
-  background-color: #22c55e; /* green */
+  background-color: #22c55e;
 }
 
 .btn-delete {
-  background-color: #ef4444; /* red */
+  background-color: #ef4444; 
 }
 
 .btn-edit:hover {
@@ -759,7 +759,7 @@
   background-color: #dc2626;
 }
 
-/* thumbnail image inside table */
+
 .category-img-thumb {
   width: 70px;
   height: 50px;
@@ -767,7 +767,7 @@
   border-radius: 6px;
 }
 
-/* heart and favorites count */
+
 .fav-icon {
   color: #f97373;
   font-size: 14px;
@@ -775,9 +775,9 @@
 }
 
 .favorites-cell {
-  text-align: center !important;     /* center left/right */
-  vertical-align: middle !important; /* center top/bottom */
-  padding-left: 0 !important;        /* remove left push */
+  text-align: center !important;     
+  vertical-align: middle !important;
+  padding-left: 0 !important;       
   padding-right: 30px !important;   
 }
 .category-btn-full.active {
@@ -825,7 +825,7 @@
   margin: 35px 0;
 }
 
-/* second row automatically starts with 2 cards centered */
+
 .category-stats-grid > :nth-child(4),
 .category-stats-grid > :nth-child(5) {
   grid-column: span 1;
@@ -933,8 +933,8 @@
 }
 
 .modal-close:hover {
-  color: #ef4444;           /* red on hover */
-  transform: rotate(90deg) scale(1.1); /* subtle spin effect */
+  color: #ef4444;          
+  transform: rotate(90deg) scale(1.1); 
 }
 
 /* ================= FORM GRID ================= */
@@ -1075,9 +1075,9 @@
 .category-buttons-full {
   display: flex;
    flex-wrap: wrap;
-  justify-content: flex-start; /* 👈 majtas */
+  justify-content: flex-start; 
   align-items: center;
-  gap: 15px;                    /* 👈 shumë afër */
+  gap: 15px;                    
   margin: 16px 0 12px;
 }
 
@@ -1152,7 +1152,7 @@
   transform: none !important;
   text-shadow: none !important;
   margin: 0 0 6px 0;
-  font-size: 34px; /* adjust if you want */
+  font-size: 34px;
   line-height: 1.2;
   letter-spacing: 0;
   color: #020617;
@@ -1190,10 +1190,10 @@
 
 /* =========================
    SETTINGS PAGE: HARD RESET
-   Put this at the END of dashboard.css
+  
    ========================= */
 
-/* Stop any global h1/h2 styles messing the layout inside admin pages */
+
 .admin-page h1,
 .admin-page h2 {
   position: static !important;
@@ -1219,14 +1219,14 @@
   background: transparent !important;
 }
 
-/* Kill any watermark pseudo-elements that might be used in your header */
+
 .admin-page-header::before,
 .admin-page-header::after {
   content: none !important;
   display: none !important;
 }
 
-/* Actual Settings title */
+
 .admin-page-header .settings-title {
   margin: 0 !important;
   font-size: 32px !important;
@@ -1243,7 +1243,7 @@
   color: #000000 !important;
 }
 
-/* Section titles like "General" and "Change password" */
+
 .admin-form-card h2 {
   margin: 0 0 12px 0 !important;
   font-size: 22px !important;
@@ -1251,7 +1251,7 @@
   font-weight: 700 !important;
 }
 
-/* Card spacing */
+
 .admin-form-card {
   padding: 18px 22px !important;
   margin: 0 0 16px 0 !important;
@@ -1274,7 +1274,7 @@
 }
 
 .modal-grid {
-  display: grid !important;   /* you were missing display:grid */
+  display: grid !important;   
   gap: 12px;
 }
 
@@ -1329,16 +1329,16 @@
   border-radius: 14px;
 }
 
-/* Section titles: General / Change password */
+/* Section titles: General*/
 .admin-form-card h2 {
-  text-align: left;              /* 👈 FIX */
+  text-align: left;            
   font-size: 22px;
   font-weight: 700;
   color: #0f172a;
   margin: 0 0 14px 0;
 }
 
-/* Kill any centered or absolute styles leaking in */
+
 .admin-form-card h2,
 .admin-page-header h1,
 .admin-page-header p {
@@ -1353,10 +1353,8 @@
 }
 
 /* =========================================================
-   ✅ DASHBOARD MOBILE FIX (phones only)
-   - Sidebar becomes a top bar (sticky)
-   - Main becomes full width
-   - No JS needed
+   ✅ DASHBOARD (phones only)
+  
    ========================================================= */
 @media (max-width: 480px) {
 
@@ -1366,7 +1364,7 @@
     grid-template-rows: auto 1fr !important;
   }
 
-  /* Sidebar becomes sticky top nav */
+  
   .admin-sidebar{
     position: sticky !important;
     top: 0 !important;
@@ -1379,12 +1377,12 @@
     padding: 10px 12px !important;
   }
 
-  /* Brand row compact */
+  
   .admin-brand{
     margin-bottom: 10px !important;
   }
 
-  /* Make nav horizontal scroll (like app tabs) */
+  
   .admin-nav{
     flex-direction: row !important;
     gap: 8px !important;
@@ -1397,7 +1395,7 @@
     height: 6px;
   }
 
-  /* Nav buttons become compact pills */
+  
   .nav-item{
     flex: 0 0 auto !important;
     padding: 8px 10px !important;
@@ -1407,28 +1405,28 @@
     white-space: nowrap !important;
   }
 
-  /* Hide labels to save space (icons only) */
+  
   .nav-item span{
     display: none !important;
   }
 
-  /* Keep logout visible but compact */
+  
   .nav-item.logout{
     margin-top: 0 !important;
   }
 
-  /* Main area full width */
+ 
   .admin-main{
     padding: 14px 12px 24px !important;
   }
 
-  /* Cards grid: 2 per row on phone */
+ 
   .admin-cards-row{
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 12px !important;
   }
 
-  /* Bottom section stacks */
+  
   .admin-bottom{
     grid-template-columns: 1fr !important;
   }
@@ -1436,9 +1434,7 @@
 
 
 /* =========================================================
-   ✅ ADMIN HEADER FIX (PHONES)
-   Fix overlapping title/subtitle/button on iPhone
-   Put at VERY BOTTOM of dashboard.css
+    ADMIN HEADER FIX (PHONES)
    ========================================================= */
 @media (max-width: 480px) {
 
@@ -1452,7 +1448,7 @@
     margin-bottom: 14px !important;
   }
 
-  /* text block: allow wrapping */
+ 
   .admin-header > div:first-child{
     width: 100% !important;
     min-width: 0 !important;
@@ -1469,7 +1465,7 @@
 
  .admin-subtitle{
   margin-top: 20px !important;
-  margin-left: 40px !important;   /* 👈 move right */
+  margin-left: 40px !important;   
   font-size: 12.5px !important;
   line-height: 1.98 !important;
   max-width: 34ch !important;
@@ -1477,8 +1473,8 @@
 }
 }
 /* =========================================================
-   ✅ CATEGORY PILLS FIX (PHONES)
-   Make Breakfast/Lunch/... visible + wrap instead of overflow
+   CATEGORY PILLS FIX (PHONES)
+  
    ========================================================= */
 @media (max-width: 480px) {
 
@@ -1511,11 +1507,11 @@
 
 /* =========================
    SETTINGS PAGE — FINAL LOCK
-   Put at VERY BOTTOM of dashboard.css
+  
    ========================= */
 
 .settings-page{
-  padding: 0; /* keeps it consistent inside admin-main */
+  padding: 0; 
 }
 
 /* header */
@@ -1564,11 +1560,10 @@
   text-align: left;
 }
 
-/* grid + fields */
 .settings-page .admin-form-grid{
   display: grid;
   gap: 16px;
-  max-width: 900px;  /* matches your wide inputs */
+  max-width: 900px;  
 }
 
 .settings-page .admin-form-group label{
@@ -1579,7 +1574,6 @@
   color: #111827;
 }
 
-/* force inputs to look like screenshot */
 .settings-page .admin-form-group input{
   width: 100%;
   height: 42px;

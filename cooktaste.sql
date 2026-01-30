@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.44, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
--- Host: localhost    Database: cooktaste
+-- Host: localhost    Database: cooktaste_db
 -- ------------------------------------------------------
--- Server version	8.0.44
+-- Server version	8.0.36
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,117 +16,35 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `favorites`
+-- Table structure for table `category_items`
 --
 
-DROP TABLE IF EXISTS `favorites`;
+DROP TABLE IF EXISTS `category_items`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `favorites` (
-  `user_id` int unsigned NOT NULL,
-  `recipe_id` varchar(64) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`user_id`,`recipe_id`),
-  KEY `fk_fav_recipe` (`recipe_id`),
-  CONSTRAINT `fk_fav_recipe` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `fk_fav_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `favorites`
---
-
-LOCK TABLES `favorites` WRITE;
-/*!40000 ALTER TABLE `favorites` DISABLE KEYS */;
-INSERT INTO `favorites` VALUES (1,'wk1','2025-11-13 21:40:26'),(1,'wk2','2025-11-13 21:40:27'),(2,'wk4','2025-11-13 21:36:11'),(2,'wk8','2025-11-13 21:36:34'),(2,'wk9','2025-11-13 21:36:36');
-/*!40000 ALTER TABLE `favorites` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `recipes`
---
-
-DROP TABLE IF EXISTS `recipes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `recipes` (
-  `id` varchar(64) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `tag` varchar(100) DEFAULT NULL,
-  `time_label` varchar(50) DEFAULT NULL,
-  `img` varchar(255) DEFAULT NULL,
-  `href` varchar(255) DEFAULT NULL,
-  `rating` decimal(3,2) DEFAULT NULL,
-  `description` text,
-  `ingredients` json DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+CREATE TABLE `category_items` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `category` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `recipe_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `tag` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `time_label` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `img_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `href` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `favorites` int DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=230 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `recipes`
+-- Dumping data for table `category_items`
 --
 
-LOCK TABLES `recipes` WRITE;
-/*!40000 ALTER TABLE `recipes` DISABLE KEYS */;
-INSERT INTO `recipes` VALUES ('wk1','Sheet Pan Salmon and Broccoli with Miso Butter','FAMILY DINNERS','45 mins','/Images/Sheet Pan Salmon and Broccoli .webp','/recipes/sheet-pan-salmon',4.50,'Quick sheet-pan salmon','[\"salmon\", \"broccoli\", \"miso\", \"butter\"]','2025-11-13 14:16:53'),('wk2',' Quick Beef Stir Fry with Bell Peppers','Quick Dinners','40 mins','/Images/Quick Beef Stir Fry with Bell Peppers.webp','/recipes/sausage-potato-soup',4.70,'Fast stir fry','[\"beef\", \"pepper\", \"garlic\", \"soy\"]','2025-11-13 14:16:53'),('wk3','My Granny\'s 5-Ingredient Party Pie','Easy Pies','20 mins','/Images/Party Pie.webp','/recipes/Party Pie',4.60,'Retro pie','[\"chocolate\", \"cream\", \"cookie\"]','2025-11-13 14:16:53'),('wk4','4-Ingredient Chicken Dinner','Easy Slow Cooker','30 mins','/Images/4-Ingredient Chicken Dinner.webp','/recipes/4-Ingredient Chicken Dinner',4.80,'Cozy chicken','[\"chicken\", \"potato\", \"onion\"]','2025-11-13 14:16:53'),('wk5','Vegetarian Spinach and Mushroom Lasagna','VEGETARIAN','30 mins','/Images/Vegetarian Spinach and Mushroom Lasagna.webp','/recipes/Vegetarian Spinach and Mushroom Lasagna',4.40,'Veg lasagna','[\"spinach\", \"mushroom\", \"pasta\", \"tomato\"]','2025-11-13 14:16:53'),('wk6','Peanut Butter Chocolate Chip Banana Bread','Dessert','22 mins','/Images/Peanut Butter Chocolate Chip Banana Bread.webp','/recipes/Peanut Butter Chocolate Chip Banana Bread',4.60,'Moist loaf','[\"banana\", \"chocolate\", \"peanut butter\"]','2025-11-13 14:16:53'),('wk7','Boozy Hot Chocolate','Drinks','15 mins','/Images/Boozy Hot Chocolate.webp','/recipes/Boozy Hot Chocolate',4.80,'Winter drink','[\"chocolate\"]','2025-11-13 14:16:53'),('wk8','Strawberry Lemonade','Drinks','5 mins','/Images/Strawberry Lemonade.webp','/recipes/Strawberry Lemonade',4.40,'Fresh','[\"strawberry\", \"lemon\"]','2025-11-13 14:16:53'),('wk9','Blueberry Smoothie','Healthy Smoothies','5 mins','/Images/Blueberry Smoothie.webp','/recipes/Blueberry Smoothie',4.60,'Healthy smoothie','[\"blueberry\", \"yogurt\"]','2025-11-13 14:16:53');
-/*!40000 ALTER TABLE `recipes` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `subscribers`
---
-
-DROP TABLE IF EXISTS `subscribers`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `subscribers` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `email` varchar(190) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `subscribers`
---
-
-LOCK TABLES `subscribers` WRITE;
-/*!40000 ALTER TABLE `subscribers` DISABLE KEYS */;
-INSERT INTO `subscribers` VALUES (1,'bektashirea@gmail.com','2025-11-03 21:01:51'),(2,'driole@gmail.com','2025-11-04 13:01:41'),(3,'erza@gmail.com','2025-11-04 19:26:55'),(4,'reabektashi@gmail.com','2025-11-05 14:04:13'),(5,'rronukimeraj43@gmail.com','2025-11-05 14:06:08'),(6,'anida@gmail.com','2025-11-06 12:40:25'),(7,'fbektashi@gmail.com','2025-11-06 19:21:46'),(8,'anidaakadriu@gmail.com','2025-11-10 11:32:42'),(9,'erzarea11@gmail.com','2025-11-12 16:13:39');
-/*!40000 ALTER TABLE `subscribers` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `users`
---
-
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `users` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `email` varchar(190) NOT NULL,
-  `password_hash` varchar(255) NOT NULL,
-  `user_role` enum('user','admin') NOT NULL DEFAULT 'user',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users`
---
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'edina@gmail.com','$2b$10$Ym.SMurUIzwGWpLhIsIWtOInabAgHbzQwO37knfevw3kVMvflqNWu','user','2025-11-13 19:54:47'),(2,'bektashirea@gmail.com','$2b$10$SLaQDfbKHB/BQ6S6S4C9IeMO3c87tsgwza0qEmeypfP.aJ0OSRmI2','admin','2025-11-13 20:01:48');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+LOCK TABLES `category_items` WRITE;
+/*!40000 ALTER TABLE `category_items` DISABLE KEYS */;
+INSERT INTO `category_items` VALUES (1,'Breakfast','1001','BREAKFAST','The One-Pot Persian Recipe I Make for Breakfast, Lunch, and Dinner','40 mins','/Images/Persian Recipe.webp','/recipes/one-pot-persian',0,'2026-01-26 20:57:45'),(2,'Breakfast','1002','BREAKFAST','Forget Tomato Sandwiches—Make This Tomato Ricotta Toast Instead','9 mins','/Images/Tomato.webp','/recipes/tomato-ricotta-toast',0,'2026-01-26 20:57:45'),(3,'Breakfast','1003','BREAKFAST','The 4-Ingredient Breakfast I Eat Almost Every Day','10 mins','/Images/HamnCheese.webp','/recipes/ham-cheese',0,'2026-01-26 20:57:45'),(4,'Breakfast','1004','BREAKFAST','2-Ingredient Banana Pancakes Recipe','13 mins','/Images/bananapancake.webp','/recipes/banana-pancake',0,'2026-01-26 20:57:45'),(5,'Breakfast','1005','BREAKFAST','Bircher Muesli Recipe','15 mins','/Images/BircherMuesli.webp','/recipes/bircher-uesli',0,'2026-01-26 20:57:45'),(6,'Breakfast','1006','BREAKFAST','Make-Ahead Frittata Squares with Spinach, Tomatoes, and Feta','60 mins','/Images/frittatasquares.webp','/recipes/frittata-squares',0,'2026-01-26 20:57:45'),(7,'Breakfast','1007','BREAKFAST','My Dutch Baby Recipe Is Totally Foolproof—I Make It Every Weekend','45 mins','/Images/Dutchbaby.webp','/recipes/Dutchbaby',0,'2026-01-26 20:57:45'),(8,'Breakfast','1008','BREAKFAST','Turn Your Leftover Mashed Potatoes Into Irish Boxty','34 mins','/Images/irishbreakfast.webp','/recipes/irishbreakfast',0,'2026-01-26 20:57:45'),(9,'Breakfast','1009','BREAKFAST','My New Favorite Dessert Is Just 3 Ingredients and Takes 5 Minutes To Make','15 mins','/Images/koreantoast.webp','/recipes/koreantoast',0,'2026-01-26 20:57:45'),(10,'Desserts','2001','DESSERTS','2-Ingredient Cherry Cobbler I Make Every Saturday','30 mins','/Images/cherrycobbler.webp','/recipes/cherry-cobbler-Recipe',0,'2026-01-26 20:57:45'),(11,'Desserts','2002','DESSERTS','I Make This Easy Red Velvet Cake Every Year for Passovered','60 mins','/Images/Red-Velvet-Cake.jpg','/recipes/Red-Velvet-Cake-Recipe',0,'2026-01-26 20:57:45'),(12,'Desserts','2003','DESSERTS','These 4-Ingredient Cake Pops Take 30 Minutes to Make','40 mins','/Images/Cake-Pops.jpg','/recipes/Cake-Pops-Recipe',0,'2026-01-26 20:57:45'),(13,'Desserts','2004','DESSERTS','The Easy Oreo-Cheesecake Anyone Can Make','60 mins','/Images/Oreo-Cheesecake.jpg','/recipes/Oreo-Cheesecake-Recipe',0,'2026-01-26 20:57:45'),(14,'Desserts','2005','DESSERTS','The best Pumpkin Chocolate Chip Muffins','65 mins','/Images/Chocolate-Pumpkin-Muffins.jpg','/recipes/Chocolate-Pumpkin-Muffins-recipe',0,'2026-01-26 20:57:45'),(15,'Desserts','2006','DESSERTS','The Easy Chocolate Pudding Cake I Make on Repeat','45 mins','/Images/Chocolate-Pudding-Cake.jpg','/recipes/Chocolate-Pudding-Cake-Recipe',0,'2026-01-26 20:57:45'),(16,'Desserts','2007','DESSERTS','Chocolate Delight','30 mins','/Images/ChocolateDelight.webp','/recipes/ChocolateDelight',0,'2026-01-26 20:57:45'),(17,'Desserts','2008','DESSERTS','This 200-Year-Old Summer Dessert Is Just as Delicious Today','45 mins','/Images/Peach-Brown-Betty.webp','/recipes/Peach-Brown-Betty',0,'2026-01-26 20:57:45'),(18,'Desserts','2009','DESSERTS','This 3-Ingredient British Dessert Looks Fancy But Is So Easy To Make','45 mins','/Images/pudding-summer.webp','/recipes/pudding-summer-Recipe',0,'2026-01-26 20:57:45'),(19,'Dinner','3001','DINNER','Meatloaf Muffins Are a Dinner My Whole Family Can Agree On','55 mins','/Images/meatloaf.webp','/recipes/meat-loaf',0,'2026-01-26 20:57:45'),(20,'Dinner','3002','DINNER','My Loaded Chicken Breasts Are Ready In 15 Minutes Flat','20 mins','/Images/loadedchickenbreasts.webp','/recipes/loaded-chicken-breasts',0,'2026-01-26 20:57:45'),(21,'Dinner','3003','DINNER','This Irish Potato Casserole Is the Ultimate Comfort Food','80 mins','/Images/irishpatato.webp','/recipes/irish-patato',0,'2026-01-26 20:57:45'),(22,'Dinner','3004','DINNER','My Grandma Judy’s Matzo Ball Soup Tastes Like Home','60 mins','/Images/grandmasmatzoball.webp','/recipes/grandmas-matzo-ball',0,'2026-01-26 20:57:45'),(23,'Dinner','3005','DINNER','I Make My 2-Ingredient Caesar Salmon On Busy Weeknights','15 mins','/Images/caesarsalmonrecipe.webp','/recipes/caesar-salmon-recipe',0,'2026-01-26 20:57:45'),(24,'Dinner','3006','DINNER','My Favorite 5-Ingredient Dinner Couldn’t Be Easier','2 hours','/Images/fetatomatostuffedspaghetti.webp','/recipes/feta-tomato-stuffed-spaghetti',0,'2026-01-26 20:57:45'),(25,'Dinner','3007','DINNER','The 15-Minute Dinner I Make All Summer Long','15 mins','/Images/shrimpbowl.webp','/recipes/shrimpbowl',0,'2026-01-26 20:57:45'),(26,'Dinner','3008','DINNER','My Mom’s Korean Curry Rice Is My Favorite Comfort Food','75 mins','/Images/curry-rice.webp','/recipes/curry-rice',0,'2026-01-26 20:57:45'),(27,'Dinner','3009','DINNER','The 20-Minute Dinner I’ll Be Making All Summer Long','20 mins','/Images/lemonrissoto.webp','/recipes/lemonrissoto',0,'2026-01-26 20:57:45'),(28,'Lunch','4001','LUNCH','Menemen (Turkish Scrambled Eggs and Tomatoes)','40 mins','/Images/menemen.webp','/recipes/menemen-turkish',0,'2026-01-26 20:57:45'),(29,'Lunch','4002','LUNCH','Turn a Simple Baked Potato Into a Memorable Dinner','70 mins','/Images/bakedpatato.webp','/recipes/baked-potato',0,'2026-01-26 20:57:45'),(30,'Lunch','4003','LUNCH','Tortilla Española (Spanish Tortilla)','35 mins','/Images/spanishtortilla.webp','/recipes/spanish-tortilla',0,'2026-01-26 20:57:45'),(31,'Lunch','4004','LUNCH','The 15-Minute Mediterranean-Inspired Meal I Make Once a Week','15 mins','/Images/tunabread.webp','/recipes/tuna-bread',0,'2026-01-26 20:57:45'),(32,'Lunch','4005','LUNCH','Potato Knishes','2 hours','/Images/patatoknishes.webp','/recipes/potato-knishes',0,'2026-01-26 20:57:45'),(33,'Lunch','4006','LUNCH','The 3-Ingredient Egg Salad I Make Every Week','20 mins','/Images/eggssalad.webp','/recipes/egg-salad',0,'2026-01-26 20:57:45'),(34,'Lunch','4007','LUNCH','The 15-Minute Mediterranean-Inspired Meal I Make Once a Week','6 mins','/Images/tuna-rice-bowl.webp','/recipes/tuna-rice-bowl',0,'2026-01-26 20:57:45'),(35,'Lunch','4008','LUNCH','For the Best Pasta Salad, Make It Cowboy-Style','40 mins','/Images/pastasalad.webp','/recipes/pastasalad',0,'2026-01-26 20:57:45'),(36,'Lunch','4009','LUNCH','Tteokbokki (Spicy Korean Rice Cakes)','30 mins','/Images/teokbokki.webp','/recipes/teokbokki',0,'2026-01-26 20:57:45'),(37,'Appetizers','5001','APPETIZERS','Corn Oysters Are the Retro Summer Dish You Need to Make','35 mins','/Images/cornoyster.webp','/recipes/corn-oyster',0,'2026-01-26 20:57:45'),(38,'Appetizers','5002','APPETIZERS','The Easy Recipe I Make for Every Holiday Gathering','30 mins','/Images/mixednuts.webp','/recipes/mixed-nuts',0,'2026-01-26 20:57:45'),(39,'Appetizers','5003','APPETIZERS','The Secret to the Best French Bread Pizza','25 mins','/Images/frenchbreadpizza.webp','/recipes/french-bread-pizza',0,'2026-01-26 20:57:45'),(40,'Appetizers','5004','APPETIZERS','For the Best Loaded Queso Dip, Skip the Velveeta','35 mins','/Images/loadedqueso.webp','/recipes/loaded-queso',0,'2026-01-26 20:57:45'),(41,'Appetizers','5005','APPETIZERS','How to Make the Best Guacamole','12 mins','/Images/Guacamole.webp','/recipes/Guacamole',0,'2026-01-26 20:57:45'),(42,'Appetizers','5006','APPETIZERS','The 4-Ingredient Appetizer I’m Making All Summer Long','24 mins','/Images/grilledfetastuffedpeppers.webp','/recipes/grilled-feta-stuffed-peppers-recipe',0,'2026-01-26 20:57:45'),(43,'Appetizers','5007','APPETIZERS','The 4-Ingredient Zucchini Dip My Whole Family Loves','25 mins','/Images/zucchinidip.webp','/recipes/zucchinidip',0,'2026-01-26 20:57:45'),(44,'Appetizers','5008','APPETIZERS','The 2-Ingredient Chicken Wings You Need To Make','35 mins','/Images/chickenwings.webp','/recipes/chickenwings',0,'2026-01-26 20:57:45'),(45,'Appetizers','5009','APPETIZERS','The Easy Appetizer I Make Every Game Day','60 mins','/Images/burgera.webp','/recipes/burgera',0,'2026-01-26 20:57:45'),(64,'Cocktails','201','COCKTAILS','Classic Old Fashioned','5 mins','/Images/old-fashioned.jpg','/drinks/old-fashioned',0,'2026-01-26 20:59:31'),(65,'Cocktails','202','COCKTAILS','Aperol Spritz','7 mins','/Images/aperol-spritz.jpg','/drinks/aperol-spritz',0,'2026-01-26 20:59:31'),(66,'Cocktails','203','COCKTAILS','Margarita on the Rocks','10 mins','/Images/margarita.jpg','/drinks/margarita',0,'2026-01-26 20:59:31'),(67,'Cocktails','204','COCKTAILS','Pornstar Martini','5 mins','/Images/pm.jpg','/drinks/pornstar-martini',0,'2026-01-26 20:59:31'),(68,'Cocktails','205','COCKTAILS','Espresso Martini','6 mins','/Images/espresso-martini.jpg','/drinks/espresso-martini',0,'2026-01-26 20:59:31'),(69,'Cocktails','206','COCKTAILS','Mojito','8 mins','/Images/mojito.jpg','/drinks/mojito',0,'2026-01-26 20:59:31'),(70,'Mocktails','301','MOCKTAILS','Virgin Mojito','8 mins','/Images/virgin-mojito.jpg','/drinks/virgin-mojito',0,'2026-01-26 20:59:31'),(71,'Mocktails','302','MOCKTAILS','Strawberry Basil Cooler','10 mins','/Images/strawberry-basil-cooler.jpg','/drinks/strawberry-basil-cooler',0,'2026-01-26 20:59:31'),(72,'Mocktails','303','MOCKTAILS','Cucumber Mint Fizz','7 mins','/Images/cucumber-mint-fizz.jpg','/drinks/cucumber-mint-fizz',0,'2026-01-26 20:59:31'),(73,'Mocktails','304','MOCKTAILS','Tropical Sunrise Mocktail','9 mins','/Images/tropical-sunrise.jpg','/drinks/tropical-sunrise-mocktail',0,'2026-01-26 20:59:31'),(74,'Mocktails','305','MOCKTAILS','Raspberry Lemon Spritzer','6 mins','/Images/raspberry-lemon-spritzer.jpg','/drinks/raspberry-lemon-spritzer',0,'2026-01-26 20:59:31'),(75,'Mocktails','306','MOCKTAILS','Citrus Ginger Sparkler','6 mins','/Images/citrus-ginger-sparkler.jpg','/drinks/citrus-ginger-sparkler',0,'2026-01-26 20:59:31'),(76,'Smoothies','401','SMOOTHIES','Berry Blast Smoothie','5 mins','/Images/berry-blast.jpg','/drinks/berry-blast-smoothie',0,'2026-01-26 20:59:31'),(77,'Smoothies','402','SMOOTHIES','Green Power Smoothie','7 mins','/Images/green-power.jpg','/drinks/green-power-smoothie',0,'2026-01-26 20:59:31'),(78,'Smoothies','403','SMOOTHIES','Mango Banana Smoothie','6 mins','/Images/mango-banana.jpg','/drinks/mango-banana-smoothie',0,'2026-01-26 20:59:31'),(79,'Smoothies','404','SMOOTHIES','Peanut Butter Protein Shake','8 mins','/Images/peanut-protein.jpg','/drinks/peanut-butter-protein-shake',0,'2026-01-26 20:59:31'),(80,'Smoothies','405','SMOOTHIES','Tropical Coconut Smoothie','7 mins','/Images/tropical-coconut.jpg','/drinks/tropical-coconut-smoothie',0,'2026-01-26 20:59:31'),(81,'Smoothies','406','SMOOTHIES','Chocolate Berry Smoothie','9 mins','/Images/chocolate-berry.jpg','/drinks/chocolate-berry-smoothie',0,'2026-01-26 20:59:31'),(82,'Juices','4491','Juices','Beetroot Homemade Juice','10 mins','/Images/Beetroot Homemade Juice.jpg','/drinks/Beetroot Homemade Juice',0,'2026-01-26 20:59:31'),(83,'Juices','4492','Juices','Green Gut Healthy Homemade Juice','10 mins','/Images/Green Gut Healthy Homemade Juice.jpg','/drinks/Green Gut Healthy Homemade Juice',0,'2026-01-26 20:59:31'),(84,'Juices','4493','Juices','Cold Peach Nectarine Cocktail','10 mins','/Images/cold-peach-nectarine-mint-cocktail.jpg','/drinks/cold-peach-nectarine-mint-cocktail',0,'2026-01-26 20:59:31'),(85,'Juices','4494','Juices','Honeydew Melon Homemade Juice','10 mins','/Images/Honeydew Melon Homemade Juice.webp','/drinks/Honeydew Melon Homemade Juice',0,'2026-01-26 20:59:31'),(86,'Juices','4495','Juices','Berry Juice Box','10 mins','/Images/Berry Juice Box.jpg','/drinks/Berry Juice Box',0,'2026-01-26 20:59:31'),(87,'Juices','4496','Juices','Pineapple Juice','10 mins','/Images/pineapple-juice.jpg','/drinks/Pinneapple-Juice',0,'2026-01-26 20:59:31'),(88,'Coffee','91','COFFEE','Classic Iced Coffee To Go','5 mins','/Images/iced-coffee.jpg','/drinks/iced-coffee',0,'2026-01-26 20:59:31'),(89,'Coffee','92','COFFEE','Matcha Latte Coffee','10 mins','/Images/matcha.jpg','/drinks/matchaa',0,'2026-01-26 20:59:31'),(90,'Coffee','93','COFFEE','Iced Strawberry Latte','8 mins','/Images/Iced Strawberry Latte.jpg','/drinks/Iced Strawberry Latte',0,'2026-01-26 20:59:31'),(91,'Coffee','94','COFFEE','Cold Coffee Drink Frappuccino','9 mins','/Images/cold-coffee-drink-frappe-frappuccino.jpg','/drinks/cold-coffee-drink-frappe-frappuccino',0,'2026-01-26 20:59:31'),(92,'Coffee','95','COFFEE','Authentic Vietnamese Coffee','15 mins','/Images/vietnamese-coffee.jpg','/drinks/Authentic_Vietnamese_Iced_Coffee',0,'2026-01-26 20:59:31'),(93,'Coffee','96','COFFEE','Pauling Mango Coffee','17 mins','/Images/Pauling.png','/drinks/Pauling',0,'2026-01-26 20:59:31'),(96,'Juices',NULL,NULL,'a po bon a spo bon',NULL,NULL,NULL,0,'2026-01-27 19:04:37'),(98,'Tea','91','Tea','Grapefruit Herbal Tea With Ginger','5 mins','/Images/grapefruit-herbal-tea-with-ginger.jpg','/drinks/tea',0,'2026-01-28 16:32:49'),(99,'Tea','92','Tea','Iced Apple Tea Drink With Fresh Apples','5 mins','/Images/iced-apple-tea-drink-with-fresh-apples.jpg','/drinks/tea',0,'2026-01-28 16:32:49'),(100,'Tea','93','Tea','Mix Fruit Tea','5 mins','/Images/mix-fruit-tea.jpg','/drinks/tea',0,'2026-01-28 16:32:49'),(101,'Tea','94','Tea','Wild Fruit Tea','5 mins','/Images/wild-fruit-tea.jpg','/drinks/tea',0,'2026-01-28 16:32:49'),(102,'Tea','95','Tea','Iced Menthol Orange Tea','5 mins','/Images/iced-orange-tea.jpg','/drinks/tea',0,'2026-01-28 16:32:49'),(103,'Tea','96','Tea','Flower Menthol Fruit Teas','5 mins','/Images/flower-menthol-fruit-teas.jpg','/drinks/tea',0,'2026-01-28 16:32:49'),(104,'Vegan','10001','VEGAN','Vegan Buddha Bowl','20 mins','/Images/vegan-buddha-bowl.webp','/recipes/vegan-buddha-bowl',0,'2026-01-30 01:18:30'),(105,'Vegan','10002','VEGAN','Creamy Vegan Mushroom Pasta','25 mins','/Images/vegan-mushroom-pasta.jpg','/recipes/vegan-mushroom-pasta',0,'2026-01-30 01:18:30'),(106,'Vegan','10003','VEGAN','Vegan Chickpea Curry','30 mins','/Images/vegan-chickpea-curry.webp','/recipes/vegan-chickpea-curry',0,'2026-01-30 01:18:30'),(107,'Vegan','10004','VEGAN','Vegan Avocado Toast','10 mins','/Images/vegan-avocado-toast.png','/recipes/vegan-avocado-toast',0,'2026-01-30 01:18:30'),(108,'Vegan','10005','VEGAN','Vegan Lentil Tacos','25 mins','/Images/vegan-lentil-tacos.jpg','/recipes/vegan-lentil-tacos',0,'2026-01-30 01:18:30'),(109,'Vegan','10006','VEGAN','Vegan Chocolate Chia Pudding','5 mins','/Images/vegan-chia-pudding.jpg','/recipes/vegan-chia-pudding',0,'2026-01-30 01:18:30'),(110,'MealPrep','11001','MEAL PREP','Healthy Chicken Meal Prep Bowls','40 mins','/Images/chicken-meal-prep.jpg','/recipes/chicken-meal-prep',0,'2026-01-30 01:18:30'),(111,'MealPrep','11002','MEAL PREP','Vegetarian Meal Prep Burrito Bowls','35 mins','/Images/veg-meal-prep-bowls.jpg','/recipes/veg-meal-prep-bowls',0,'2026-01-30 01:18:30'),(112,'MealPrep','11003','MEAL PREP','Salmon & Veggie Meal Prep','45 mins','/Images/salmon-meal-prep.webp','/recipes/salmon-meal-prep',0,'2026-01-30 01:18:30'),(113,'MealPrep','11004','MEAL PREP','Vegan Chickpea Meal Prep','30 mins','/Images/vegan-meal-prep.jpeg','/recipes/vegan-meal-prep',0,'2026-01-30 01:18:30'),(114,'MealPrep','11005','MEAL PREP','Turkey & Rice Meal Prep','40 mins','/Images/turkey-rice-meal-prep.jpg','/recipes/turkey-rice-meal-prep',0,'2026-01-30 01:18:30'),(115,'MealPrep','11006','MEAL PREP','Breakfast Meal Prep Oats','15 mins','/Images/meal-prep-oats.webp','/recipes/meal-prep-oats',0,'2026-01-30 01:18:30'),(116,'QuickAndEasy','60011','QUICK & EASY','The Cheap, Nutritious Breakfast I Make All the Time (It Takes 5 Minutes)','5 mins','/Images/avocado-toast.webp','/recipes/avocado-toast',0,'2026-01-30 01:18:30'),(117,'QuickAndEasy','60022','QUICK & EASY','Creamy Lemon Pasta','20 mins','/Images/Creamy-Lemon-Pasta.webp','/recipes/creamy-lemon-pasta',0,'2026-01-30 01:18:30'),(118,'QuickAndEasy','60031','QUICK & EASY','Egg & Veggie Wrap','15 mins','/Images/egg-wrapper.webp','/recipes/egg-veggie-wrap',0,'2026-01-30 01:18:30'),(119,'QuickAndEasy','60041','QUICK & EASY','The 3-Ingredient Garlic Butter Chicken Bites I Can\'t Stop Making','25 mins','/Images/garlic-butter-chicken.webp','/recipes/garlic-butter-chicken',0,'2026-01-30 01:18:30'),(120,'QuickAndEasy','60051','QUICK & EASY','10-Minute Greek Yogurt Bowl','10 mins','/Images/greek-yogurt-bowl.webp','/recipes/greek-yogurt-bowl',0,'2026-01-30 01:18:30'),(121,'QuickAndEasy','60061','QUICK & EASY','Easy Veggie Fried Rice','20 mins','/Images/veggie-fried-rice.webp','/recipes/veggie-fried-rice',0,'2026-01-30 01:18:30'),(122,'Vegetarian','7001','VEGETARIAN','Vegetarian Spinach and Mushroom Lasagna','30 mins','/Images/Vegetarian Spinach and Mushroom Lasagna.webp','/recipes/Vegetarian Spinach and Mushroom Lasagna',0,'2026-01-30 01:18:30'),(123,'Vegetarian','7002','VEGETARIAN','Creamy Mushroom Risotto','35 mins','/Images/mushroom-risotto.webp','/recipes/mushroom-risotto',0,'2026-01-30 01:18:30'),(124,'Vegetarian','7003','VEGETARIAN','Vegetarian Stuffed Peppers','40 mins','/Images/Vegetarian Stuffed Peppers.webp','/recipes/Vegetarian Stuffed Peppers',0,'2026-01-30 01:18:30'),(125,'Vegetarian','7004','VEGETARIAN','Vegetarian Meatloaf','75 mins','/Images/Vegetarian Meatloaf.webp','/recipes/Vegetarian Meatloaf',0,'2026-01-30 01:18:30'),(126,'Vegetarian','7005','VEGETARIAN','Spicy Vegetarian Chili','40 mins','/Images/Spicy Vegetarian Chili.webp','/recipes/Spicy Vegetarian Chili',0,'2026-01-30 01:18:30'),(127,'Vegetarian','7006','VEGETARIAN','Vegetarian Freezer Burrito','15 mins','/Images/Vegetarian Freezer Burrito.webp','/recipes/Vegetarian Freezer Burrito',0,'2026-01-30 01:18:30'),(128,'Healthy','8001','HEALTHY','Cobb Salad','15 mins','/Images/Cobb Salad.webp','/recipes/Cobb-Salad',0,'2026-01-30 01:18:30'),(129,'Healthy','8002','HEALTHY','The Simple Trick for Perfectly Grilled Chicken Breasts','25 mins','/Images/grilled-chicken.webp','/recipes/grilled-chicken',0,'2026-01-30 01:18:30'),(130,'Healthy','8003','HEALTHY','Peach Cobbler Overnight Oats','10 mins','/Images/oatmeal-bowl.webp','/recipes/oatmeal-bowl',0,'2026-01-30 01:18:30'),(131,'Healthy','8004','HEALTHY','My 1-Ingredient Upgrade for Better Baked Salmon','35 mins','/Images/baked-salmon.webp','/recipes/baked-salmon',0,'2026-01-30 01:18:30'),(132,'Healthy','8005','HEALTHY','Sweet Potato Waffles with Fried Egg, Bacon, and Scallions','30 mins','/Images/Waffles.webp','/recipes/Waffles.webp',0,'2026-01-30 01:18:30'),(133,'Healthy','8006','HEALTHY','Slow Cooker Chickpea Curry With Sweet Potatoes and Red Peppers','20 mins','/Images/chickpea.webp','/recipes/chickpea',0,'2026-01-30 01:18:30'),(134,'InstantPot','9001','INSTANT POT','Instant Pot Butter Chicken','30 mins','/Images/instant-pot-butter-chicken.avif','/recipes/instant-pot-butter-chicken',0,'2026-01-30 01:18:30'),(135,'InstantPot','9002','INSTANT POT','Instant Pot Beef Stew','45 mins','/Images/instant-pot-beef-stew.jpg','/recipes/instant-pot-beef-stew',0,'2026-01-30 01:18:30'),(136,'InstantPot','9003','INSTANT POT','Instant Pot Chicken Tacos','25 mins','/Images/instant-pot-chicken-tacos.jpg','/recipes/instant-pot-chicken-tacos',0,'2026-01-30 01:18:30'),(137,'InstantPot','9004','INSTANT POT','Instant Pot Lentil Soup','20 mins','/Images/instant-pot-lentil-soup.jpg','/recipes/instant-pot-lentil-soup',0,'2026-01-30 01:18:30'),(138,'InstantPot','9005','INSTANT POT','Instant Pot BBQ Pulled Chicken','50 mins','/Images/instant-pot-pulled-chicken.jpg','/recipes/instant-pot-pulled-chicken',0,'2026-01-30 01:18:30'),(139,'InstantPot','9006','INSTANT POT','Instant Pot Creamy Chicken Pasta','30 mins','/Images/instant-pot-chicken-pasta.jpg','/recipes/instant-pot-chicken-pasta',0,'2026-01-30 01:18:30');
+/*!40000 ALTER TABLE `category_items` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -138,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-11-14 19:11:52
+-- Dump completed on 2026-01-30  2:39:55

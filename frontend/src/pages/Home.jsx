@@ -143,10 +143,10 @@ function Home() {
     },
   ];
 
-  // ===== favorites state (per user) =====
+  
   const [liked, setLiked] = useState({});
 
-  // load favorites on mount (if logged in)
+  
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) return;
@@ -174,7 +174,7 @@ function Home() {
 
     const wasLiked = !!liked[recipe.id];
 
-    // optimistic UI
+    
     setLiked((prev) => ({ ...prev, [recipe.id]: !wasLiked }));
 
     try {
@@ -185,7 +185,7 @@ function Home() {
       }
     } catch (err) {
       console.error("Error updating favorite:", err);
-      // revert on error
+    
       setLiked((prev) => ({ ...prev, [recipe.id]: wasLiked }));
     }
   };
@@ -209,8 +209,7 @@ function Home() {
   useEffect(() => {
     startAuto();
     return stopAuto;
-    // run once on mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, []);
 
   return (
@@ -257,7 +256,7 @@ function Home() {
                 <h3 className="caption-title">{s.title}</h3>
                 <p className="caption-text">{s.text}</p>
 
-                {/* buttons now use ct-btn */}
+               
                 {s.customClass === "salad-caption" ? (
                   <button
                     type="button"
@@ -323,14 +322,14 @@ function Home() {
         </div>
 
         <div className="cook-feature">
-          {/* Majtas: mozaik me 3 imazhe */}
+       
           <div className="cook-mosaic">
             <img src="/Images/Tomato.webp" alt="Heirloom tomato" loading="lazy" />  
             <img src="/Images/nectarine.webp" alt="Nectarine" loading="lazy" />
             <img src="/Images/Homemade Sabich.webp" alt="Homemade Sabich" loading="lazy" />
           </div>
 
-     {/* Djathtas: spotlight me tekst brenda fotos */}
+     
 <Link to="/grilled-chicken" className="cook-spotlight-link">
   <article className="cook-spotlight">
     <img
@@ -356,7 +355,7 @@ function Home() {
 </Link>
 </div>
 
-        {/* Categories bubbles row */}
+       
         <CategoriesRow />
 
         <div className="trending-container">
@@ -629,7 +628,7 @@ function Home() {
   open={pickerOpen}
   onClose={() => setPickerOpen(false)}
   onConfirm={(selected) => {
-    // selected is array of ingredients, e.g. ["chicken","garlic"]
+    
     if (!selected.length) {
       setPickerOpen(false);
       return;
@@ -763,9 +762,9 @@ function CategoriesRow() {
         className="cat"
         onClick={() => {
           if (c.key === "quick") {
-            navigate("/quick-easy"); // hap QuickEasy.jsx
+            navigate("/quick-easy"); 
           }else if (c.key === "dinner") {
-                navigate("/recipes/dinner"); // Dinner page ekzistuese
+                navigate("/recipes/dinner"); 
               } 
               else if (c.key === "vegetarian") {
                 navigate("/vegetarian"); 
@@ -824,7 +823,7 @@ function NewsletterBand() {
     setMessage(res.data?.error || "Subscription failed.");
   }
 } catch (err) {
-  // Axios error handling
+ 
   const msg =
     err?.response?.data?.error ||
     err?.message ||

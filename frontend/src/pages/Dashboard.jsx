@@ -10,7 +10,7 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 import { useNavigate, useLocation, Outlet } from "react-router-dom";
-import API from "../api"; // ✅ use your axios instance (with baseURL + cookies)
+import API from "../api"; 
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -24,18 +24,17 @@ function Dashboard() {
       const user = userStr ? JSON.parse(userStr) : null;
       const userId = user?.id;
 
-      // ✅ tell backend to clear refresh token (cookie + DB tokens)
       await API.post("/logout", { userId });
     } catch (err) {
       console.error("Logout error:", err);
-      // even if backend fails, still logout locally
+     
     } finally {
-      // ✅ clear local auth
+
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       localStorage.removeItem("role");
 
-      // ✅ redirect
+      // redirect
       navigate("/login");
     }
   };
@@ -113,7 +112,7 @@ function Dashboard() {
             <span>Settings</span>
           </button>
 
-          {/* ✅ WORKING LOGOUT */}
+          {/*  WORKING LOGOUT */}
           <button className="nav-item logout" onClick={handleLogout}>
             <FaSignOutAlt />
             <span>Log out</span>
@@ -121,7 +120,7 @@ function Dashboard() {
         </nav>
       </aside>
 
-      {/* MAIN AREA – each page renders here */}
+      {/* MAIN AREA */}
       <main className="admin-main">
         <Outlet />
       </main>

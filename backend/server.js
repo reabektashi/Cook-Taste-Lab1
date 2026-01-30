@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 import mysql from "mysql2/promise";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import cookieParser from "cookie-parser";   // 👈 NEW
+import cookieParser from "cookie-parser";   
 import crypto from "crypto";  
 import https from "https";
 import fs from "fs";
@@ -36,19 +36,14 @@ dotenv.config();
  
 
   // ---------- MySQL Pool ----------
-  /**
- * You can use either:
- * - DATABASE_URL (mysql://user:pass@host:port/dbname)
- * - or individual MYSQL_* vars.
- */
-// ---------- MySQL Pool ----------
+  
 let pool;
 
 if (process.env.DATABASE_URL) {
-  // përdor connection string-un direkt
+ 
   pool = await mysql.createPool(process.env.DATABASE_URL);
 } else {
-  // fallback në variablat individuale
+
   pool = await mysql.createPool({
     host: process.env.MYSQL_HOST,
     user: process.env.MYSQL_USER,
@@ -59,19 +54,19 @@ if (process.env.DATABASE_URL) {
   });
 }
 
-// ---------- Helpers ----------
+
 // ---------- Helpers ----------
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const ACCESS_TOKEN_EXP = "1h";    // short-lived access token
-const REFRESH_TOKEN_DAYS = 7;      // refresh token lifetime in days
+const ACCESS_TOKEN_EXP = "1h";   
+const REFRESH_TOKEN_DAYS = 7;      
 
 // create access token (JWT)
 function signAccessToken(payload) {
   return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: ACCESS_TOKEN_EXP });
 }
 
-// middleware to protect routes with access token
+// middleware 
 function auth(req, res, next) {
   const token = req.headers.authorization?.split(" ")[1];
   if (!token) return res.status(401).json({ error: "no_token" });
@@ -96,12 +91,12 @@ app.get("/api/me", auth, (req, res) => {
 
 
 
-// create random refresh token string
+
 function createRefreshToken() {
   return crypto.randomBytes(64).toString("hex");
 }
 
-// save hashed refresh token into DB
+
 async function saveRefreshToken(userId, refreshToken) {
   const hash = await bcrypt.hash(refreshToken, 10);
   const expiresAt = new Date();
@@ -113,12 +108,11 @@ async function saveRefreshToken(userId, refreshToken) {
   );
 }
 
-// delete all refresh tokens for a user (logout or rotation)
 async function deleteUserRefreshTokens(userId) {
   await pool.query("DELETE FROM refresh_tokens WHERE user_id = ?", [userId]);
 }
 
-// check if the provided refresh token is valid for that user
+
 async function findValidRefreshToken(userId, refreshToken) {
   const [rows] = await pool.query(
     "SELECT * FROM refresh_tokens WHERE user_id = ? AND expires_at > NOW()",
@@ -136,7 +130,7 @@ async function findValidRefreshToken(userId, refreshToken) {
 let transporter = null;
 if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
   transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST, // e.g. smtp.gmail.com
+    host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT || 587),
     secure: String(process.env.SMTP_SECURE || "false") === "true",
     auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
@@ -175,7 +169,7 @@ app.post("/api/register", async (req, res) => {
 
     // 2) long-lived refresh token (cookie)
     const refreshToken = createRefreshToken();
-    await deleteUserRefreshTokens(user.id);       // remove old ones (just in case)
+    await deleteUserRefreshTokens(user.id);       
     await saveRefreshToken(user.id, refreshToken);
 
     res.cookie("refreshToken", refreshToken, {
@@ -185,7 +179,7 @@ app.post("/api/register", async (req, res) => {
       maxAge: REFRESH_TOKEN_DAYS * 24 * 60 * 60 * 1000,
     });
 
-    // keep response shape similar: token + user
+    
     res.json({ token: accessToken, user });
   } catch (err) {
     console.error("register error:", err);
@@ -734,7 +728,7 @@ app.get("/api/admin/reports", auth, requireRole("admin"), async (req, res) => {
     // Newsletter basic stats
     const [[subsTotal]] = await pool.query(`SELECT COUNT(*) AS total FROM subscribers`);
 
-    // “Top segment”: most favorited tag
+    
     const [topSegRows] = await pool.query(
       `
       SELECT r.tag, COUNT(*) AS total
@@ -755,7 +749,7 @@ app.get("/api/admin/reports", auth, requireRole("admin"), async (req, res) => {
       newsletter: {
         totalSubscribers: Number(subsTotal.total) || 0,
         topSegment: topSegRows?.[0]?.tag || "—",
-        // open rate is not measurable unless you track email opens → keep dummy
+       
         openRate: 42,
       },
       days,
@@ -768,10 +762,10 @@ app.get("/api/admin/reports", auth, requireRole("admin"), async (req, res) => {
 
 
 
-// ----------------------------------------------------
+
 // GET /api/category-items?category=Breakfast
-// Public (OK)
-// ----------------------------------------------------
+
+
 app.get("/api/category-items", async (req, res) => {
   const category = req.query.category;
 
@@ -1009,10 +1003,9 @@ app.get("/api/recipes/by-ingredients", async (req, res) => {
 
   try {
     // IMPORTANT: this assumes recipes.ingredients is a JSON array of LOWERCASE strings
-    // e.g. ["chicken","garlic","rice"]
+    
     const where = list.map(() => "JSON_CONTAINS(ingredients, ?)").join(" OR ");
-    const params = list.map((ing) => JSON.stringify(ing)); // '"chicken"'
-
+    const params = list.map((ing) => JSON.stringify(ing)); 
     const [rows] = await pool.query(
       `SELECT id, title, tag, time_label, img, href, rating
        FROM recipes
@@ -1028,7 +1021,7 @@ app.get("/api/recipes/by-ingredients", async (req, res) => {
     res.status(500).json({ error: "server_error" });
   }
 });
-// GET /api/recipes/by-ingredients?ingredients=chicken,garlic
+
 app.get("/api/recipes/by-ingredients", async (req, res) => {
   const raw = (req.query.ingredients || "").trim();
   const list = raw
@@ -1039,9 +1032,8 @@ app.get("/api/recipes/by-ingredients", async (req, res) => {
   if (!list.length) return res.json({ recipes: [] });
 
   try {
-    // Requires recipes.ingredients to be a JSON array of lowercase strings
     const where = list.map(() => "JSON_CONTAINS(ingredients, ?)").join(" OR ");
-    const params = list.map((ing) => JSON.stringify(ing)); // '"chicken"'
+    const params = list.map((ing) => JSON.stringify(ing)); 
 
     const [rows] = await pool.query(
       `SELECT id, title, tag, time_label, img, href, rating
@@ -1058,7 +1050,7 @@ app.get("/api/recipes/by-ingredients", async (req, res) => {
     res.status(500).json({ error: "server_error" });
   }
 });
-// GET /api/ingredients  -> returns unique ingredient strings from recipes.ingredients JSON
+
 app.get("/api/ingredients", async (_req, res) => {
   try {
     const [rows] = await pool.query(
@@ -1072,7 +1064,7 @@ app.get("/api/ingredients", async (_req, res) => {
     for (const r of rows) {
       let arr = r.ingredients;
 
-      // mysql2 may return JSON as string or object depending on config
+   
       if (typeof arr === "string") {
         try { arr = JSON.parse(arr); } catch { arr = null; }
       }

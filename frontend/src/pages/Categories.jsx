@@ -1,4 +1,4 @@
-// src/pages/Categories.jsx
+
 import React, { useEffect, useMemo, useState } from "react";
 import "../assets/Css/dashboard.css";
 import { FaHeart } from "react-icons/fa";
@@ -9,17 +9,17 @@ import {
   MdCake,
   MdFastfood,
 
-  // ✅ NEW icons for new categories
+
   MdFlashOn,
   MdSpa,
   MdFavorite,
   MdSoupKitchen,
-  MdEco,          // if MdEco doesn't exist in your version, replace with MdEnergySavingsLeaf
-  MdLunchDining as MdMealPrepIcon, // reuse if you want a different one, replace with MdCalendarMonth if preferred
+  MdEco,        
+  MdLunchDining as MdMealPrepIcon, 
 } from "react-icons/md";
 import API from "../api";
 
-// ✅ Added all categories (old + new)
+
 const CATEGORIES = [
   "Breakfast",
   "Lunch",
@@ -66,7 +66,7 @@ const CATEGORY_CARDS = [
     icon: <MdFastfood className="cat-icon" />,
   },
 
-  // ✅ NEW CATEGORY CARDS (from your photo)
+  
   {
     key: "QuickAndEasy",
     label: "QUICK AND EASY",
@@ -133,13 +133,13 @@ export default function Categories() {
 
   const [form, setForm] = useState(emptyForm);
 
-  // ✅ image validation helper (same as DrinksDash)
+ 
   const isValidImageUrl = (value) => {
-    if (!value) return true; // allow empty
+    if (!value) return true; 
     return /\.(jpe?g|png|webp|gif|svg)(\?.*)?$/i.test(String(value).trim());
   };
 
-  // ✅ fetch counts (admin route -> needs cookies)
+  
   const fetchCounts = async () => {
     setLoadingCounts(true);
     try {
@@ -159,7 +159,7 @@ export default function Categories() {
     fetchCounts();
   }, []);
 
-  // fetch table rows by category (public)
+  
   useEffect(() => {
     if (!selectedCategory) return;
 
@@ -187,7 +187,7 @@ export default function Categories() {
     setItems(Array.isArray(res.data?.items) ? res.data.items : []);
   };
 
-  // MODAL helpers
+  
   const openAddModal = () => {
     setIsEditing(false);
     setEditingId(null);
@@ -218,17 +218,16 @@ export default function Categories() {
     setEditingId(null);
   };
 
-  // ✅ add OR edit (admin routes -> needs cookies + validations)
+
   const handleSave = async () => {
     if (!form.category || !form.title.trim()) return;
 
-    // ✅ validate time_label (digits only)
     if (form.time_label && !/^\d+$/.test(form.time_label)) {
       alert("Time must be a number (minutes only).");
       return;
     }
 
-    // ✅ validate image url extension
+
     if (!isValidImageUrl(form.img_url)) {
       alert(
         "Image URL must end with an image extension (.jpg, .jpeg, .png, .webp, .gif, .svg)."
@@ -265,7 +264,7 @@ export default function Categories() {
     }
   };
 
-  // ✅ delete (admin route -> needs cookies)
+ 
   const handleDelete = async (item) => {
     const ok = window.confirm(`Delete "${item.title}"?`);
     if (!ok) return;
@@ -284,7 +283,7 @@ export default function Categories() {
 
   return (
     <div className="categories-page">
-      {/* HEADER */}
+  
       <div className="admin-header">
         <div>
           <h1 className="admin-title">Categories</h1>
@@ -298,7 +297,7 @@ export default function Categories() {
         </button>
       </div>
 
-      {/* ✅ ADD / EDIT MODAL */}
+ 
       {openModal && (
         <div className="modal-backdrop" onMouseDown={closeModal}>
           <div className="modal-card" onMouseDown={(e) => e.stopPropagation()}>
@@ -408,7 +407,7 @@ export default function Categories() {
         ))}
       </div>
 
-      {/* ✅ CARDS (only when no category selected) */}
+      {/* CARDS */}
       {!selectedCategory && (
         <div className="category-stats-grid">
           {CATEGORY_CARDS.map((card) => (

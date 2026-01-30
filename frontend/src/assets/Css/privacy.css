@@ -1,8 +1,8 @@
 /* wrapper */
 .privacy {
-  max-width: 800px;       /* narrower for a structured column */
-  margin: 0 auto;         /* center horizontally */
-  padding: 20px;          /* less padding so it feels tighter */
+  max-width: 800px;       
+  margin: 0 auto;         
+  padding: 20px;        
   line-height: 1.6;
   font-family: Arial, sans-serif;
   color: #333;
@@ -11,7 +11,7 @@
 /* hero section */
 .privacy__hero {
   text-align: center;
-  margin-bottom: 25px;    /* tighter spacing */
+  margin-bottom: 25px;    
 }
 
 .privacy__hero h1 {
@@ -28,7 +28,7 @@
 
 /* section headers */
 .privacy h2 {
-  margin-top: 24px;       /* reduce space between sections */
+  margin-top: 24px;    
   margin-bottom: 8px;
   font-size: 1.4rem;
   color: #ff6600;
@@ -37,7 +37,7 @@
 
 /* paragraphs */
 .privacy p {
-  margin: 6px 0 12px;     /* small vertical spacing */
+  margin: 6px 0 12px;     
   text-align: justify;
 }
 

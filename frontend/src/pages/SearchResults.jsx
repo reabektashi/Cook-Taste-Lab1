@@ -17,7 +17,7 @@ export default function SearchResults() {
   const { liked, toggleFavorite } = useFavorites();
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-  // ✅ DB search (q OR ingredients)
+ 
   useEffect(() => {
     if (!q.trim() && !ingredients.trim()) {
       setResults([]);
@@ -63,7 +63,7 @@ export default function SearchResults() {
                 <img src={r.img} alt={r.title} />
               </Link>
 
-              {/* ❤️ Heart */}
+              {/*  Heart */}
               <button
                 type="button"
                 className={`wk-like ${liked[r.id] ? "is-liked" : ""}`}

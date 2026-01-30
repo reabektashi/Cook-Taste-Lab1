@@ -9,10 +9,9 @@ export default function Favorites() {
 
   const hasToken = !!localStorage.getItem("token");
 
-  // keep global liked map in sync
+ 
   const { fetchFavorites } = useFavorites();
 
-  // Load favorites from DB
   useEffect(() => {
     if (!hasToken) {
       setLoading(false);
@@ -34,16 +33,16 @@ export default function Favorites() {
   }, [hasToken]);
 
   const handleRemove = async (recipeId) => {
-    // instant UI update
+
     setItems((prev) => prev.filter((x) => String(x.id) !== String(recipeId)));
 
     try {
       await API.delete(`/favorites/${recipeId}`, { withCredentials: true });
-      await fetchFavorites(); // resync liked map everywhere
+      await fetchFavorites(); 
     } catch (err) {
       console.error("Failed to remove favorite", err);
 
-      // fallback: refetch
+    
       try {
         const res = await API.get("/favorites", { withCredentials: true });
         setItems(res.data.favorites || []);
@@ -85,7 +84,7 @@ export default function Favorites() {
             <a className="wk-thumb" href={r.href}>
               <img src={r.img} alt={r.title} />
 
-              {/* ❤️ remove favorite */}
+              {/*  remove favorite */}
               <button
                 type="button"
                 className="wk-like is-liked"

@@ -16,17 +16,16 @@ function Users() {
   const [openModal, setOpenModal] = useState(false);
   const [editId, setEditId] = useState(null);
 
-  // ✅ status e mbajmë (ti po e shton në DB)
+  
   const emptyForm = { email: "", user_role: "user", status: "active", password: "" };
   const [form, setForm] = useState(emptyForm);
 
-  // ✅ helper: Authorization header nga localStorage token
+  
   const authHeader = () => {
     const token = localStorage.getItem("token");
     return token ? { Authorization: `Bearer ${token}` } : {};
   };
 
-  // ✅ Dynamic labels based on filter
   const addLabel =
     selectedFilter === "all"
       ? "ADD"
@@ -70,7 +69,7 @@ function Users() {
 
   useEffect(() => {
     fetchUsers(selectedFilter);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [selectedFilter]);
 
   const openAddModal = () => {
@@ -93,7 +92,7 @@ function Users() {
       email: user.email || "",
       user_role: user.user_role || "user",
       status: user.status || "active",
-      password: "", // ✅ s’po e ndryshojmë password në edit këtu
+      password: "",
     });
     setOpenModal(true);
   };
@@ -109,7 +108,7 @@ function Users() {
 
     try {
       if (editId !== null) {
-        // ✅ EDIT (PUT)
+        //  EDIT 
         await API.put(
           `/users/${editId}`,
           {
@@ -120,7 +119,7 @@ function Users() {
           { headers: { ...authHeader() } }
         );
       } else {
-        // ✅ ADD (POST) - password optional
+        //  ADD 
         const payload = {
           email: form.email,
           user_role: form.user_role,
@@ -196,7 +195,7 @@ function Users() {
                 <select
                   value={form.user_role}
                   onChange={(e) => setForm((p) => ({ ...p, user_role: e.target.value }))}
-                  // ✅ optional: lock role when adding under ADMINS filter
+                
                   disabled={editId === null && selectedFilter === "admin"}
                 >
                   <option value="user">User</option>
@@ -215,7 +214,7 @@ function Users() {
                 </select>
               </label>
 
-              {/* ✅ vetëm për ADD (opsionale) */}
+             
               {editId === null && (
                 <label style={{ gridColumn: "1 / -1" }}>
                   Password (optional)

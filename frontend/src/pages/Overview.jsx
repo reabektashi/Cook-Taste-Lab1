@@ -1,4 +1,4 @@
-// src/pages/Overview.jsx
+
 import React, { useEffect, useMemo, useState } from "react";
 import "../assets/Css/dashboard.css";
 import {
@@ -30,7 +30,7 @@ export default function Overview() {
 
   const days = PERIOD_TO_DAYS[period] || 7;
 
-  // build last N labels (Sun/Mon…) for chart
+  
   const labels = useMemo(() => {
     const out = [];
     const now = new Date();
@@ -38,14 +38,14 @@ export default function Overview() {
       const d = new Date(now);
       d.setDate(now.getDate() - i);
       out.push({
-        key: d.toISOString().slice(0, 10), // YYYY-MM-DD
+        key: d.toISOString().slice(0, 10), 
         label: d.toLocaleDateString(undefined, { weekday: "short" }),
       });
     }
     return out;
   }, [days]);
 
-  // map DB results into date->count
+
   const toMap = (rows) => {
     const m = {};
     (rows || []).forEach((r) => {
@@ -92,7 +92,7 @@ export default function Overview() {
     }));
   }, [labels, recipesMap, usersMap, subsMap]);
 
-  // simple bar height based on max
+  
   const maxVal = Math.max(1, ...chartValues.map((x) => x.recipes));
 
   return (

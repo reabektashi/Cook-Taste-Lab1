@@ -1,6 +1,6 @@
-// src/pages/Drinks.jsx
+
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; // SPA navigation
+import { Link } from "react-router-dom"; 
 import { FaHeart, FaRegHeart, FaStar, FaRegClock } from "react-icons/fa";
 import "../assets/Css/style.css";
 import { fetchFavorites, addFavorite, removeFavorite } from "../utils/favoritesApi";
@@ -55,10 +55,10 @@ function Drinks() {
     { id: "sp9", title: "Green Detox Smoothie", img: "/Images/Green Detox Smoothie.png", key: "smoothies" },
   ];
 
-  // ===== favorites state =====
+ 
   const [liked, setLiked] = useState({});
 
-  // load favorites on mount (if logged in)
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) return;
@@ -84,7 +84,7 @@ function Drinks() {
 
     const wasLiked = !!liked[recipe.id];
 
-    // Optimistic UI
+ 
     setLiked((prev) => ({ ...prev, [recipe.id]: !wasLiked }));
 
     try {
@@ -95,7 +95,7 @@ function Drinks() {
       }
     } catch (err) {
       console.error("Error updating favorite:", err);
-      // revert on error
+  
       setLiked((prev) => ({ ...prev, [recipe.id]: wasLiked }));
     }
   };

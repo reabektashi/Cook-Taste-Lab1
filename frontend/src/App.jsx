@@ -4,7 +4,7 @@ import { lazy, Suspense } from "react";
 import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./components/Layout";
 
-// ⭐ Protected Admin Route
+//  Protected Admin Route
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 
 // PUBLIC PAGES (lazy)
@@ -131,7 +131,7 @@ export default function App() {
             <Route path="/strawberry-smoothie" element={<StrawberrySmoothie />} />
             <Route path="/peach-iced-tea" element={<PeachIcedTea />} />
 
-            {/* 🔐 ADMIN PROTECTED ROUTES */}
+            {/*  ADMIN PROTECTED ROUTES */}
             <Route element={<ProtectedRoutes requireAdmin={true} />}>
               <Route path="/dashboard" element={<Dashboard />}>
                 <Route index element={<Overview />} />

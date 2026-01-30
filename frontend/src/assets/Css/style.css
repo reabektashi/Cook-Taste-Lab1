@@ -21,7 +21,7 @@ body {
   padding: 1rem 2rem;
   width: 100%;
   position: sticky;
-  top: 0;              /* ✅ KJO e bon sticky me punu */
+  top: 0;             
   z-index: 2000;
 }
 .ct-navbar-container {
@@ -40,7 +40,7 @@ body {
   width: auto;
 }
 
-/* Navbar Links (aligned to the left) */
+/* Navbar Links  */
 .ct-navbar-links {
   display: flex;
   align-items: center;
@@ -50,8 +50,8 @@ body {
 .ct-navbar-nav {
   display: flex;
   list-style: none;
-  margin: 0;           /* ✅ mos e le me i prish spacing */
-  padding: 0;          /* ✅ */
+  margin: 0;          
+  padding: 0;          
   margin-left: 20px;
   align-items: center; 
 }
@@ -62,7 +62,7 @@ body {
   color: #333;
   text-decoration: none;
   transition: color 0.3s ease;
-  padding-top: 30px;     /* 👈 add these two */
+  padding-top: 30px;    
   padding-bottom: 4px;
   line-height: 1;
   align-items: center;
@@ -86,23 +86,21 @@ margin: 0 auto;
 box-sizing: border-box;
 }
 
-/* ---------------------------
-   DROPDOWN (Clean + Updated)
-   --------------------------- */
+
 
 /* Base dropdown menu */
 .ct-dropdown-menu {
   display: none;
   position: absolute;
   top: 100%;
-  left: 0 !important;             /* FIX — align to left edge of "Recipes" */
+  left: 0 !important;            
   right: auto !important;
-  transform: none !important;     /* FIX — prevent Bootstrap centering */
+  transform: none !important;    
   background-color: #f8f9fa;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   min-width: 160px;
   list-style-type: none;
-  text-align: left !important;    /* FIX — align text left */
+  text-align: left !important;    
   padding: 0;
 }
 
@@ -113,11 +111,11 @@ box-sizing: border-box;
 
 /* Items inside the dropdown */
 .ct-dropdown-item {
-  padding: 12px 20px !important;  /* consistent spacing */
+  padding: 12px 20px !important;  
   color: #333;
   text-decoration: none;
   display: block;
-  text-align: left !important;    /* FIX — ensure text stays left */
+  text-align: left !important;   
 }
 
 /* Hover state */
@@ -145,7 +143,7 @@ box-sizing: border-box;
 }
 
 #searchInput:focus {
-  width: 260px;                  /* now the transition makes sense */
+  width: 260px;                 
   border-color: #111;
   box-shadow: 0 0 0 2px rgba(0,0,0,0.08);
 }
@@ -186,8 +184,8 @@ box-sizing: border-box;
 
 .ct-btn.read-more-btn {
   display: inline-block;
-  padding: 8px 28px;       /* larger again */
-  font-size: 1.05rem;       /* readable like before */
+  padding: 8px 28px;       
+  font-size: 1.05rem;     
   margin-left: 130px;       
   background: linear-gradient(135deg, #efdecc 0%, #b5bdcc 100%);
   border: 2px solid rgb(16, 15, 15);
@@ -199,7 +197,7 @@ box-sizing: border-box;
   transition: all 0.3s ease;
 }
 
-/* Keep hover as-is */
+
 .ct-btn.read-more-btn:hover {
   background: linear-gradient(135deg, #efdecc 0%, #b5bdcc 100%);
   border-color: rgb(7, 7, 7);
@@ -318,26 +316,26 @@ box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 .footer-top {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  max-width: 900px;   /* 👈 reduce width of the row */
-  margin: 0 auto;     /* center it */
+  max-width: 900px;  
+  margin: 0 auto;    
   align-items: start;
 }
 
 
 
-/* Left column (Privacy/Terms) */
+/*  (Privacy/Terms) */
 .footer-left {
   justify-self: start;
   text-align: left;
 }
 
-/* Center column (Email + Social) */
+/* (Email + Social) */
 .footer-center {
   justify-self: center;
   text-align: center;
 }
 
-/* Right column (Phone + Location) */
+/* (Phone + Location) */
 .footer-right {
   justify-self: end;
   text-align: right;
@@ -493,7 +491,7 @@ p {
   transition: opacity 0.8s ease-in-out;
 }
 
-/* active slide (you still add class "active" in JSX) */
+
 .ct-carousel-item.active {
   display: block;
   opacity: 1;
@@ -511,11 +509,11 @@ p {
   left: 10%;
 }
 .dessert-caption{
-  left: auto;          /* IMPORTANT */
+  left: auto;         
   right: 8%;
 }
 
-/* Keep the button aligned without hard pushing too much */
+
 .salad-caption .ct-btn.read-more-btn {
   margin-left: 40px;
 }
@@ -643,7 +641,7 @@ p {
   position: relative;
   border-radius: 10px;
   overflow: hidden;
-  align-self: end; /* barazon me mozaikun */
+  align-self: end; 
 }
 /* LINK pa underline */
 .cook-spotlight-link {
@@ -651,7 +649,7 @@ p {
   color: inherit;
   display: block;
 }
-/* ↓↓↓ KJO është pjesa që e rregullon gjatësinë e fotos ↓↓↓ */
+
 .cook-spotlight-img {
   width: 100%;
   height: 368px;
@@ -664,7 +662,7 @@ p {
 .cook-spotlight:hover .cook-spotlight-img {
   transform: scale(1.02);
 }
-/* Teksti poshtë fotos */
+
 .cook-kicker {
   display: inline-block;
   margin-top: 14px;
@@ -687,8 +685,8 @@ p {
 
 /* hover: vetëm pak hint */
 .cook-spotlight-link:hover .cook-h3 {
-  opacity: 0.75;       /* pak fade */
-  color: #393939;     /* ose hiqe nese s'don ngjyrë */
+  opacity: 0.75;      
+  color: #393939;    
   text-decoration: none !important;
 }
 .cook-underline {
@@ -722,7 +720,7 @@ justify-content: center;
 }
 /* Card Styles */
 .ct-card-link {
-  display: block;            /* IMPORTANT: stable layout */
+  display: block;           
   text-decoration: none;
   color: inherit;
 }
@@ -776,8 +774,8 @@ justify-content: center;
   background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
   border-radius: 15px;
   padding: 40px;
-  width: 1170px;          /* ose max-width:1420px nëse do responsive */
-  margin: 20px -3px;         /* ISHTE: 20px auto  -> tani MAJTAS */
+  width: 1170px;         
+  margin: 20px -3px;        
   box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 .hero-content {
@@ -834,14 +832,14 @@ margin-bottom: 20px;
   margin: 0 auto;
   padding: 0 16px;
 }
-/* Vetëm për linkat brenda seksionit .weeknights */
+
 .weeknights a {
-  color: #000;            /* ngjyrë e zezë */
-  text-decoration: none; /* pa underline */
+  color: #000;         
+  text-decoration: none;
 }
 
 .weeknights a:hover {
-  color: #222;            /* pak më e errët kur kalon miu */
+  color: #222;            
 }
 /* ===== Weeknight Cards ===== */
 
@@ -860,10 +858,10 @@ margin-bottom: 20px;
 .wk-more{
   margin-top: .25rem;
   text-decoration: none; font-weight: 900; font-size: 28px; line-height: 1;
-  color: #b45f06; /* ngjyrë “arrow” si shembulli */
+  color: #b45f06; 
 }
 
-/* grid 3 kolonash në desktop, 2 tablet, 1 mobile */
+
 .wk-grid{
   display:grid;
   grid-template-columns: repeat(3, minmax(0,1fr));
@@ -965,7 +963,7 @@ margin-bottom: 20px;
   align-items:center;
   gap:6px;
   font-size:.95rem;
-  color: rgba(73, 81, 55, 0.75); /* replaces svg opacity */
+  color: rgba(73, 81, 55, 0.75);
 }
 .wk-stars{
   display:inline-flex;
@@ -974,11 +972,11 @@ margin-bottom: 20px;
 
 .wk-stars svg{
   font-size:16px;
-  color:#d1d5db;   /* off */
+  color:#d1d5db;   
 }
 
 .wk-stars svg.on{
-  color:#ffe431;   /* on */
+  color:#ffe431;   
 }
 
 
@@ -1057,7 +1055,7 @@ margin-bottom: 20px;
     transparent 70%
   );
   opacity: 0;
-  pointer-events: none;   /* IMPORTANT */
+  pointer-events: none;   
   transition: opacity 0.3s ease;
 }
 
@@ -2775,11 +2773,11 @@ html, body { overflow-x: clip; } /* use hidden if clip not supported */
 
 /* =========================================================
    DRINKS PAGE — RESPONSIVE ONLY
-   Put at the VERY BOTTOM (desktop stays untouched)
+  
    ========================================================= */
 
 /* --- Safety: avoid accidental horizontal scroll --- */
-.drinks-page { overflow-x: clip; } /* use hidden if needed */
+.drinks-page { overflow-x: clip; } 
 .drinks-page * { box-sizing: border-box; }
 
 /* =========================================================
@@ -2789,10 +2787,10 @@ html, body { overflow-x: clip; } /* use hidden if clip not supported */
 
   /* ---------- HERO ---------- */
   .drinks-hero{
-    --hero-h: 360px;     /* smaller hero height on phone */
+    --hero-h: 360px;   
     --hero-x: 72%;
     --hero-y: 44%;
-    border-radius: 0;    /* optional: app-like full bleed */
+    border-radius: 0;  
     padding: 0 16px;
   }
 
@@ -2806,7 +2804,7 @@ html, body { overflow-x: clip; } /* use hidden if clip not supported */
   }
 
   .drinks-hero .hero-text{
-  margin-inline-start: 96px !important;  /* 👈 move text slightly right */
+  margin-inline-start: 96px !important; 
   max-width: 90vw !important;
   gap: 1px !important;
 }
@@ -2892,12 +2890,12 @@ html, body { overflow-x: clip; } /* use hidden if clip not supported */
 
   /* ---------- PROMO VIDEO BANNER ---------- */
   .promo-media{
-    height: 280px; /* fixed for phone */
+    height: 280px; 
   }
 
   .promo-text{
     right: 16px !important;
-    left: 16px !important;      /* allow better fit */
+    left: 16px !important;      
     max-width: 92vw !important;
     text-align: left !important;
     align-items: flex-start !important;

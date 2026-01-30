@@ -128,7 +128,7 @@ const InstantPot = () => {
 
   return (
     <section className="section-gap py-5 aboutus-page">
-      {/* 🔹 Header minimal */}
+      {/*  Header minimal */}
       <div className="bk-head text-center mb-4">
         <h2 className="bk-title display-5 fw-bold">Instant Pot Recipes</h2>
         <h3 className="fs-5 fw-normal mt-3 px-2">
@@ -136,7 +136,7 @@ const InstantPot = () => {
         </h3>
       </div>
 
-      {/* 🔹 Recipe cards */}
+      {/*  Recipe cards */}
       <div className="container px-4 bg-transparent">
         <div className="row g-5 justify-content-center">
           {instantPotRecipes.map((r) => (
@@ -188,7 +188,7 @@ const InstantPot = () => {
         </div>
       </div>
 
-      {/* 🔹 Login modal */}
+      {/*  Login modal */}
       <div
         className={`modal fade ${showLoginModal ? "show d-block" : ""}`}
         tabIndex="-1"
