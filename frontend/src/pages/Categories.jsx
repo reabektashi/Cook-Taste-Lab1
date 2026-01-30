@@ -26,7 +26,7 @@ const CATEGORIES = [
   "Dinner",
   "Desserts",
   "Appetizers",
-  "QuickAndEasy",
+  "Quick&Easy",
   "Vegetarian",
   "Healthy",
   "InstantPot",
