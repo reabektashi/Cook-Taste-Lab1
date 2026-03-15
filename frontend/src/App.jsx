@@ -70,6 +70,7 @@ const DrinksDash = lazy(() => import("./pages/DrinksDash"));
 const Users = lazy(() => import("./pages/Users"));
 const Settings = lazy(() => import("./pages/Settings"));
 
+const ShkollaDash = lazy(() => import("./pages/ShkollaDash"));
 export default function App() {
   return (
     <BrowserRouter>
@@ -140,6 +141,8 @@ export default function App() {
                 <Route path="drinksdash" element={<DrinksDash />} />
                 <Route path="users" element={<Users />} />
                 <Route path="settings" element={<Settings />} />
+                <Route path="shkolla" element={<ShkollaDash />} />
+               
               </Route>
             </Route>
           </Route>

@@ -19,6 +19,9 @@ import adminRoutes from "./routes/admin.routes.js";
 import categoryItemsRoutes from "./routes/categoryItems.routes.js";
 import settingsRoutes from "./routes/settings.routes.js";
 import ingredientsRoutes from "./routes/ingredients.routes.js";
+import shkollaRoutes from "./routes/shkolla.routes.js";
+import nxenesiRoutes from "./routes/nxenesi.routes.js";
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -54,6 +57,11 @@ app.use("/api", subscribeRoutes);
 app.use("/api", categoryItemsRoutes);
 app.use("/api", adminRoutes);
 app.use("/api", settingsRoutes);
+
+app.use("/api", shkollaRoutes);
+app.use("/api", nxenesiRoutes);
+
+
 
 //HTTPS SERVER (same placement logic as in your file)
 https.createServer(

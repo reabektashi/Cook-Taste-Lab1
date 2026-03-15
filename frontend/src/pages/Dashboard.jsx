@@ -8,6 +8,9 @@ import {
   FaUsers,
   FaCog,
   FaSignOutAlt,
+  FaChalkboardTeacher,
+  
+
 } from "react-icons/fa";
 import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import API from "../api"; 
@@ -89,6 +92,15 @@ function Dashboard() {
             <FaWineGlassAlt />
             <span>Drinks</span>
           </button>
+       
+<button
+  className={`nav-item ${isActive("/dashboard/shkolla") ? "active" : ""}`}
+  onClick={() => navigate("/dashboard/shkolla")}
+>
+  <FaChalkboardTeacher />
+  <span>Shkollat</span>
+</button>
+
 
           <button
             className={`nav-item ${
