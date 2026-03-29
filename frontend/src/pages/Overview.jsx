@@ -136,7 +136,7 @@ export default function Overview() {
               <div className="stat-icon icon-drinks"><FaWineGlassAlt /></div>
               <div className="stat-label">Drinks</div>
               <div className="stat-value">{stats.drinks}</div>
-              <p className="stat-caption">Items that link to /drinks/*</p>
+              <p className="stat-caption">Items that link to drinks</p>
             </div>
 
             <div className="stat-card">

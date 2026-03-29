@@ -104,7 +104,7 @@ function Users() {
   };
 
   const handleSave = async () => {
-    if (!form.email.trim()) return alert("Email is required.");
+    if (!form.email.trim()) return alert("All fields are required.");
 
     try {
       if (editId !== null) {

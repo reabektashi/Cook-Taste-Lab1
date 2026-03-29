@@ -222,12 +222,6 @@ export default function Categories() {
   const handleSave = async () => {
     if (!form.category || !form.title.trim()) return;
 
-    if (form.time_label && !/^\d+$/.test(form.time_label)) {
-      alert("Time must be a number (minutes only).");
-      return;
-    }
-
-
     if (!isValidImageUrl(form.img_url)) {
       alert(
         "Image URL must end with an image extension (.jpg, .jpeg, .png, .webp, .gif, .svg)."
@@ -349,16 +343,11 @@ export default function Categories() {
               <label>
                 Time Label
                 <input
-                  type="number"
-                  inputMode="numeric"
-                  min="0"
-                  step="1"
+                  type="text"
                   value={form.time_label}
-                  onChange={(e) => {
-                    const digitsOnly = String(e.target.value).replace(/[^\d]/g, "");
-                    setForm((p) => ({ ...p, time_label: digitsOnly }));
-                  }}
-                  placeholder="ex: 30"
+                  onChange={(e) =>
+                  setForm((p) => ({ ...p, time_label: e.target.value }))}
+                  placeholder="ex: 30 mins"
                 />
               </label>
 
